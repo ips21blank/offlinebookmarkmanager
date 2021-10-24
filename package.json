@@ -1,0 +1,46 @@
+{
+  "name": "offline-bookmark-manager",
+  "version": "5.0.0",
+  "description": "The extension Offline Bookmark Manager servers as an editor for your browser bookmarks.",
+  "main": "",
+  "scripts": {
+    "start": "webpack serve --config webpack/webpack.config.js --env env=dev --open",
+    "build": "webpack       --config webpack/webpack.config.js --env env=prod",
+    "create-tsc-config": "tsc --init",
+    "license-summary": "license-checker --summary"
+  },
+  "keywords": [
+    "extension",
+    "chrome",
+    "bookmark",
+    "manager",
+    "editor"
+  ],
+  "author": "IpS",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "@babel/preset-react": "^7.14.5",
+    "@babel/preset-typescript": "^7.15.0",
+    "@types/chrome": "^0.0.160",
+    "@types/react": "^17.0.32",
+    "@types/react-dom": "^17.0.10",
+    "babel-loader": "^8.2.3",
+    "css-loader": "^6.4.0",
+    "html-webpack-plugin": "^5.4.0",
+    "license-checker": "^25.0.1",
+    "sass": "^1.43.3",
+    "sass-loader": "^12.2.0",
+    "style-loader": "^3.3.1",
+    "typescript": "^4.4.4",
+    "webpack": "^5.59.1",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.3.1",
+    "webpack-merge": "^5.8.0"
+  }
+}
