@@ -1,4 +1,4 @@
-type Node = chrome.bookmarks.BookmarkTreeNode;
+import { Node } from "../types";
 
 class DataBase {
   bkms: Set<string>; // Ids of bookmarks.

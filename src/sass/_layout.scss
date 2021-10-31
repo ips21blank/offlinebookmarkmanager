@@ -1,0 +1,102 @@
+@import "./constants/layout_constants";
+
+html,
+body {
+  height: 100%;
+}
+* {
+  box-sizing: border-box;
+}
+
+@mixin side-elements() {
+  position: fixed;
+  top: 0;
+  height: 100%;
+  width: $side-margin1;
+}
+@mixin flex-row-nowrap() {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+// base layout of the page.
+
+div#main > nav#top-menu,
+div#main > div#content {
+  // display: flex; flex-flow: column;
+  padding-left: $side-margin1;
+  padding-right: $side-margin1;
+  width: 100%;
+}
+div#content {
+  margin-top: $top-menu-height;
+  height: 100em;
+  z-index: 10;
+}
+
+nav#side-menu,
+aside {
+  @include side-elements();
+  z-index: 1000;
+}
+nav#side-menu {
+  left: 0;
+}
+aside {
+  right: 0;
+}
+
+// layout of content area.
+
+nav#top-menu {
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  white-space: nowrap;
+  height: $top-menu-height;
+
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+
+  div#address-bar {
+    @include flex-row-nowrap();
+    min-width: $address-bar-min-width;
+    flex: 1 1 auto;
+    justify-content: space-between;
+
+    div#address-bar-location {
+      overflow: hidden;
+      @include flex-row-nowrap();
+      flex-direction: row-reverse;
+      span {
+        @include flex-row-nowrap();
+        align-items: center;
+      }
+      flex: 0 1 auto;
+      background-color: white;
+    }
+  }
+  div#address-bar-buttons {
+    flex: 0 0 auto;
+
+    button {
+      width: 2.5em;
+    }
+  }
+  div#top-menu-buttons-wrapper {
+    flex: 0 0 auto;
+    justify-content: space-between;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  nav#top-menu {
+    height: $top-menu-height-2;
+    flex-flow: row wrap;
+  }
+  div#content {
+    margin-top: $top-menu-height-2;
+  }
+}
