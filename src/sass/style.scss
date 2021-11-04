@@ -6,6 +6,13 @@
 * {
   outline: 3px solid rgba(188, 26, 209, 0.308);
 }
-
-@media screen {
+::-webkit-scrollbar {
+  width: 5px;
+  height: 0;
+} /*horizontal*/
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.5);
 }

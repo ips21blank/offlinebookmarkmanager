@@ -1,4 +1,8 @@
-import { AddressBarProps, SearchAndReloadProps } from "../../../types";
+import {
+  AddressBarProps,
+  DataNode,
+  SearchAndReloadProps,
+} from "../../../types";
 
 const SearchAndReload: React.FC<SearchAndReloadProps> = (props) => {
   return (
@@ -10,32 +14,45 @@ const SearchAndReload: React.FC<SearchAndReloadProps> = (props) => {
   );
 };
 
-let addressString =
-  "Current location is displayed here." +
-  " But its too long." +
-  " But its too long." +
-  " But its too long." +
-  " But its too long.";
-const AddressLocation = () => (
+// let addressString =
+//   "Current location is displayed here." +
+//   " But its too long." +
+//   " But its too long." +
+//   " But its too long." +
+//   " But its too long.";
+// const AddressLocation = () => (
+//   <div id="address-bar-location">
+//     {addressString
+//       .split(" ")
+//       .map((str: string, i: number) => {
+//         return (
+//           <span key={i}>
+//             <span>{str}</span>
+//             <span></span>
+//           </span>
+//         );
+//       })
+//       .reverse()}
+//   </div>
+// );
+
+const AddressLocation: React.FC<AddressBarProps> = ({ parentChain }) => (
   <div id="address-bar-location">
-    {addressString
-      .split(" ")
-      .map((str: string, i: number) => {
-        return (
-          <span key={i}>
-            <span>{str}</span>
-            <span></span>
-          </span>
-        );
-      })
-      .reverse()}
+    {parentChain.map((node: DataNode, i: number) => {
+      return (
+        <span key={node.id}>
+          <span>{node.title}</span>
+          <span></span>
+        </span>
+      );
+    })}
   </div>
 );
 
 export const AddressBar: React.FC<AddressBarProps> = (props) => {
   return (
     <div id="address-bar">
-      <AddressLocation />
+      <AddressLocation {...props} />
       <SearchAndReload />
     </div>
   );

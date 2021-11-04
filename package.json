@@ -7,7 +7,8 @@
     "start": "webpack serve --config webpack/webpack.config.js --env env=dev --open",
     "build": "webpack       --config webpack/webpack.config.js --env env=prod",
     "create-tsc-config": "tsc --init",
-    "license-summary": "license-checker --summary"
+    "license-summary": "license-checker --summary",
+    "count-lines": "count-lines-of-code src"
   },
   "keywords": [
     "extension",
@@ -31,6 +32,7 @@
     "@types/react": "^17.0.32",
     "@types/react-dom": "^17.0.10",
     "babel-loader": "^8.2.3",
+    "count-lines-of-code": "^1.0.6",
     "css-loader": "^6.4.0",
     "html-webpack-plugin": "^5.4.0",
     "license-checker": "^25.0.1",

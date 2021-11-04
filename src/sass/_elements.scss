@@ -1,4 +1,5 @@
 @import "./constants/style_constants";
+@import "./constants/colors_constants";
 
 div#address-bar-location {
   padding-left: $gap-bw-search-and-buttons;
@@ -32,7 +33,67 @@ div#address-bar-location {
   span span:last-child::after {
     content: "> ";
   }
-  span:last-child span:last-child::after {
+  span:first-child span:last-child::after {
     content: "";
+  }
+}
+
+// div.folder-view-title::before {
+//   content: "\2B";
+// }
+div.folder-view {
+  border-top: 1px solid $folder-full-view-top-border-color;
+  margin-bottom: 1em;
+  padding: 0 $folder-full-view-lt-rt-padding;
+
+  &.expanded {
+    div.folder-view-title::before {
+      content: "\2B  ";
+    }
+  }
+  &.collapsed {
+    div.folder-view-title::before {
+      content: "\2212  ";
+    }
+    div.folder-view-content {
+      display: none;
+    }
+  }
+
+  div.folder-view-title {
+    padding: 0;
+    padding-left: $folder-full-view-title-padding-lt;
+    margin: 0;
+    transform: translate(-$folder-full-view-lt-rt-padding, -50%);
+    background-color: $folder-full-view-title-bg-color;
+    color: $folder-full-view-title-color;
+    display: inline-block;
+  }
+
+  div.folder-view-content {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: stretch;
+    justify-content: stretch;
+
+    div.folder-view-column {
+      flex: 1 1 0;
+      display: flex;
+      flex-flow: column nowrap;
+      align-items: stretch;
+      justify-content: flex-start;
+
+      div.folder,
+      div.bookmark {
+        height: $node-height;
+        padding-left: $node-padding-lt;
+        padding-right: $node-padding-rt;
+        display: flex;
+        flex-flow: row nowrap;
+        overflow: hidden;
+        align-items: center;
+        justify-content: flex-start;
+      }
+    }
   }
 }

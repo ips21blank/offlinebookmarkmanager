@@ -7,7 +7,7 @@ import { AddressBar } from "./addressBar";
 export const TopMenu: React.FC<TopMenuProps> = (props) => {
   return (
     <nav id="top-menu">
-      <AddressBar />
+      <AddressBar {...props} />
       <TopMenuButtons />
     </nav>
   );

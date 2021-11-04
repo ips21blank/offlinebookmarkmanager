@@ -4,7 +4,7 @@ import { Aside } from "./components/rightSide/aside";
 
 import "./sass/style.scss";
 
-export const App = () => {
+export const App: React.FC<any> = () => {
   return (
     <>
       <SideMenu />

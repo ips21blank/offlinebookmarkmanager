@@ -1,11 +1,8 @@
 @import "./constants/layout_constants";
 
-html,
-body {
-  height: 100%;
-}
 * {
   box-sizing: border-box;
+  position: relative;
 }
 
 @mixin side-elements() {
@@ -30,7 +27,9 @@ div#main > div#content {
 }
 div#content {
   margin-top: $top-menu-height;
-  height: 100em;
+  padding-top: $folder-full-view-top-padding;
+  padding-bottom: $content-bottom-padding;
+
   z-index: 10;
 }
 
