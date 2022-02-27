@@ -1,8 +1,8 @@
 import {
   AddressBarProps,
   DataNode,
-  SearchAndReloadProps,
-} from "../../../types";
+  SearchAndReloadProps
+} from '@proj-types/types';
 
 const SearchAndReload: React.FC<SearchAndReloadProps> = (props) => {
   return (

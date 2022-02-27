@@ -1,11 +1,14 @@
-import { useState } from "react";
-import { DataNode, FolderFullViewProps, folderColumnProps } from "../../types";
-import { FolderFullViewColumn } from "./folderFullViewColumn";
+import { useState } from 'react';
+import {
+  DataNode,
+  FolderFullViewProps,
+  folderColumnProps
+} from '@proj-types/types';
+import { FolderFullViewColumn } from './folderFullViewColumn';
 
 const FolderFullView: React.FC<FolderFullViewProps> = ({
   folder,
-  colCount,
-  direction,
+  colCount
 }) => {
   const ch = folder.children || ([] as DataNode[]);
 
@@ -15,13 +18,12 @@ const FolderFullView: React.FC<FolderFullViewProps> = ({
     colProps.push({
       nodes: ch,
       index: i,
-      colCount: colCount,
-      direction: direction,
+      colCount: colCount
     });
   }
 
-  let classExp = "folder-view expanded",
-    classCol = "folder-view collapsed";
+  let classExp = 'folder-view expanded',
+    classCol = 'folder-view collapsed';
 
   let [currClass, setCurrClass] = useState(classExp);
 

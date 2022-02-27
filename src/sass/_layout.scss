@@ -1,4 +1,4 @@
-@import "./constants/layout_constants";
+@import './constants/layout_constants';
 
 * {
   box-sizing: border-box;
@@ -84,10 +84,10 @@ nav#top-menu {
       width: 2.5em;
     }
   }
-  div#top-menu-buttons-wrapper {
-    flex: 0 0 auto;
-    justify-content: space-between;
-  }
+  // div#top-menu-buttons-wrapper {
+  //   flex: 0 0 auto;
+  //   justify-content: space-between;
+  // }
 }
 
 @media screen and (max-width: 1100px) {

@@ -1,18 +1,25 @@
-@import "reset";
-@import "utilities";
-@import "layout";
-@import "elements";
+@import './constants/style_constants';
+@import './constants/colors_constants';
+
+@import 'reset';
+@import 'utilities';
+@import 'layout';
+@import 'elements';
 
 * {
-  outline: 3px solid rgba(188, 26, 209, 0.308);
+  outline: 2px solid rgba(188, 26, 209, 0.308);
 }
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 0;
+  width: $scroll-bar-width;
+  height: $scroll-bar-height;
 } /*horizontal*/
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
+  background: $scroll-bar-background-color;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.5);
+  background: $scroll-bar-color;
+  border-radius: $scroll-bar-border-radius;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: $scroll-bar-hover-color;
 }

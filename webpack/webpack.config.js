@@ -1,5 +1,5 @@
-const { merge } = require("webpack-merge");
-const common = require("./webpack.common");
+const { merge } = require('webpack-merge');
+const common = require('./webpack.common');
 
 module.exports = (envVars) => {
   const { env } = envVars;

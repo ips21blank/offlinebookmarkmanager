@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 import {
   SearchAndReloadProps,
   TopMenuButtonsProps,
-  TopMenuEditButtonsProps,
-} from "../../../types";
+  TopMenuEditButtonsProps
+} from '@proj-types/types';
 
 export const TopMenuButtons: React.FC<TopMenuButtonsProps> = (props) => {
   return (

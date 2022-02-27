@@ -1,10 +1,10 @@
-import { DataNode } from "../types";
+import { DataNode } from '@proj-types/types';
 
 class DataBase {
-  bkms: Set<string>; // Ids of bookmarks.
-  fols: Set<string>; // Ids of folders.
-  _nodes: Map<string, DataNode>; // data objects for nodes.
-  _baseNodeIds: Set<string>;
+  public bkms: Set<string>; // Ids of bookmarks.
+  public fols: Set<string>; // Ids of folders.
+  private _nodes: Map<string, DataNode>; // data objects for nodes.
+  private _baseNodeIds: Set<string>;
 
   constructor(treeNodes: DataNode[]) {
     let bkms: string[] = [],
@@ -13,10 +13,11 @@ class DataBase {
 
     this._baseNodeIds = new Set<string>();
 
-    let addNode = (n: DataNode): void => {
+    const addNode = (n: DataNode): void => {
       _nodes.push([n.id, n]);
       Boolean(n.url) ? bkms.push(n.id) : fols.push(n.id);
     };
+
     let recurseNode = (node: DataNode): void => {
       // Children only - ignores node itself.
       if (!node.children?.length) return;
@@ -32,6 +33,8 @@ class DataBase {
     for (let i = 0; i < treeNodes.length; i++) {
       // adding base node data.
       this._baseNodeIds.add(treeNodes[i].id);
+
+      // adding children
       addNode(treeNodes[i]);
       recurseNode(treeNodes[i]);
     }
@@ -41,36 +44,28 @@ class DataBase {
     this._nodes = new Map<string, DataNode>(_nodes); // data objects for nodes.
   }
 
-  // methods for edits after initialization.
-  _add(node: DataNode): Map<string, DataNode> {
+  // Implementation details : methods for edits after initialization.
+  private _add(node: DataNode): Map<string, DataNode> {
     return this._nodes.set(node.id, node);
   }
-  _rmv(id: string): boolean {
+  private _rmv(id: string): boolean {
     return this._nodes.delete(id);
   }
-  _addId(id: string, isBkm: boolean): void {
-    if (isBkm) {
-      this.bkms.add(id);
-    } else {
-      this.fols.add(id);
-    }
+  private _addId(id: string, isBkm: boolean): void {
+    isBkm ? this.bkms.add(id) : this.fols.add(id);
   }
-  _rmvId(id: string, isBkm: boolean): void {
-    if (isBkm) {
-      this.bkms.delete(id);
-    } else {
-      this.fols.delete(id);
-    }
+  private _rmvId(id: string, isBkm: boolean): void {
+    isBkm ? this.bkms.delete(id) : this.fols.delete(id);
   }
 
-  _shiftIndicesOfChildren(ch: DataNode[], startI: number, change: number) {
+  private _shiftChildIndices(ch: DataNode[], startI: number, change: number) {
+    let chI: DataNode;
     for (let i = startI; i < ch.length; i++) {
-      ch[i].index! += change;
-      // if (ch[i]?.index || ch[i]?.index == 0) {
-      // }
+      chI = ch[i];
+      if (chI.index || chI.index === 0) chI.index += change;
     }
   }
-  _addChild(childId: string, parentId: string): void {
+  private _addChildToChildrenArr(childId: string, parentId: string): void {
     let p = this.get(parentId),
       child = this.get(childId);
     if (!p || !p.children || !child) return;
@@ -85,9 +80,9 @@ class DataBase {
       return;
     }
 
-    this._shiftIndicesOfChildren(p.children, index + 1, 1);
+    this._shiftChildIndices(p.children, index + 1, 1);
   }
-  _rmvChild(childId: string, parentId: string): void {
+  private _rmvChildFromChildrenArr(childId: string, parentId: string): void {
     let p = this.get(parentId);
     if (!p || !p.children) return;
 
@@ -99,56 +94,56 @@ class DataBase {
 
     if (i < n) {
       p.children.splice(i, 1);
-      this._shiftIndicesOfChildren(p.children, i, -1);
+      this._shiftChildIndices(p.children, i, -1);
     }
   }
 
-  // Methods for interface.
-  add(node: DataNode, i?: number) {
+  // Public methods.
+  public get(id: string): DataNode | undefined {
+    return this._nodes.get(id);
+  }
+  public add(node: DataNode, i?: number) {
     if (i || i === 0) node.index = i;
 
     this._addId(node.id, Boolean(node.url));
-    if (node.parentId) this._addChild(node.id, node.parentId);
+    if (node.parentId) this._addChildToChildrenArr(node.id, node.parentId);
     this._add(node);
   }
-  rmv(nodeId: string) {
+  public rmv(nodeId: string) {
     let node = this.get(nodeId);
     if (!node) return;
 
     this._rmvId(node.id, Boolean(node.url));
-    if (node.parentId) this._rmvChild(node.id, node.parentId);
+    if (node.parentId) this._rmvChildFromChildrenArr(node.id, node.parentId);
     this._rmv(node.id);
   }
-  get(id: string): DataNode | undefined {
-    return this._nodes.get(id);
-  }
-  getAll() {
+  public getAll() {
     /* probably not required. */
   }
 
-  mov(id: string, newParentId: string, index?: number): void {
+  public mov(id: string, newParentId: string, index?: number): void {
     let node = this.get(id);
     if (!node) return;
 
-    if (node.parentId) this._rmvChild(node.id, node.parentId);
+    if (node.parentId) this._rmvChildFromChildrenArr(node.id, node.parentId);
 
     if (index || index === 0) node.index = index;
-    this._addChild(node.id, newParentId);
+    this._addChildToChildrenArr(node.id, newParentId);
     node.parentId = newParentId;
   }
 
-  rnm(id: string, title: string): void {
+  public rnm(id: string, title: string): void {
     let node = this.get(id);
     if (node) node.title = title;
   }
 
-  url(id: string, url: string): void {
+  public url(id: string, url: string): void {
     // to set the url of a bookmark.
     let node = this.get(id);
-    if (node /*&& Boolean(node.url)*/) node.url = url;
+    if (node && Boolean(node.url)) node.url = url;
   }
 
-  getParentChain(id: string): DataNode[] {
+  public getParentChain(id: string): DataNode[] {
     let first = this.get(id);
     if (!first) return [];
 

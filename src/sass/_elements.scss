@@ -1,5 +1,5 @@
-@import "./constants/style_constants";
-@import "./constants/colors_constants";
+@import './constants/style_constants';
+@import './constants/colors_constants';
 
 div#address-bar-location {
   padding-left: $gap-bw-search-and-buttons;
@@ -31,10 +31,10 @@ div#top-menu-buttons {
 
 div#address-bar-location {
   span span:last-child::after {
-    content: "> ";
+    content: '> ';
   }
   span:first-child span:last-child::after {
-    content: "";
+    content: '';
   }
 }
 
@@ -48,12 +48,12 @@ div.folder-view {
 
   &.expanded {
     div.folder-view-title::before {
-      content: "\2B  ";
+      content: '\2B  ';
     }
   }
   &.collapsed {
     div.folder-view-title::before {
-      content: "\2212  ";
+      content: '\2212  ';
     }
     div.folder-view-content {
       display: none;
@@ -83,6 +83,25 @@ div.folder-view {
       align-items: stretch;
       justify-content: flex-start;
 
+      &.col-1-1 {
+        max-width: 99.98%;
+      }
+      &.col-1-2 {
+        max-width: 49.99%;
+      }
+      &.col-1-3 {
+        max-width: 33.33%;
+      }
+      &.col-1-4 {
+        max-width: 24.99%;
+      }
+      &.col-1-5 {
+        max-width: 19.99%;
+      }
+      &.col-1-6 {
+        max-width: 16.66%;
+      }
+
       div.folder,
       div.bookmark {
         height: $node-height;
@@ -90,9 +109,14 @@ div.folder-view {
         padding-right: $node-padding-rt;
         display: flex;
         flex-flow: row nowrap;
-        overflow: hidden;
         align-items: center;
         justify-content: flex-start;
+
+        white-space: nowrap;
+
+        * {
+          overflow: hidden;
+        }
       }
     }
   }
