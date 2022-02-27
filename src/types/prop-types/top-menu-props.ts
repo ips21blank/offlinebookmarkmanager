@@ -3,10 +3,8 @@ import { DataNode } from '../browser-types';
 /**
  * TOP-MENU AND ADDRESS BAR PROPS
  */
-interface TopMenuProps {
-  parentChain: DataNode[];
-}
-interface AddressBarProps extends TopMenuProps {}
+interface TopMenuProps {}
+interface AddressBarProps {}
 interface TopMenuButtonsProps {}
 interface SearchAndReloadProps {}
 interface TopMenuEditButtonsProps {}

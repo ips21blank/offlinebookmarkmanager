@@ -3,6 +3,7 @@ import {
   DataNode,
   SearchAndReloadProps
 } from '@proj-types/types';
+import { useAppSelector } from '@redux/redux';
 
 const SearchAndReload: React.FC<SearchAndReloadProps> = (props) => {
   return (
@@ -36,19 +37,21 @@ const SearchAndReload: React.FC<SearchAndReloadProps> = (props) => {
 //   </div>
 // );
 
-const AddressLocation: React.FC<AddressBarProps> = ({ parentChain }) => (
-  <div id="address-bar-location">
-    {parentChain.map((node: DataNode, i: number) => {
-      return (
+const AddressLocation: React.FC<AddressBarProps> = (props) => {
+  let parentChain: DataNode[] = useAppSelector((state) =>
+    state.bookmarks.getParentChain('159')
+  );
+  return (
+    <div id="address-bar-location">
+      {parentChain.map((node: DataNode, i: number) => (
         <span key={node.id}>
           <span>{node.title}</span>
           <span></span>
         </span>
-      );
-    })}
-  </div>
-);
-
+      ))}
+    </div>
+  );
+};
 export const AddressBar: React.FC<AddressBarProps> = (props) => {
   return (
     <div id="address-bar">

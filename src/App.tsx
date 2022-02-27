@@ -1,19 +1,18 @@
+import { Provider } from 'react-redux';
+
 import { SideMenu } from '@components/leftSide/sideMenu';
 import { Middle } from '@components/middle/middle';
 import { Aside } from '@components/rightSide/aside';
 
+import { store } from '@redux/redux';
 import './sass/style.scss';
-import { DataBase } from '@scripts/db';
-import data from '@scripts/testData';
-
-let db: DataBase = new DataBase([data]);
 
 export const App: React.FC<any> = () => {
   return (
-    <>
-      <SideMenu db={db} />
-      <Middle db={db} />
-      <Aside db={db} />
-    </>
+    <Provider store={store}>
+      <SideMenu />
+      <Middle />
+      <Aside />
+    </Provider>
   );
 };

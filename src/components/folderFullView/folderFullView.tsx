@@ -15,6 +15,7 @@ const FolderFullView: React.FC<FolderFullViewProps> = ({
   let colProps: folderColumnProps[] = [];
 
   for (let i = 0; i < colCount; i++) {
+    // create children array for each column separately.
     colProps.push({
       nodes: ch,
       index: i,

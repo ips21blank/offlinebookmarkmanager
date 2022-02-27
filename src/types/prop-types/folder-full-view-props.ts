@@ -4,9 +4,7 @@ import { DataNode } from '../browser-types';
 /**
  * FULL FOLDER VIEW PROPS
  */
-interface ContentProps {
-  db: DataBase;
-}
+interface ContentProps {}
 
 interface FolderFullViewProps {
   folder: DataNode;

@@ -1,8 +1,5 @@
-export enum FlowDirection {
-  ROW,
-  COLUMN
-}
+import { FLOW_DIRECTION } from '@proj-types/settings-types';
 
 export const SETTINGS: any = {
-  direction: FlowDirection.COLUMN
+  direction: FLOW_DIRECTION.COLUMN
 };

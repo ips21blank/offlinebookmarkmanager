@@ -1,14 +1,18 @@
 import React from 'react';
-import { ContentProps } from '@proj-types/types';
+import { ContentProps, DataNode } from '@proj-types/types';
 import { FolderFullView } from '../folderFullView/folderFullView';
+import { useAppSelector } from '@redux/redux';
 
-export const Content: React.FC<ContentProps> = ({ db }) => {
+export const Content: React.FC<ContentProps> = (props) => {
+  let folder: DataNode | undefined = useAppSelector((state) =>
+    state.bookmarks.get('1')
+  );
+
   return (
     <div id="content">
       {(function () {
-        let fol = db.get('1');
-        if (fol) {
-          return <FolderFullView {...{ folder: fol, colCount: 4 }} />;
+        if (folder) {
+          return <FolderFullView {...{ folder: folder, colCount: 4 }} />;
         } else {
           return '';
         }

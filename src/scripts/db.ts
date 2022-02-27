@@ -1,4 +1,5 @@
 import { DataNode } from '@proj-types/types';
+import { Children } from 'react';
 
 class DataBase {
   public bkms: Set<string>; // Ids of bookmarks.
@@ -65,9 +66,8 @@ class DataBase {
       if (chI.index || chI.index === 0) chI.index += change;
     }
   }
-  private _addChildToChildrenArr(childId: string, parentId: string): void {
-    let p = this.get(parentId),
-      child = this.get(childId);
+  private _addChildToChildrenArr(child: DataNode, parentId: string): void {
+    let p = this.get(parentId);
     if (!p || !p.children || !child) return;
 
     let index: number | undefined = child.index;
@@ -77,6 +77,8 @@ class DataBase {
     } else {
       child.index = p.children.length;
       p.children.push(child);
+
+      p.children = [...p.children]; // To update reference.
       return;
     }
 
@@ -93,54 +95,81 @@ class DataBase {
     }
 
     if (i < n) {
-      p.children.splice(i, 1);
+      p.children = [...p.children.splice(i, 1)]; // To update reference.
       this._shiftChildIndices(p.children, i, -1);
     }
   }
 
   // Public methods.
+  // References are updated in methods add, rmv, mov, rnm, url
+
   public get(id: string): DataNode | undefined {
     return this._nodes.get(id);
   }
-  public add(node: DataNode, i?: number) {
+  public add(node: DataNode, i?: number): DataBase {
+    // Reference to children array of parent
+    // updated at this._addChildToChildrenArr
+
     if (i || i === 0) node.index = i;
 
     this._addId(node.id, Boolean(node.url));
-    if (node.parentId) this._addChildToChildrenArr(node.id, node.parentId);
+    if (node.parentId) this._addChildToChildrenArr(node, node.parentId);
     this._add(node);
+
+    return this;
   }
-  public rmv(nodeId: string) {
+  public rmv(nodeId: string): DataBase {
+    // Reference to children array of parent
+    // updated at this._rmvChildFromChildrenArr
+
     let node = this.get(nodeId);
-    if (!node) return;
+    if (!node) return this;
 
     this._rmvId(node.id, Boolean(node.url));
     if (node.parentId) this._rmvChildFromChildrenArr(node.id, node.parentId);
     this._rmv(node.id);
+
+    return this;
   }
   public getAll() {
     /* probably not required. */
   }
 
-  public mov(id: string, newParentId: string, index?: number): void {
+  public mov(id: string, newParentId: string, index?: number): DataBase {
+    // Reference to children array of parent updated at
+    // this._addChildToChildrenArr and this._rmvChildFromChildrenArr
+
     let node = this.get(id);
-    if (!node) return;
+    if (!node) return this;
 
     if (node.parentId) this._rmvChildFromChildrenArr(node.id, node.parentId);
 
     if (index || index === 0) node.index = index;
-    this._addChildToChildrenArr(node.id, newParentId);
+    this._addChildToChildrenArr(node, newParentId);
     node.parentId = newParentId;
+
+    return this;
   }
 
-  public rnm(id: string, title: string): void {
+  public rnm(id: string, title: string): DataBase {
     let node = this.get(id);
-    if (node) node.title = title;
+    if (node) {
+      node.title = title;
+      this._add({ ...node }); // To update the reference
+    }
+
+    return this;
   }
 
-  public url(id: string, url: string): void {
+  public url(id: string, url: string): DataBase {
     // to set the url of a bookmark.
     let node = this.get(id);
-    if (node && Boolean(node.url)) node.url = url;
+    if (node && Boolean(node.url)) {
+      node.url = url;
+      this._add({ ...node }); // To update the reference
+    }
+
+    return this;
   }
 
   public getParentChain(id: string): DataNode[] {
@@ -164,6 +193,23 @@ class DataBase {
     while (addParentNode()) 1;
 
     return chain;
+  }
+
+  public reorder(id: string, children: string[]): DataBase {
+    let parent = this.get(id);
+    if (parent) {
+      parent.children = children.map((id) => {
+        let node = this.get(id);
+        if (!node) {
+          // throw 'Node with given id not found while reordering.';
+          return <DataNode>{};
+        } else {
+          return node;
+        }
+      });
+    }
+
+    return this;
   }
 }
 

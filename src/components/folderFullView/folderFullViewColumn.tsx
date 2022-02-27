@@ -1,7 +1,8 @@
 import { DataNode, folderColumnProps } from '@proj-types/types';
 import { Bookmark } from '../elements/bookmark';
 import { Folder } from '../elements/folder';
-import { FlowDirection, SETTINGS } from '@scripts/settings';
+import { SETTINGS } from '@scripts/settings';
+import { FLOW_DIRECTION } from '@proj-types/settings-types';
 
 const getNodeListCol = (
   nodes: DataNode[],
@@ -25,7 +26,7 @@ const FolderFullViewColumn: React.FC<folderColumnProps> = ({
 }) => {
   colCount = colCount < 6 ? colCount : 6;
 
-  if (SETTINGS.direction === FlowDirection.ROW) {
+  if (SETTINGS.direction === FLOW_DIRECTION.ROW) {
     nodes = getNodeListRow(nodes, colCount, index);
   } else {
     // direction == "column"

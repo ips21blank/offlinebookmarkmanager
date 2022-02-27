@@ -6,9 +6,7 @@ import { DataBase } from '@scripts/db';
  * aside
  * middle
  */
-interface _Common {
-  db: DataBase;
-}
+interface _Common {}
 interface SideMenuProps extends _Common {}
 interface AsideProps extends _Common {}
 interface MiddleProps extends _Common {}
