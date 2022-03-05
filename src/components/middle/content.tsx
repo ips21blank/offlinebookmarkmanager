@@ -4,19 +4,13 @@ import { FolderFullView } from '../folderFullView/folderFullView';
 import { useAppSelector } from '@redux/redux';
 
 export const Content: React.FC<ContentProps> = (props) => {
-  let folder: DataNode | undefined = useAppSelector((state) =>
-    state.bookmarks.get('1')
-  );
+  let folders = useAppSelector((state) => state.displayState.currFolders);
 
   return (
     <div id="content">
-      {(function () {
-        if (folder) {
-          return <FolderFullView {...{ folder: folder, colCount: 4 }} />;
-        } else {
-          return '';
-        }
-      })()}
+      {folders.map((fol) => (
+        <FolderFullView nodeId={fol} key={'full-view-' + fol} />
+      ))}
     </div>
   );
 };

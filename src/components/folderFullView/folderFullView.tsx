@@ -1,32 +1,18 @@
 import { useState } from 'react';
-import {
-  DataNode,
-  FolderFullViewProps,
-  folderColumnProps
-} from '@proj-types/types';
-import { FolderFullViewColumn } from './folderFullViewColumn';
+import { FolderFullViewProps } from '@proj-types/types';
+import { FolderFullViewColumns } from './folderFullViewColumns';
+import { useAppSelector } from '@redux/hooks';
 
-const FolderFullView: React.FC<FolderFullViewProps> = ({
-  folder,
-  colCount
-}) => {
-  const ch = folder.children || ([] as DataNode[]);
-
-  let colProps: folderColumnProps[] = [];
-
-  for (let i = 0; i < colCount; i++) {
-    // create children array for each column separately.
-    colProps.push({
-      nodes: ch,
-      index: i,
-      colCount: colCount
-    });
-  }
-
+const FolderFullView: React.FC<FolderFullViewProps> = ({ nodeId }) => {
   let classExp = 'folder-view expanded',
     classCol = 'folder-view collapsed';
 
   let [currClass, setCurrClass] = useState(classExp);
+
+  let folder = useAppSelector((state) => state.bookmarks.get(nodeId));
+  if (!folder) {
+    return <div className={currClass}></div>;
+  }
 
   const expandCollapseFullViewFolder = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -43,11 +29,7 @@ const FolderFullView: React.FC<FolderFullViewProps> = ({
       <div className="folder-view-title" onClick={expandCollapseFullViewFolder}>
         {folder.title}
       </div>
-      <div className="folder-view-content">
-        {colProps.map((prop) => (
-          <FolderFullViewColumn key={prop.index + String(colCount)} {...prop} />
-        ))}
-      </div>
+      <FolderFullViewColumns nodeId={nodeId} />
     </div>
   );
 };

@@ -1,39 +1,21 @@
-import { DataNode, folderColumnProps } from '@proj-types/types';
+import { DataNode, FolderColumnProps } from '@proj-types/types';
 import { Bookmark } from '../elements/bookmark';
 import { Folder } from '../elements/folder';
-import { SETTINGS } from '@scripts/settings';
 import { FLOW_DIRECTION } from '@proj-types/settings-types';
+import { useAppSelector } from '@redux/hooks';
+import { Utilities } from '@scripts/utilities';
 
-const getNodeListCol = (
-  nodes: DataNode[],
-  n: number,
-  i: number
-): DataNode[] => {
-  return nodes;
-};
-const getNodeListRow = (
-  nodes: DataNode[],
-  n: number,
-  i: number
-): DataNode[] => {
-  return nodes;
-};
-
-const FolderFullViewColumn: React.FC<folderColumnProps> = ({
+const FolderFullViewColumn: React.FC<FolderColumnProps> = ({
   nodes,
   index,
   colCount
 }) => {
-  colCount = colCount < 6 ? colCount : 6;
-
-  if (SETTINGS.direction === FLOW_DIRECTION.ROW) {
-    nodes = getNodeListRow(nodes, colCount, index);
-  } else {
-    // direction == "column"
-    nodes = getNodeListCol(nodes, colCount, index);
-  }
-
+  let flowDir: FLOW_DIRECTION = useAppSelector(
+    (state) => state.settings.flowDirection
+  );
   let className: string = `folder-view-column col-1-${colCount}`;
+  nodes = Utilities.getNodeListForFol(flowDir, nodes, index, colCount);
+
   return (
     <div className={className}>
       {nodes.map((node: DataNode) => {

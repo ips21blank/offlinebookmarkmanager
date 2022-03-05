@@ -1,4 +1,3 @@
-import { DataBase } from '@scripts/db';
 import { DataNode } from '../browser-types';
 
 /**
@@ -7,14 +6,22 @@ import { DataNode } from '../browser-types';
 interface ContentProps {}
 
 interface FolderFullViewProps {
-  folder: DataNode;
-  colCount: number;
+  nodeId: string;
 }
 
-interface folderColumnProps {
+interface FolderColumnsProps {
+  nodeId: string;
+}
+
+interface FolderColumnProps {
   nodes: DataNode[];
   index: number;
   colCount: number;
 }
 
-export type { ContentProps, FolderFullViewProps, folderColumnProps };
+export type {
+  ContentProps,
+  FolderFullViewProps,
+  FolderColumnProps,
+  FolderColumnsProps
+};

@@ -3,8 +3,10 @@ import { Reducer } from 'redux';
 import { combineReducers } from 'redux';
 import { bkmReducer } from './bookmarks/bkm-reducers';
 import { settingsReducer } from './settings/settings-reducers';
+import { displayReducer } from './display-state/display-reducers';
 
 export const rootReducer: Reducer<StoreType, GeneralAction> = combineReducers({
   bookmarks: bkmReducer,
-  settings: settingsReducer
+  settings: settingsReducer,
+  displayState: displayReducer
 });
