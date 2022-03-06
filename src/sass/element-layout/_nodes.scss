@@ -1,0 +1,65 @@
+@import '../constants/layout_constants';
+
+div.folder,
+div.bookmark {
+  // .folder and .bookmark are just containers and don't
+  // have any stylings such as borders.
+
+  height: $node-height;
+  padding-left: $node-padding-lt;
+  padding-right: $node-padding-rt;
+  display: flex;
+  flex-flow: column nowrap;
+  //   align-items: center;
+  justify-content: stretch;
+
+  white-space: nowrap;
+
+  * {
+    overflow: hidden;
+  }
+
+  & > a,
+  & > span {
+    height: $node-height;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-start;
+  }
+}
+
+div.folder {
+  &.expanded {
+    height: auto;
+  }
+
+  & > div.folder-children {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding-left: $subfolder-content-lt-padding;
+  }
+
+  &.expanded > div.folder-children {
+    margin-bottom: $subfolder-content-bottom-margin;
+  }
+
+  &.collapsed > div.folder-children {
+    display: none;
+  }
+}
+
+div.bookmark {
+  img {
+    object-fit: contain;
+    pointer-events: none;
+    max-height: 1.5em;
+    margin: 0 $bookmark-icon-margin-sides;
+    flex: 0 0 auto;
+
+    // duplicate-bkm-group
+    // vertical-align: top; margin: 0em 0.2em;
+  }
+}

@@ -1,0 +1,38 @@
+@import '../constants/style_constants';
+
+div#address-bar-location {
+  padding-left: $gap-bw-search-and-buttons;
+}
+div#address-bar-buttons {
+  padding-right: $gap-bw-search-and-buttons;
+  padding-left: 0.4em;
+
+  button {
+    height: $address-bar-height;
+    // border-radius: 1em; border: 0;
+    vertical-align: top;
+  }
+}
+
+div#top-menu-buttons {
+  padding-left: $gap-bw-search-and-buttons;
+  button {
+    padding: 0.2em 0;
+    margin-right: 0.4em;
+    width: 5.5em;
+    text-align: center;
+  }
+
+  button:last-child {
+    width: 4.5em;
+  }
+}
+
+div#address-bar-location {
+  span span:last-child::after {
+    content: '> ';
+  }
+  span:first-child span:last-child::after {
+    content: '';
+  }
+}

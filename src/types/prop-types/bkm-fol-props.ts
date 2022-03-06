@@ -7,4 +7,9 @@ interface NodeProps {
   node: DataNode;
 }
 
-export type { NodeProps };
+interface FolderContentProps {
+  children: DataNode[] | undefined;
+  initialized: boolean;
+}
+
+export type { NodeProps, FolderContentProps };
