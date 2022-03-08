@@ -49,17 +49,27 @@ div.folder {
   &.collapsed > div.folder-children {
     display: none;
   }
+
+  span.folder-icon {
+    display: inline-block;
+    margin: $folder-icon-margins;
+    pointer-events: none;
+  }
 }
 
 div.bookmark {
   img {
     object-fit: contain;
-    pointer-events: none;
-    max-height: 1.5em;
-    margin: 0 $bookmark-icon-margin-sides;
-    flex: 0 0 auto;
 
     // duplicate-bkm-group
-    // vertical-align: top; margin: 0em 0.2em;
+    // vertical-align: top; margin: 0em 0.2rem;
+  }
+  img,
+  svg {
+    flex: 0 0 auto;
+    pointer-events: none;
+    max-height: 1.5rem;
+    margin: 0 $bookmark-icon-margin-sides;
+    flex: 0 0 auto;
   }
 }

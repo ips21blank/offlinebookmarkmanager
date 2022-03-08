@@ -5,11 +5,11 @@ div#address-bar-location {
 }
 div#address-bar-buttons {
   padding-right: $gap-bw-search-and-buttons;
-  padding-left: 0.4em;
+  padding-left: 0.4rem;
 
   button {
     height: $address-bar-height;
-    // border-radius: 1em; border: 0;
+    // border-radius: 1rem; border: 0;
     vertical-align: top;
   }
 }
@@ -17,14 +17,14 @@ div#address-bar-buttons {
 div#top-menu-buttons {
   padding-left: $gap-bw-search-and-buttons;
   button {
-    padding: 0.2em 0;
-    margin-right: 0.4em;
-    width: 5.5em;
+    padding: 0.2rem 0;
+    margin-right: 0.4rem;
+    width: 5.5rem;
     text-align: center;
   }
 
   button:last-child {
-    width: 4.5em;
+    width: 4.5rem;
   }
 }
 

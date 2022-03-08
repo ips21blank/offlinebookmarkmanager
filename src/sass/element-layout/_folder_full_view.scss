@@ -1,18 +1,18 @@
 @import '../constants/layout_constants';
 
 div.folder-view {
-  margin-bottom: 1em;
+  margin-bottom: 1rem;
   padding: 0 $folder-full-view-lt-rt-padding;
 
-  &.expanded {
-    div.folder-view-title::before {
-      content: '\2B  ';
-    }
-  }
+  // &.expanded {
+  //   div.folder-view-title::before {
+  //     content: '\2B  ';
+  //   }
+  // }
   &.collapsed {
-    div.folder-view-title::before {
-      content: '\2212  ';
-    }
+    // div.folder-view-title::before {
+    //   content: '\2212  ';
+    // }
     div.folder-view-content {
       display: none;
     }
@@ -23,7 +23,27 @@ div.folder-view {
     padding-left: $folder-full-view-title-padding-lt;
     margin: 0;
     transform: translate(-$folder-full-view-lt-rt-padding, -50%);
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+
+      // actually contains the title
+      span {
+        margin-left: 0.5rem;
+      }
+    }
+
+    .edit-icon {
+      display: none;
+    }
+    &:hover .edit-icon {
+      display: block;
+    }
   }
 
   div.folder-view-content {

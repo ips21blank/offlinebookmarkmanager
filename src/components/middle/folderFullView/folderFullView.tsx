@@ -2,6 +2,11 @@ import { useState } from 'react';
 import { FolderFullViewProps } from '@proj-types/types';
 import { FolderFullViewColumns } from './folderFullViewColumns';
 import { useAppSelector } from '@redux/hooks';
+import {
+  BsCaretRightFill,
+  BsCaretDownFill,
+  BsFillPencilFill
+} from 'react-icons/bs';
 
 const FolderFullView: React.FC<FolderFullViewProps> = ({ nodeId }) => {
   let classExp = 'folder-view expanded',
@@ -13,6 +18,7 @@ const FolderFullView: React.FC<FolderFullViewProps> = ({ nodeId }) => {
   if (!folder) {
     return <div className={currClass}></div>;
   }
+  let baseNodes = useAppSelector((state) => state.bookmarks.getBaseNodes());
 
   const expandCollapseFullViewFolder = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -27,7 +33,23 @@ const FolderFullView: React.FC<FolderFullViewProps> = ({ nodeId }) => {
   return (
     <div className={currClass}>
       <div className="folder-view-title" onClick={expandCollapseFullViewFolder}>
-        {folder.title}
+        <div>
+          <span className="btn-icon">
+            {currClass === classExp ? (
+              <BsCaretDownFill />
+            ) : (
+              <BsCaretRightFill />
+            )}
+          </span>
+          <span>{folder.title}</span>
+        </div>
+        {baseNodes.indexOf(nodeId) === -1 ? (
+          <span className="btn-icon">
+            <BsFillPencilFill className="edit-icon" />
+          </span>
+        ) : (
+          ''
+        )}
       </div>
       <FolderFullViewColumns nodeId={nodeId} />
     </div>

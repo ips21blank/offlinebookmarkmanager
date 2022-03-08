@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  SearchAndReloadProps,
   TopMenuButtonsProps,
   TopMenuEditButtonsProps
 } from '@proj-types/types';

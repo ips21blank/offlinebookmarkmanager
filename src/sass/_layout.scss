@@ -5,6 +5,10 @@
   position: relative;
 }
 
+svg {
+  font-size: 1.1rem;
+}
+
 @mixin side-elements() {
   position: fixed;
   top: 0;
@@ -40,9 +44,11 @@ aside {
 }
 nav#side-menu {
   left: 0;
+  overflow: auto;
 }
 aside {
   right: 0;
+  overflow: hidden;
 }
 
 // layout of content area.
@@ -68,6 +74,7 @@ nav#top-menu {
     div#address-bar-location {
       overflow: hidden;
       @include flex-row-nowrap();
+      align-items: center;
       flex-direction: row-reverse;
       span {
         @include flex-row-nowrap();
@@ -81,7 +88,7 @@ nav#top-menu {
     flex: 0 0 auto;
 
     button {
-      width: 2.5em;
+      width: 2.5rem;
     }
   }
   // div#top-menu-buttons-wrapper {

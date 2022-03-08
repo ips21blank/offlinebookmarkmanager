@@ -4,13 +4,14 @@ import {
   SearchAndReloadProps
 } from '@proj-types/types';
 import { useAppSelector } from '@redux/redux';
+import { BsHouseDoorFill, BsSearch } from 'react-icons/bs';
 
 const SearchAndReload: React.FC<SearchAndReloadProps> = (props) => {
   return (
     <div id="address-bar-buttons">
-      <button id="reload">&#x21BB;</button>
+      {/* <button id="reload">&#x21BB;</button> */}
       {/* <!-- U+1F50E; : &#x1F50D; --> */}
-      <button id="search">🔍</button>
+      <BsSearch id="search" />
     </div>
   );
 };
@@ -28,6 +29,9 @@ const AddressLocation: React.FC<AddressBarProps> = (props) => {
           <span></span>
         </span>
       ))}
+      <span className="btn-icon">
+        <BsHouseDoorFill />
+      </span>
     </div>
   );
 };
@@ -36,7 +40,9 @@ export const AddressBar: React.FC<AddressBarProps> = (props) => {
   return (
     <div id="address-bar">
       <AddressLocation {...props} />
-      <SearchAndReload />
+      <span className="btn-icon">
+        <SearchAndReload />
+      </span>
     </div>
   );
 };

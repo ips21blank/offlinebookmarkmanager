@@ -6,6 +6,7 @@ class DataBase {
   public fols: Set<string>; // Ids of folders.
   private _nodes: Map<string, DataNode>; // data objects for nodes.
   private _baseNodeIds: Set<string>;
+  private _baseNodeList?: string[];
 
   constructor(treeNodes: DataNode[]) {
     let bkms: string[] = [],
@@ -102,6 +103,15 @@ class DataBase {
 
   // Public methods.
   // References are updated in methods add, rmv, mov, rnm, url
+
+  public isBaseNode(id: string): boolean {
+    return this._baseNodeIds.has(id);
+  }
+  public getBaseNodes(): string[] {
+    return (
+      this._baseNodeList || (this._baseNodeList = Array.from(this._baseNodeIds))
+    );
+  }
 
   public get(id: string): DataNode | undefined {
     return this._nodes.get(id);

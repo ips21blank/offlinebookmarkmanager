@@ -1,6 +1,6 @@
 import { DataNode, FolderColumnProps } from '@proj-types/types';
-import { Bookmark } from '../elements/bookmark';
-import { Folder } from '../elements/folder';
+import { Bookmark } from '@components/middle/elements/bookmark';
+import { Folder } from '@components/middle/elements/folder';
 import { FLOW_DIRECTION } from '@proj-types/settings-types';
 import { useAppSelector } from '@redux/hooks';
 import { Utilities } from '@scripts/utilities';
