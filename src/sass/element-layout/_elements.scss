@@ -1,3 +1,23 @@
-@import './folder_full_view';
-@import './top_menu_and_bar';
+@import './folder-full-view';
+@import './top-menu-and-bar';
 @import './nodes';
+@import './side-menu';
+
+.inline-el-no-wrap-center {
+  display: flex;
+  flex-flow: row nowrap;
+  white-space: nowrap;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+span.btn-icon {
+  flex: 0 0 auto;
+  height: 1.5rem;
+  width: 1.5rem;
+
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}

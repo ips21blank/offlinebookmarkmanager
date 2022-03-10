@@ -1,4 +1,4 @@
-@import './constants/layout_constants';
+@import './constants/layout-constants';
 
 * {
   box-sizing: border-box;
@@ -57,13 +57,10 @@ nav#top-menu {
   position: fixed;
   top: 0;
   z-index: 100;
-  white-space: nowrap;
   height: $top-menu-height;
 
-  display: flex;
-  flex-flow: row nowrap;
+  // this over-writes justify-content by the class for this el.
   justify-content: space-between;
-  align-items: center;
 
   div#address-bar {
     @include flex-row-nowrap();

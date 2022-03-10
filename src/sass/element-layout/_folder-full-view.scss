@@ -1,21 +1,11 @@
-@import '../constants/layout_constants';
+@import '../constants/layout-constants';
 
 div.folder-view {
   margin-bottom: 1rem;
   padding: 0 $folder-full-view-lt-rt-padding;
 
-  // &.expanded {
-  //   div.folder-view-title::before {
-  //     content: '\2B  ';
-  //   }
-  // }
-  &.collapsed {
-    // div.folder-view-title::before {
-    //   content: '\2212  ';
-    // }
-    div.folder-view-content {
-      display: none;
-    }
+  &.collapsed div.folder-view-content {
+    display: none;
   }
 
   div.folder-view-title {

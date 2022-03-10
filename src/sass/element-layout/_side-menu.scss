@@ -1,0 +1,61 @@
+@import '../constants/style-constants';
+
+nav#side-menu {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: stretch;
+  align-items: stretch;
+
+  div#fixed-btn {
+    flex: 0 0 auto;
+
+    display: flex;
+    flex-flow: column nowrap;
+
+    span {
+      flex: 0 0 auto;
+      height: $fix-btn-default-ht;
+      padding: $fix-btn-pd;
+    }
+  }
+  span#pin-fol-tip {
+    flex: 0 0 auto;
+    font: italic 0.8em sans-serif;
+    margin: $pin-fol-tip-mg;
+    text-align: center;
+    text-decoration: underline;
+  }
+  div#pinned-folders {
+    flex: 1 1 auto;
+
+    display: flex;
+    flex-flow: column nowrap;
+    overflow: auto;
+    align-items: stretch;
+    justify-content: flex-start;
+
+    p {
+      flex: 0 0 auto;
+      height: $pin-fol-ht;
+      padding: $pin-fol-pd;
+
+      justify-content: space-between;
+      span.pin-title {
+        overflow: hidden;
+        flex: 1 1 auto;
+      }
+      span.btn-icon {
+        flex: 0 0 auto;
+        display: none;
+
+        svg {
+          height: 2em;
+          width: 2em;
+        }
+      }
+      &:hover span.btn-icon {
+        display: flex;
+      }
+    }
+  }
+}

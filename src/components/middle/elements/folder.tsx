@@ -1,7 +1,7 @@
 import { FolderContentProps, NodeProps } from '@proj-types/types';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Bookmark } from './bookmark';
-import { BsFolder } from 'react-icons/bs';
+import { BsFolder } from '@components/icons';
 
 const states = {
   EXP: 'expanded',
@@ -42,7 +42,7 @@ const Folder: React.FC<NodeProps> = ({ node }) => {
 
   return (
     <div className={'folder ' + expColClass}>
-      <span onClick={expandColSubFol}>
+      <span onClick={expandColSubFol} className="inline-el-no-wrap-center">
         <span className="folder-icon">
           <BsFolder />
         </span>

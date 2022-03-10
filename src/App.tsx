@@ -1,6 +1,6 @@
 import { Provider } from 'react-redux';
 
-import { SideMenu } from '@components/leftSide/sideMenu';
+import { SideMenu } from '@components/leftSide/side-menu';
 import { Middle } from '@components/middle/middle';
 import { Aside } from '@components/rightSide/aside';
 

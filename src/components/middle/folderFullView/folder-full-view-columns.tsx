@@ -1,6 +1,6 @@
 import { FolderColumnProps, FolderColumnsProps } from '@proj-types/types';
 import { useAppSelector } from '@redux/hooks';
-import { FolderFullViewColumn } from './folderFullViewColumn';
+import { FolderFullViewColumn } from './folder-full-view-column';
 
 const FolderFullViewColumns: React.FC<FolderColumnsProps> = ({ nodeId }) => {
   // This component should be re-rendered if either of the following 2 changes.

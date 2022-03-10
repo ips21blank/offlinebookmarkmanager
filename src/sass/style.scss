@@ -1,5 +1,5 @@
-@import './constants/style_constants';
-@import './constants/colors_constants';
+@import './constants/style-constants';
+@import './constants/colors-constants';
 
 @import 'reset';
 @import 'utilities';
@@ -22,4 +22,7 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background: $scroll-bar-hover-color;
+}
+svg {
+  pointer-events: none;
 }

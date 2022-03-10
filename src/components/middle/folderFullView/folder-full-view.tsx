@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { FolderFullViewProps } from '@proj-types/types';
-import { FolderFullViewColumns } from './folderFullViewColumns';
+import { FolderFullViewColumns } from './folder-full-view-columns';
 import { useAppSelector } from '@redux/hooks';
 import {
   BsCaretRightFill,
   BsCaretDownFill,
   BsFillPencilFill
-} from 'react-icons/bs';
+} from '@components/icons';
 
 const FolderFullView: React.FC<FolderFullViewProps> = ({ nodeId }) => {
   let classExp = 'folder-view expanded',

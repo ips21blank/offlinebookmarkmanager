@@ -1,10 +1,22 @@
+@import './layout-constants';
+
+// address bar
 $gap-bw-search-and-buttons: 0.5rem;
 $address-bar-height: 2rem;
 
+// middle content - bookmark and folders
 $bookmark-icon-margin-sides: 0.3rem;
 $subfolder-content-bottom-margin: 0.8rem;
 $folder-icon-margins: 0 $bookmark-icon-margin-sides;
 
+// scrollbar
 $scroll-bar-width: 0.6rem;
 $scroll-bar-height: 0.1rem; // horizontal scroll.
 $scroll-bar-border-radius: 0.3rem;
+
+// Side menu.
+$pin-fol-tip-mg: 1rem 0 3em;
+$fix-btn-default-ht: $top-menu-height;
+$pin-fol-ht: $fix-btn-default-ht;
+$fix-btn-pd: 0 0.3rem;
+$pin-fol-pd: 0 0.3rem;
