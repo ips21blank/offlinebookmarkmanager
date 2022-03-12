@@ -1,7 +1,7 @@
 import { DataBase } from '@scripts/db';
 import { initialStateDB } from '@redux/initial-states';
 import {
-  BR_ACTIONS_TYPES as ACTIONS,
+  ACTIONS,
   BrowserAction,
   NodeRemoveAction,
   NodeMoveAction,

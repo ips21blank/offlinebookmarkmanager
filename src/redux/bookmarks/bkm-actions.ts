@@ -1,5 +1,5 @@
 import {
-  BR_ACTIONS_TYPES as ACTIONS,
+  ACTIONS,
   NodeRemoveAction,
   NodeMoveAction,
   NodeChangeAction,

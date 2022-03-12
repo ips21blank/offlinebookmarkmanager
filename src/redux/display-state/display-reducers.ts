@@ -3,17 +3,16 @@ import {
   UpdateColumnCount,
   DisplayAction,
   DisplayState,
-  DISPLAY_ACTIONS
-} from '@proj-types/display-types';
+  ACTIONS
+} from '@proj-types/types';
 import { initialStateDisp } from '@redux/initial-states';
-import { Utilities } from '@scripts/utilities';
 
 function displayReducer(
   state: DisplayState = initialStateDisp,
   action: DisplayAction
 ): DisplayState {
   switch (action.type) {
-    case DISPLAY_ACTIONS.SET_CURR_LOCATION: {
+    case ACTIONS.SET_CURR_LOCATION: {
       let payload = (<UpdateCurrLocation>action).payload;
 
       return payload.newLocation === state.currLocation
@@ -24,7 +23,7 @@ function displayReducer(
           };
     }
 
-    case DISPLAY_ACTIONS.UPDATE_COL_COUNT: {
+    case ACTIONS.UPDATE_COL_COUNT: {
       let payload = (<UpdateColumnCount>action).payload;
 
       // Do nothing of noOfColumns is 0.

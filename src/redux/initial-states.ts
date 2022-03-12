@@ -5,7 +5,7 @@ import { DisplayState, FLOW_DIRECTION, Settings } from '@proj-types/types';
 const ROOT_LOC = '0';
 
 const initialStateDB = new DataBase(data);
-console.log(initialStateDB);
+
 const initialStateDisp: DisplayState = {
   rootLocation: ROOT_LOC,
   currLocation: ROOT_LOC,
@@ -15,7 +15,8 @@ const initialStateSettings: Settings = {
   flowDirection: FLOW_DIRECTION.COLUMN,
   pins: ['1', '2', '3', '330', '446', '447', '161'],
   homePin: undefined,
-  showFolBkmIcons: true
+  showFolBkmIcons: true,
+  minRowsPerCol: 5 // for row direction display.
 };
 
 export { initialStateDB, initialStateDisp, initialStateSettings };

@@ -20,13 +20,14 @@ export class Utilities {
     dir: FLOW_DIRECTION,
     nodes: DataNode[],
     index: number,
-    colCount: number
+    colCount: number,
+    minRowsPerCol: number
   ): DataNode[] {
     switch (dir) {
       case FLOW_DIRECTION.ROW:
         return this._getNodeListRowDir(nodes, index, colCount);
       case FLOW_DIRECTION.COLUMN:
-        return this._getNodeListColDir(nodes, index, colCount);
+        return this._getNodeListColDir(nodes, index, colCount, minRowsPerCol);
       default:
         return this._getNodeListRowDir(nodes, index, colCount);
     }
@@ -47,11 +48,14 @@ export class Utilities {
   private static _getNodeListColDir(
     nodes: DataNode[],
     index: number,
-    colCount: number
+    colCount: number,
+    minRowsPerCol: number
   ): DataNode[] {
     let n: number = Math.ceil(nodes.length / colCount),
       i1: number,
       i2: number;
+
+    n < minRowsPerCol ? (n = minRowsPerCol) : 1;
 
     i1 = n * (index - 1);
     i2 = i1 + n > nodes.length ? nodes.length : i1 + n;

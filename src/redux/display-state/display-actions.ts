@@ -1,12 +1,12 @@
 import {
   UpdateCurrLocation,
-  DISPLAY_ACTIONS,
+  ACTIONS,
   UpdateColumnCount
-} from '@proj-types/display-types';
+} from '@proj-types/types';
 
 function changeCurrLocation(newLocation: string): UpdateCurrLocation {
   return {
-    type: DISPLAY_ACTIONS.SET_CURR_LOCATION,
+    type: ACTIONS.SET_CURR_LOCATION,
     payload: { newLocation }
   };
 }
@@ -18,7 +18,7 @@ function updateColumnCount(noOfColumns: number): UpdateColumnCount {
   }
 
   return {
-    type: DISPLAY_ACTIONS.UPDATE_COL_COUNT,
+    type: ACTIONS.UPDATE_COL_COUNT,
     payload: payload
   };
 }

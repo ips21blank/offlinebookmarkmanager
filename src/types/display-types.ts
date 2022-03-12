@@ -1,22 +1,17 @@
-// Types related to the display state.
-
-enum DISPLAY_ACTIONS {
-  SET_CURR_LOCATION,
-  UPDATE_COL_COUNT
-}
+import { ACTIONS } from './action-types';
 
 interface DisplayAction {
-  type: DISPLAY_ACTIONS;
+  type: ACTIONS;
   payload: any;
 }
 
 interface UpdateCurrLocation extends DisplayAction {
-  type: DISPLAY_ACTIONS.SET_CURR_LOCATION;
+  type: ACTIONS.SET_CURR_LOCATION;
   payload: { newLocation: string };
 }
 
 interface UpdateColumnCount extends DisplayAction {
-  type: DISPLAY_ACTIONS.UPDATE_COL_COUNT;
+  type: ACTIONS.UPDATE_COL_COUNT;
   payload: { noOfColumns: number };
 }
 
@@ -26,7 +21,6 @@ interface DisplayState {
   noOfColumns: number;
 }
 
-export { DISPLAY_ACTIONS };
 export type {
   DisplayAction,
   UpdateCurrLocation,
