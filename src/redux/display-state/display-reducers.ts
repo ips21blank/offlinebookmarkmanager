@@ -3,36 +3,25 @@ import {
   UpdateColumnCount,
   DisplayAction,
   DisplayState,
-  DISPLAY_ACTIONS,
-  UpdateCurrFolders
+  DISPLAY_ACTIONS
 } from '@proj-types/display-types';
+import { initialStateDisp } from '@redux/initial-states';
 import { Utilities } from '@scripts/utilities';
 
-const initialState: DisplayState = {
-  currLocation: '1',
-  currFolders: ['1'],
-  noOfColumns: 4
-};
-
 function displayReducer(
-  state: DisplayState = initialState,
+  state: DisplayState = initialStateDisp,
   action: DisplayAction
 ): DisplayState {
   switch (action.type) {
     case DISPLAY_ACTIONS.SET_CURR_LOCATION: {
-      let newLocation = (<UpdateCurrLocation>action).payload.newLocation;
+      let payload = (<UpdateCurrLocation>action).payload;
 
-      return newLocation === state.currLocation
+      return payload.newLocation === state.currLocation
         ? state
-        : { ...state, currLocation: newLocation };
-    }
-
-    case DISPLAY_ACTIONS.SET_CURR_FOLDERS: {
-      let newFolIds = (<UpdateCurrFolders>action).payload.newFolIds;
-
-      return Utilities.areArraysSame(newFolIds, state.currFolders)
-        ? state
-        : { ...state, currFolders: newFolIds };
+        : {
+            ...state,
+            currLocation: payload.newLocation
+          };
     }
 
     case DISPLAY_ACTIONS.UPDATE_COL_COUNT: {

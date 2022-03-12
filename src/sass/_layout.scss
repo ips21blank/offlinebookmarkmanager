@@ -77,21 +77,13 @@ nav#top-menu {
         @include flex-row-nowrap();
         align-items: center;
       }
+      span.address-location {
+        cursor: pointer;
+      }
       flex: 0 1 auto;
       background-color: white;
     }
   }
-  div#address-bar-buttons {
-    flex: 0 0 auto;
-
-    button {
-      width: 2.5rem;
-    }
-  }
-  // div#top-menu-buttons-wrapper {
-  //   flex: 0 0 auto;
-  //   justify-content: space-between;
-  // }
 }
 
 @media screen and (max-width: 1100px) {

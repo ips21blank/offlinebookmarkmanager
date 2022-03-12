@@ -1,6 +1,5 @@
 import {
   UpdateCurrLocation,
-  UpdateCurrFolders,
   DISPLAY_ACTIONS,
   UpdateColumnCount
 } from '@proj-types/display-types';
@@ -9,13 +8,6 @@ function changeCurrLocation(newLocation: string): UpdateCurrLocation {
   return {
     type: DISPLAY_ACTIONS.SET_CURR_LOCATION,
     payload: { newLocation }
-  };
-}
-
-function changeCurrFolders(newFolIds: string[]): UpdateCurrFolders {
-  return {
-    type: DISPLAY_ACTIONS.SET_CURR_FOLDERS,
-    payload: { newFolIds }
   };
 }
 
@@ -31,4 +23,4 @@ function updateColumnCount(noOfColumns: number): UpdateColumnCount {
   };
 }
 
-export { changeCurrLocation, changeCurrFolders, updateColumnCount };
+export { changeCurrLocation, updateColumnCount };

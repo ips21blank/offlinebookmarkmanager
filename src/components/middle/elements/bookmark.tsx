@@ -3,13 +3,13 @@ import { NodeProps } from '@proj-types/types';
 import { getBkmIconSrc } from '@scripts/browser';
 import { BsLink45Deg } from '@components/icons';
 
-const Bookmark: React.FC<NodeProps> = ({ node }) => {
+const Bookmark: React.FC<NodeProps> = ({ node, showIcon }) => {
   let [err, setErr] = useState(false);
 
   return (
     <div className="bookmark">
       <a href={node.url} className="inline-el-no-wrap-center">
-        {err ? (
+        {err && showIcon ? (
           <BsLink45Deg />
         ) : (
           <img src={getBkmIconSrc(node.url)} onError={() => setErr(true)} />

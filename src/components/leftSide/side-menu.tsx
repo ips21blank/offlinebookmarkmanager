@@ -1,8 +1,30 @@
 import React from 'react';
-import { SideMenuProps } from '@proj-types/types';
+import { DataNode, PinnedFolderProps, SideMenuProps } from '@proj-types/types';
 import { PinnedFolder } from './pinned-folder';
+import { useAppSelector } from '@redux/hooks';
+
+type P = { props: PinnedFolderProps; key: string };
 
 export const SideMenu: React.FC<SideMenuProps> = (props) => {
+  let db = useAppSelector((state) => state.bookmarks);
+  let homePin: string = useAppSelector((state) => state.settings.homePin || '');
+
+  let pinTargets: string[] = useAppSelector((state) => state.settings.pins);
+
+  let pinStrToProp = (pin: string): P => {
+    let node = db.get(pin) as DataNode;
+
+    return {
+      key: 'pin-key-' + pin,
+      props: {
+        node: node,
+        isHomeLoc: homePin === pin
+      }
+    };
+  };
+
+  let pinProps: P[] = pinTargets.map((pin) => pinStrToProp(pin));
+
   return (
     <nav id="side-menu">
       <div id="fixed-btn">
@@ -10,13 +32,11 @@ export const SideMenu: React.FC<SideMenuProps> = (props) => {
         <span className="inline-el-no-wrap-center">Btn 2</span>
         <span className="inline-el-no-wrap-center">Btn 3</span>
       </div>
-      <span id="pin-fol-tip">Drop folders here.</span>
+      <span id="pin-fol-tip">Drop folders below.</span>
       <div id="pinned-folders">
-        <PinnedFolder targetId="" isHomeLoc={false} title="PIN 1" />
-        <PinnedFolder targetId="" isHomeLoc={false} title="PIN 2" />
-        <PinnedFolder targetId="" isHomeLoc={false} title="PIN 3" />
-        <PinnedFolder targetId="" isHomeLoc={false} title="PIN 4" />
-        <PinnedFolder targetId="" isHomeLoc={false} title="PIN 5" />
+        {pinProps.map((pinProp) => (
+          <PinnedFolder {...pinProp.props} key={pinProp.key} />
+        ))}
       </div>
     </nav>
   );

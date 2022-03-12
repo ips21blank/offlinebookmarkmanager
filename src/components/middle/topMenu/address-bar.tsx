@@ -1,37 +1,50 @@
 import {
   AddressBarProps,
   DataNode,
-  SearchAndReloadProps
+  UpdateCurrLocation
 } from '@proj-types/types';
-import { useAppSelector } from '@redux/redux';
-import { BsHouseDoorFill, BsSearch } from '@components/icons';
+import { changeCurrLocation, useAppSelector } from '@redux/redux';
+import { BsHouseDoorFill, BsSearch, BsChevronRight } from '@components/icons';
+import { useDispatch } from 'react-redux';
 
-const SearchButton: React.FC<SearchAndReloadProps> = (props) => {
+const AddressElement: React.FC<{ node: DataNode }> = ({ node }) => {
+  const dispatchAction: (action: UpdateCurrLocation) => any = useDispatch();
+  const clickHandler = () => dispatchAction(changeCurrLocation(node.id));
+
   return (
-    <div id="address-bar-buttons">
-      {/* <button id="reload">&#x21BB;</button> */}
-      {/* <!-- U+1F50E; : &#x1F50D; --> */}
-      <BsSearch id="search" />
-    </div>
+    <span key={node.id}>
+      <span onClick={clickHandler} className="address-location">
+        {node.title}{' '}
+      </span>
+      <BsChevronRight />
+    </span>
+  );
+};
+
+const HomeButton: React.FC<any> = (props) => {
+  let baseId = useAppSelector((store) => store.bookmarks.baseNodeId);
+  const dispatchAction: (action: UpdateCurrLocation) => any = useDispatch();
+  const clickHandler = () => dispatchAction(changeCurrLocation(baseId));
+
+  return (
+    <span className="btn-icon" onClick={clickHandler}>
+      <BsHouseDoorFill />
+    </span>
   );
 };
 
 const AddressLocation: React.FC<AddressBarProps> = (props) => {
-  let parentChain: DataNode[] = useAppSelector((state) =>
-    state.bookmarks.getParentChain(state.displayState.currLocation)
-  );
+  let parentChain: DataNode[] = useAppSelector((state) => {
+    let loc = state.displayState.currLocation;
+    return loc ? state.bookmarks.getParentChain(loc) : [];
+  });
 
   return (
     <div id="address-bar-location">
       {parentChain.map((node: DataNode) => (
-        <span key={node.id}>
-          <span>{node.title}</span>
-          <span></span>
-        </span>
+        <AddressElement node={node} key={'addr-el-' + node.id} />
       ))}
-      <span className="btn-icon">
-        <BsHouseDoorFill />
-      </span>
+      <HomeButton />
     </div>
   );
 };
@@ -41,7 +54,7 @@ export const AddressBar: React.FC<AddressBarProps> = (props) => {
     <div id="address-bar">
       <AddressLocation {...props} />
       <span className="btn-icon">
-        <SearchButton />
+        <BsSearch id="search" />
       </span>
     </div>
   );

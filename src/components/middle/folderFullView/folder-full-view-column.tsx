@@ -10,6 +10,7 @@ const FolderFullViewColumn: React.FC<FolderColumnProps> = ({
   index,
   colCount
 }) => {
+  let showIcon = useAppSelector((state) => state.settings.showFolBkmIcons);
   let flowDir: FLOW_DIRECTION = useAppSelector(
     (state) => state.settings.flowDirection
   );
@@ -20,9 +21,9 @@ const FolderFullViewColumn: React.FC<FolderColumnProps> = ({
     <div className={className}>
       {nodes.map((node: DataNode) => {
         if (node.url) {
-          return <Bookmark key={node.id} node={node} />;
+          return <Bookmark key={node.id} node={node} showIcon={showIcon} />;
         } else {
-          return <Folder key={node.id} node={node} />;
+          return <Folder key={node.id} node={node} showIcon={showIcon} />;
         }
       })}
     </div>

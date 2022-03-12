@@ -1,17 +1,13 @@
 import {
   ChangeFlowDirectionAction,
-  FLOW_DIRECTION,
   Settings,
   SettingsActions,
   SETTINGS_ACTIONS_TYPES
 } from '@proj-types/types';
-
-const initialState: Settings = {
-  flowDirection: FLOW_DIRECTION.COLUMN
-};
+import { initialStateSettings } from '@redux/initial-states';
 
 export const settingsReducer = (
-  state = initialState,
+  state = initialStateSettings,
   action: SettingsActions
 ): Settings => {
   switch (action.type) {

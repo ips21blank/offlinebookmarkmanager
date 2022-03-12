@@ -5,6 +5,7 @@ import { DataNode } from '../browser-types';
  */
 interface NodeProps {
   node: DataNode;
+  showIcon: boolean;
 }
 
 interface FolderContentProps {

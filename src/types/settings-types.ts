@@ -1,5 +1,8 @@
 export interface Settings {
   flowDirection: FLOW_DIRECTION;
+  pins: string[];
+  homePin?: string;
+  showFolBkmIcons: boolean;
 }
 
 export enum FLOW_DIRECTION {

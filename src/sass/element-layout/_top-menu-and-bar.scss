@@ -3,14 +3,15 @@
 div#address-bar-location {
   padding-left: $gap-bw-search-and-buttons;
 }
-div#address-bar-buttons {
+div#address-bar {
   padding-right: $gap-bw-search-and-buttons;
   padding-left: 0.4rem;
 
-  button {
+  span.btn-icon {
     height: $address-bar-height;
     // border-radius: 1rem; border: 0;
     vertical-align: top;
+    // width: 2.5rem;
   }
 }
 
@@ -28,11 +29,11 @@ div#top-menu-buttons {
   }
 }
 
-div#address-bar-location {
-  span span:last-child::after {
-    content: '> ';
-  }
-  span:first-child span:last-child::after {
-    content: '';
-  }
-}
+// div#address-bar-location {
+//   span span:last-child::after {
+//     content: '> ';
+//   }
+//   span:first-child span:last-child::after {
+//     content: '';
+//   }
+// }

@@ -4,7 +4,13 @@ import { FolderFullView } from './folderFullView/folder-full-view';
 import { useAppSelector } from '@redux/redux';
 
 export const Content: React.FC<ContentProps> = (props) => {
-  let folders = useAppSelector((state) => state.displayState.currFolders);
+  let folders = useAppSelector((state) => {
+    let loc = state.displayState.currLocation;
+    if (state.bookmarks.baseNodeId === loc) {
+      return state.bookmarks.baseChildIds;
+    }
+    return (loc && [loc]) || [];
+  });
 
   return (
     <div id="content">

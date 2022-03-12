@@ -1,7 +1,7 @@
 @import '../constants/layout-constants';
 
 div.folder-view {
-  margin-bottom: 1rem;
+  margin-bottom: 3rem;
   padding: 0 $folder-full-view-lt-rt-padding;
 
   &.collapsed div.folder-view-content {

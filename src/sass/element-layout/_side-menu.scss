@@ -16,6 +16,7 @@ nav#side-menu {
       flex: 0 0 auto;
       height: $fix-btn-default-ht;
       padding: $fix-btn-pd;
+      cursor: pointer;
     }
   }
   span#pin-fol-tip {
@@ -38,6 +39,8 @@ nav#side-menu {
       flex: 0 0 auto;
       height: $pin-fol-ht;
       padding: $pin-fol-pd;
+      font-size: 1.2rem;
+      cursor: pointer;
 
       justify-content: space-between;
       span.pin-title {
@@ -49,8 +52,8 @@ nav#side-menu {
         display: none;
 
         svg {
-          height: 2em;
-          width: 2em;
+          height: 1.5em;
+          width: 1.5em;
         }
       }
       &:hover span.btn-icon {

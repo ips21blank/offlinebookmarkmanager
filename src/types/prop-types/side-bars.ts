@@ -1,6 +1,7 @@
+import { DataNode } from '@proj-types/browser-types';
+
 interface PinnedFolderProps {
-  title: string;
-  targetId: string;
+  node: DataNode;
   isHomeLoc?: boolean;
 }
 

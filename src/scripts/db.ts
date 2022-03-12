@@ -1,45 +1,41 @@
 import { DataNode } from '@proj-types/types';
-import { Children } from 'react';
 
 class DataBase {
   public bkms: Set<string>; // Ids of bookmarks.
   public fols: Set<string>; // Ids of folders.
   private _nodes: Map<string, DataNode>; // data objects for nodes.
-  private _baseNodeIds: Set<string>;
-  private _baseNodeList?: string[];
+  private _baseNodeId: string;
+  private _baseNode: DataNode;
+  private _baseChildIds: string[];
 
-  constructor(treeNodes: DataNode[]) {
+  constructor(treeNode: DataNode) {
     let bkms: string[] = [],
       fols: string[] = [],
       _nodes: [string, DataNode][] = [];
 
-    this._baseNodeIds = new Set<string>();
+    this._baseNode = treeNode;
+    this._baseNodeId = treeNode.id;
+    this._baseChildIds =
+      (treeNode.children && treeNode.children.map((ch) => ch.id)) || [];
 
     const addNode = (n: DataNode): void => {
       _nodes.push([n.id, n]);
       Boolean(n.url) ? bkms.push(n.id) : fols.push(n.id);
     };
 
-    let recurseNode = (node: DataNode): void => {
-      // Children only - ignores node itself.
+    let recurseNodeChildren = (node: DataNode): void => {
       if (!node.children?.length) return;
 
       let n: DataNode;
       for (let i = 0; i < node.children?.length; i++) {
         n = node.children[i];
         addNode(n);
-        n.children?.length ? recurseNode(n) : 1;
+        n.children?.length ? recurseNodeChildren(n) : 1;
       }
     };
 
-    for (let i = 0; i < treeNodes.length; i++) {
-      // adding base node data.
-      this._baseNodeIds.add(treeNodes[i].id);
-
-      // adding children
-      addNode(treeNodes[i]);
-      recurseNode(treeNodes[i]);
-    }
+    addNode(treeNode);
+    recurseNodeChildren(treeNode);
 
     this.bkms = new Set<string>(bkms); // Ids of bookmarks.
     this.fols = new Set<string>(fols); // Ids of folders.
@@ -104,13 +100,16 @@ class DataBase {
   // Public methods.
   // References are updated in methods add, rmv, mov, rnm, url
 
-  public isBaseNode(id: string): boolean {
-    return this._baseNodeIds.has(id);
+  public get baseNodeId(): string {
+    return this._baseNodeId;
   }
-  public getBaseNodes(): string[] {
-    return (
-      this._baseNodeList || (this._baseNodeList = Array.from(this._baseNodeIds))
-    );
+
+  public get baseNode(): DataNode {
+    return this._baseNode;
+  }
+
+  public get baseChildIds(): string[] {
+    return this._baseChildIds;
   }
 
   public get(id: string): DataNode | undefined {
@@ -190,7 +189,7 @@ class DataBase {
 
     let addParentNode = () => {
       let lastNode = chain[chain.length - 1];
-      if (this._baseNodeIds.has(lastNode.id) || !lastNode.parentId) {
+      if (this.baseNodeId === lastNode.id || !lastNode.parentId) {
         return false;
       } else {
         let temp = this.get(lastNode.parentId);

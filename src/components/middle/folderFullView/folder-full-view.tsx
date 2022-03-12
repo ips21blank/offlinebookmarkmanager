@@ -18,7 +18,7 @@ const FolderFullView: React.FC<FolderFullViewProps> = ({ nodeId }) => {
   if (!folder) {
     return <div className={currClass}></div>;
   }
-  let baseNodes = useAppSelector((state) => state.bookmarks.getBaseNodes());
+  let baseChildIds = useAppSelector((state) => state.bookmarks.baseChildIds);
 
   const expandCollapseFullViewFolder = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -43,7 +43,7 @@ const FolderFullView: React.FC<FolderFullViewProps> = ({ nodeId }) => {
           </span>
           <span>{folder.title}</span>
         </div>
-        {baseNodes.indexOf(nodeId) === -1 ? (
+        {baseChildIds.indexOf(nodeId) === -1 ? (
           <span className="btn-icon">
             <BsFillPencilFill className="edit-icon" />
           </span>

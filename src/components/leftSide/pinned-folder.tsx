@@ -1,19 +1,24 @@
-import { PinnedFolderProps } from '@proj-types/types';
+import { PinnedFolderProps, UpdateCurrLocation } from '@proj-types/types';
 import { useDispatch } from 'react-redux';
+import { changeCurrLocation } from '@redux/redux';
 import { BsX } from '@components/icons';
 
-const PinnedFolder: React.FC<PinnedFolderProps> = ({
-  title,
-  targetId,
-  isHomeLoc
-}) => {
+const PinnedFolder: React.FC<PinnedFolderProps> = ({ node, isHomeLoc }) => {
   let pinClass = `inline-el-no-wrap-center${isHomeLoc ? ' home-pin' : ''}`;
-  useDispatch;
+
+  const dispatchAction: (action: UpdateCurrLocation) => any = useDispatch();
+  const changeLocHandler = () => dispatchAction(changeCurrLocation(node.id));
+
+  const removePinHandler = (
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+  };
 
   return (
-    <p className={pinClass}>
-      <span className="pin-title">{title}asdfasdfasdf asdfasdfasdf</span>{' '}
-      <span className="btn-icon">
+    <p className={pinClass} onClick={changeLocHandler}>
+      <span className="pin-title">{node.title}</span>{' '}
+      <span className="btn-icon" onClick={removePinHandler}>
         <BsX />
       </span>
     </p>

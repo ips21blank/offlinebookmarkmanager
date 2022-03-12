@@ -1,5 +1,5 @@
 import { DataBase } from '@scripts/db';
-import { data } from '@scripts/test-data';
+import { initialStateDB } from '@redux/initial-states';
 import {
   BR_ACTIONS_TYPES as ACTIONS,
   BrowserAction,
@@ -7,14 +7,11 @@ import {
   NodeMoveAction,
   NodeChangeAction,
   NodesReorderedAction,
-  NodeCreateAction,
-  DataNode
+  NodeCreateAction
 } from '@proj-types/types';
 
-const initialState = new DataBase([data]);
-
 export const bkmReducer = (
-  state = initialState,
+  state = initialStateDB,
   action: BrowserAction
 ): DataBase => {
   switch (action.type) {
