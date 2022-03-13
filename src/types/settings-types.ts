@@ -5,7 +5,6 @@ export interface Settings {
   pins: string[];
   homePin?: string;
   showFolBkmIcons: boolean;
-  minRowsPerCol: number;
 }
 
 export enum FLOW_DIRECTION {

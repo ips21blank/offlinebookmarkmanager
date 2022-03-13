@@ -1,0 +1,22 @@
+@import '../constants/layout-constants';
+
+div#drag-details {
+  position: absolute;
+  bottom: 0.5rem;
+  right: $side-margin1;
+  z-index: 2000;
+
+  padding: 0 1rem;
+  height: 2rem;
+  white-space: nowrap;
+
+  font-style: italic;
+
+  span#drag-multiple-el {
+    border-radius: 1rem;
+    border: 1px solid black;
+    padding: 0 1rem;
+    height: 2rem;
+    font-style: normal;
+  }
+}

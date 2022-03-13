@@ -1,5 +1,12 @@
 import { ACTIONS } from './action-types';
 
+interface SelectionState {
+  folCount: number;
+  bkmCount: number;
+  folders: Set<string>;
+  bookmarks: Set<string>;
+}
+
 interface DisplayAction {
   type: ACTIONS;
   payload: any;
@@ -15,15 +22,22 @@ interface UpdateColumnCount extends DisplayAction {
   payload: { noOfColumns: number };
 }
 
+interface SelectDeselectNode extends DisplayAction {
+  type: ACTIONS.SELECT_DESELECT_NODE;
+  payload: { nodeId: string; isBkm: boolean; deselect: boolean };
+}
+
 interface DisplayState {
   rootLocation: string;
   currLocation: string;
   noOfColumns: number;
+  selection: SelectionState;
 }
 
 export type {
   DisplayAction,
   UpdateCurrLocation,
   UpdateColumnCount,
-  DisplayState
+  DisplayState,
+  SelectDeselectNode
 };

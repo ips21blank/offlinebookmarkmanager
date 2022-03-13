@@ -2,10 +2,7 @@
    v2.0 | 20110126
    License: none (public domain)
 */
-/**
-	The lines marked as added by user are changes made to the
-	original file.
-*/
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -25,7 +22,6 @@ time, mark, audio, video {
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
-	text-decoration: none; // added by user.
 	color: black;
 }
 /* HTML5 display-role reset for older browsers */
@@ -50,10 +46,4 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
-}
-
-
-// additional changes
-button{
-	padding:0; // added by user.
 }

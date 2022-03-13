@@ -23,8 +23,10 @@ div.folder-view {
       justify-content: flex-start;
 
       // actually contains the title
-      span {
+      span + span {
         margin-left: 0.5rem;
+        min-width: 15rem;
+        text-decoration: underline;
       }
     }
 

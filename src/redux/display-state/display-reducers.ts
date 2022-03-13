@@ -3,9 +3,11 @@ import {
   UpdateColumnCount,
   DisplayAction,
   DisplayState,
-  ACTIONS
+  ACTIONS,
+  SelectDeselectNode
 } from '@proj-types/types';
 import { initialStateDisp } from '@redux/initial-states';
+import { DragMgr } from '@scripts/drag-manager';
 
 function displayReducer(
   state: DisplayState = initialStateDisp,
@@ -30,6 +32,31 @@ function displayReducer(
       return payload.noOfColumns && payload.noOfColumns !== state.noOfColumns
         ? { ...state, noOfColumns: payload.noOfColumns }
         : state;
+    }
+
+    case ACTIONS.SELECT_DESELECT_NODE: {
+      let payload = (<SelectDeselectNode>action).payload;
+
+      let selectionSet: Set<string>, counter: string;
+      payload.isBkm
+        ? (selectionSet = state.selection.bookmarks)
+        : (selectionSet = state.selection.folders);
+
+      if (payload.deselect && selectionSet.delete(payload.nodeId)) {
+        payload.isBkm ? state.selection.bkmCount-- : state.selection.folCount--;
+        DragMgr.dec();
+      } else if (!selectionSet.has(payload.nodeId)) {
+        selectionSet.add(payload.nodeId);
+        payload.isBkm ? state.selection.bkmCount++ : state.selection.folCount++;
+        DragMgr.inc();
+      }
+
+      // The bookmarks or folders are supposed to keep track of whether they
+      // have been selected or not. The reference however is updated to update
+      // dragElement.
+      // This aspect of their state is not updated using store. Store is used
+      // to simply keep data to be used by different functions.
+      return { ...state };
     }
 
     default:

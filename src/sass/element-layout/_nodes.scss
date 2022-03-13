@@ -1,9 +1,16 @@
+@use 'sass:math';
+
 @import '../constants/layout-constants';
+@import '../constants/colors-constants';
 
 div.folder,
 div.bookmark {
   // .folder and .bookmark are just containers and don't
   // have any stylings such as borders.
+  &.being-dragged {
+    background-color: $dragged-fol-bkm-color;
+    cursor: crosshair;
+  }
 
   height: $node-height;
   padding-left: $node-padding-lt;
@@ -22,6 +29,33 @@ div.bookmark {
   & > a,
   & > span {
     height: $node-height;
+  }
+
+  .row-bef {
+    border-left: 4em solid black;
+  }
+  .row-bet {
+    border: 0.4em solid black;
+  }
+  .row-aft {
+    border-right: 4em solid black;
+  }
+  .col-bef {
+    border-top: math.div($node-height, 4.5) solid black;
+  }
+  .col-bet {
+    border: 0.3em solid black;
+  }
+  .col-aft {
+    border-bottom: math.div($node-height, 4.5) solid black;
+  }
+  .row-bef,
+  .row-bet,
+  .row-aft,
+  .col-bef,
+  .col-bet,
+  .col-aft {
+    transition: border-width 0.1s ease-in;
   }
 }
 

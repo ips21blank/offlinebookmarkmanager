@@ -24,7 +24,7 @@ const FolderFullViewColumns: React.FC<FolderColumnsProps> = ({ nodeId }) => {
       {colProps.map((prop) => (
         <FolderFullViewColumn
           {...prop}
-          key={`full-view-column-${nodeId}-${prop.index}`}
+          key={`full-view-column-${nodeId}-${prop.index}/${colCount}`}
         />
       ))}
     </div>

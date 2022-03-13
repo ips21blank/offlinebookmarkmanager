@@ -1,7 +1,8 @@
 import {
   UpdateCurrLocation,
   ACTIONS,
-  UpdateColumnCount
+  UpdateColumnCount,
+  SelectDeselectNode
 } from '@proj-types/types';
 
 function changeCurrLocation(newLocation: string): UpdateCurrLocation {
@@ -23,4 +24,15 @@ function updateColumnCount(noOfColumns: number): UpdateColumnCount {
   };
 }
 
-export { changeCurrLocation, updateColumnCount };
+function selectDeselectNode(
+  nodeId: string,
+  isBkm: boolean,
+  deselect: boolean
+): SelectDeselectNode {
+  return {
+    type: ACTIONS.SELECT_DESELECT_NODE,
+    payload: { nodeId, isBkm, deselect }
+  };
+}
+
+export { changeCurrLocation, updateColumnCount, selectDeselectNode };

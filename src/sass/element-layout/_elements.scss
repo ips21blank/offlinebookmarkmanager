@@ -2,6 +2,11 @@
 @import './top-menu-and-bar';
 @import './nodes';
 @import './side-menu';
+@import './drag_element';
+
+button {
+  padding: 0;
+}
 
 .inline-el-no-wrap-center {
   display: flex;

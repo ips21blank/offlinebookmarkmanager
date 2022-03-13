@@ -38,14 +38,19 @@ nav#side-menu {
     p {
       flex: 0 0 auto;
       height: $pin-fol-ht;
-      padding: $pin-fol-pd;
       font-size: 1.2rem;
       cursor: pointer;
 
       justify-content: space-between;
       span.pin-title {
+        height: $pin-fol-ht;
+        padding: $pin-fol-pd;
         overflow: hidden;
         flex: 1 1 auto;
+      }
+
+      span.pin-title:active + span.btn-icon {
+        display: none;
       }
       span.btn-icon {
         flex: 0 0 auto;

@@ -1,3 +1,4 @@
+import { FLOW_DIRECTION } from '@proj-types/settings-types';
 import { DataNode } from '../browser-types';
 
 /**
@@ -6,6 +7,9 @@ import { DataNode } from '../browser-types';
 interface NodeProps {
   node: DataNode;
   showIcon: boolean;
+  direction: FLOW_DIRECTION;
+  colIndex: number;
+  colCount: number;
 }
 
 interface FolderContentProps {

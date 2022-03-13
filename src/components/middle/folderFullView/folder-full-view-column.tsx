@@ -11,26 +11,27 @@ const FolderFullViewColumn: React.FC<FolderColumnProps> = ({
   colCount
 }) => {
   let showIcon = useAppSelector((state) => state.settings.showFolBkmIcons);
-  let [flowDir, minRowsPerCol]: [FLOW_DIRECTION, number] = useAppSelector(
-    (state) => [state.settings.flowDirection, state.settings.minRowsPerCol]
-  );
+  let flowDir = useAppSelector((state) => state.settings.flowDirection);
   let className: string = `folder-view-column col-1-${colCount}`;
-  nodes = Utilities.getNodeListForFol(
-    flowDir,
-    nodes,
-    index,
-    colCount,
-    minRowsPerCol
-  );
+  nodes = Utilities.getNodeListForFol(flowDir, nodes, index, colCount);
 
   return (
     <div className={className}>
       {nodes.map((node: DataNode) => {
-        if (node.url) {
-          return <Bookmark key={node.id} node={node} showIcon={showIcon} />;
-        } else {
-          return <Folder key={node.id} node={node} showIcon={showIcon} />;
-        }
+        let nodeProps = {
+          node: node,
+          showIcon: showIcon,
+          direction: flowDir,
+          key: `node-${node.id}`,
+          colIndex: index,
+          colCount: colCount
+        };
+
+        return node.url ? (
+          <Bookmark {...nodeProps} />
+        ) : (
+          <Folder {...nodeProps} />
+        );
       })}
     </div>
   );
