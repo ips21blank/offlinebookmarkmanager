@@ -17,9 +17,7 @@ const PinnedFolder: React.FC<PinnedFolderProps> = ({ node, isHomeLoc }) => {
 
   return (
     <p className={pinClass} onClick={changeLocHandler}>
-      <span className="inline-el-no-wrap-center pin-title" draggable={true}>
-        {node.title}
-      </span>{' '}
+      <span className="inline-el-no-wrap-center pin-title">{node.title}</span>{' '}
       <span className="btn-icon" onClick={removePinHandler}>
         <BsX />
       </span>

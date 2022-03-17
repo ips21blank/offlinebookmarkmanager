@@ -42,7 +42,7 @@ class DragMgr {
   // EVENTS
 
   public static onDragStart(
-    event: React.DragEvent<HTMLElement>,
+    event: DragEvent,
     id: string,
     elType: DRAGTYPE,
     currEl: HTMLElement | null
@@ -67,19 +67,21 @@ class DragMgr {
 
     // When dragging multiple nodes.
     let dragEl = document.getElementById('drag-multiple-el');
-    dragEl && event.dataTransfer.setDragImage(dragEl, 0, 0);
+    dragEl &&
+      event.dataTransfer &&
+      event.dataTransfer.setDragImage(dragEl, 0, 0);
   }
 
   public static onDragoverNode(
-    event: React.DragEvent<HTMLElement>,
+    event: DragEvent,
     direction: FLOW_DIRECTION,
-    currEl: HTMLElement | null,
     node: DataNode,
     colIndex: number,
     colCount: number
   ) {
     event.stopPropagation();
-    DragMgr._dragOverTime = new Date().getTime();
+    let currEl = event.target as HTMLElement;
+
     if (currEl && DragMgr._draggedElId === currEl.id) {
       DragMgr._cleanExistingClasses();
       return;
@@ -90,7 +92,6 @@ class DragMgr {
       // prev and next elements may not exist.
       return;
     }
-    currEl.classList.add('marked');
 
     let region = DragMgr._getDragReg(
       event,
@@ -197,7 +198,7 @@ class DragMgr {
   }
 
   private static _getDragReg(
-    event: React.DragEvent<HTMLElement>,
+    event: DragEvent,
     rect: DOMRect,
     direction: FLOW_DIRECTION,
     isAnchorEl: boolean
@@ -248,21 +249,23 @@ class DragMgr {
     }
   }
 
-  public static onDrop(e: React.DragEvent<HTMLElement>) {
+  public static onDrop(e: DragEvent) {
     e.stopPropagation();
     DragMgr._cleanExistingClasses();
   }
   public static onDragEnd(
-    e: React.DragEvent<HTMLElement>,
-    currEl: HTMLElement | null
+    e: DragEvent
+    // currEl: HTMLElement | null
   ) {
     e.stopPropagation();
+
+    let currEl = e.target as HTMLElement;
     currEl &&
       currEl.parentElement &&
       currEl.parentElement.classList.remove('being-dragged');
     DragMgr._cleanExistingClasses();
   }
-  public static onDragLeave(e: React.DragEvent<HTMLElement>) {
+  public static onDragLeave(e: DragEvent) {
     e.stopPropagation();
     let dragLeaveTime = new Date().getTime();
 

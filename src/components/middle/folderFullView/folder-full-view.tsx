@@ -7,17 +7,12 @@ import {
   BsCaretDownFill,
   BsFillPencilFill
 } from '@components/icons';
-import { DRAGTYPE } from '@scripts/globals';
-import { DragMgr } from '@scripts/drag-manager';
 
 const FolderTitle: React.FC<any> = ({ title, nodeId }) => {
   let ref = useRef<HTMLElement>(null);
 
   let titleProps = {
-    ref: ref,
-    draggable: true,
-    onDragStart: (e: React.DragEvent<HTMLElement>) =>
-      DragMgr.onDragStart(e, nodeId, DRAGTYPE.FULL_VIEW_HEADING, ref.current)
+    ref: ref
   };
 
   return <span {...titleProps}>{title}</span>;

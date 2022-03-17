@@ -1,9 +1,8 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { NodeProps } from '@proj-types/types';
 import { getBkmIconSrc } from '@scripts/browser';
 import { BsLink45Deg } from '@components/icons';
-import { DRAGTYPE } from '@scripts/globals';
-import { DragMgr } from '@scripts/drag-manager';
+import { DragEventHandlers } from '@scripts/drag-handlers';
 
 const Bookmark: React.FC<NodeProps> = ({
   node,
@@ -25,31 +24,16 @@ const Bookmark: React.FC<NodeProps> = ({
     ref: ref,
     href: node.url,
     className: 'inline-el-no-wrap-center',
-    id: node.id,
-    draggable: true,
-    onDragStart: (e: React.DragEvent<HTMLAnchorElement>) =>
-      DragMgr.onDragStart(e, node.id, DRAGTYPE.BKM, ref.current),
-    onDragEnd: (e: React.DragEvent<HTMLAnchorElement>) => {
-      DragMgr.onDragEnd(e, ref.current);
-    }
+    id: node.id
   };
 
+  useEffect(() => {
+    DragEventHandlers.removeEventsFromNode(node.id);
+    DragEventHandlers.addEventsToNode(node, direction, colIndex, colCount);
+  }, [node, colIndex, colCount]);
+
   return (
-    <div
-      className="bookmark"
-      onDragOver={(e: React.DragEvent<HTMLElement>) =>
-        DragMgr.onDragoverNode(
-          e,
-          direction,
-          ref.current,
-          node,
-          colIndex,
-          colCount
-        )
-      }
-      onDrop={DragMgr.onDrop}
-      onDragLeave={DragMgr.onDragLeave}
-    >
+    <div className="bookmark">
       <a {...bkmLinkProps}>
         {img}
         {node.title || node.url}

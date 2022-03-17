@@ -4,12 +4,11 @@ import {
   FolderContentProps,
   NodeProps
 } from '@proj-types/types';
-import { Dispatch, SetStateAction, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { Bookmark } from './bookmark';
 import { BsFolder } from '@components/icons';
 import { useAppSelector } from '@redux/hooks';
-import { DRAGTYPE } from '@scripts/globals';
-import { DragMgr } from '@scripts/drag-manager';
+import { DragEventHandlers } from '@scripts/drag-handlers';
 
 const states = {
   EXP: 'expanded',
@@ -70,13 +69,7 @@ const Folder: React.FC<NodeProps> = ({
     ref: ref,
     className: 'inline-el-no-wrap-center',
     id: node.id,
-    onClick: expandColSubFol,
-    draggable: true,
-    onDragStart: (e: React.DragEvent<HTMLElement>) =>
-      DragMgr.onDragStart(e, node.id, DRAGTYPE.FOL, ref.current),
-    onDragEnd: (e: React.DragEvent<HTMLAnchorElement>) => {
-      DragMgr.onDragEnd(e, ref.current);
-    }
+    onClick: expandColSubFol
   };
 
   let icon = showIcon ? (
@@ -87,22 +80,13 @@ const Folder: React.FC<NodeProps> = ({
     <></>
   );
 
+  useEffect(() => {
+    DragEventHandlers.removeEventsFromNode(node.id);
+    DragEventHandlers.addEventsToNode(node, direction, colIndex, colCount);
+  }, [node, colIndex, colCount]);
+
   return (
-    <div
-      className={'folder ' + expColClass}
-      onDragOver={(e: React.DragEvent<HTMLElement>) =>
-        DragMgr.onDragoverNode(
-          e,
-          direction,
-          ref.current,
-          node,
-          colIndex,
-          colCount
-        )
-      }
-      onDrop={DragMgr.onDrop}
-      onDragLeave={DragMgr.onDragLeave}
-    >
+    <div className={'folder ' + expColClass}>
       <span {...folderProps}>
         {/* Because of performance issues there is an option for following. */}
         {icon}
