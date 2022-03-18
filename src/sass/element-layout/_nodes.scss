@@ -4,19 +4,16 @@
 @import '../constants/colors-constants';
 
 div.folder,
-div.bookmark {
-  // .folder and .bookmark are just containers and don't
-  // have any stylings such as borders.
+a.bookmark {
+  // .folder is just a container and deosn't have any stylings.
   &.being-dragged {
     background-color: $dragged-fol-bkm-color;
-    cursor: crosshair;
   }
 
   height: $node-height;
   padding-left: $node-padding-lt;
   padding-right: $node-padding-rt;
   display: flex;
-  flex-flow: column nowrap;
   //   align-items: center;
   justify-content: stretch;
 
@@ -26,40 +23,14 @@ div.bookmark {
     overflow: hidden;
   }
 
-  & > a,
   & > span {
     height: $node-height;
-  }
-
-  .row-bef {
-    border-left: 4em solid black;
-  }
-  .row-bet {
-    border: 0.4em solid black;
-  }
-  .row-aft {
-    border-right: 4em solid black;
-  }
-  .col-bef {
-    border-top: math.div($node-height, 4.5) solid black;
-  }
-  .col-bet {
-    border: 0.3em solid black;
-  }
-  .col-aft {
-    border-bottom: math.div($node-height, 4.5) solid black;
-  }
-  .row-bef,
-  .row-bet,
-  .row-aft,
-  .col-bef,
-  .col-bet,
-  .col-aft {
-    transition: border-width 0.1s ease-in;
   }
 }
 
 div.folder {
+  flex-flow: column nowrap;
+
   &.expanded {
     height: auto;
   }
@@ -90,7 +61,9 @@ div.folder {
   }
 }
 
-div.bookmark {
+a.bookmark {
+  overflow: hidden;
+  margin-left: $node-padding-lt;
   img {
     object-fit: contain;
 
@@ -102,7 +75,50 @@ div.bookmark {
     flex: 0 0 auto;
     // pointer-events: none; // done in main file.
     max-height: 1.5rem;
-    margin: 0 $bookmark-icon-margin-sides;
+    margin: 0 $bookmark-icon-margin-sides 0 0;
     flex: 0 0 auto;
+  }
+}
+
+// Drag over classes.
+div.folder,
+a.bookmark {
+  .row-bef,
+  &.row-bef {
+    border-left: 4em solid black;
+  }
+  .row-bet,
+  &.row-bet {
+    border: 0.4em solid black;
+  }
+  .row-aft,
+  &.row-aft {
+    border-right: 4em solid black;
+  }
+  .col-bef,
+  &.col-bef {
+    border-top: math.div($node-height, 4.5) solid black;
+  }
+  .col-bet,
+  &.col-bet {
+    border: 0.3em solid black;
+  }
+  .col-aft,
+  &.col-aft {
+    border-bottom: math.div($node-height, 4.5) solid black;
+  }
+  .row-bef,
+  &.row-bef,
+  .row-bet,
+  &.row-bet,
+  .row-aft,
+  &.row-aft,
+  .col-bef,
+  &.col-bef,
+  .col-bet,
+  &.col-bet,
+  .col-aft,
+  &.col-aft {
+    transition: border-width 0.1s ease-in;
   }
 }

@@ -6,7 +6,7 @@ const GLOBAL_SETTINGS = {
   dragMarginsPercentMin: 0.25,
   dragMarginsPercentMax: 0.75,
   minRowsPerCol: 5, // for row direction display.
-  dragSwitchThreshold: 100,
+  dragSwitchThreshold: 50,
   dragOverThreshold: 50
 };
 

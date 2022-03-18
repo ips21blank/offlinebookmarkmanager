@@ -23,7 +23,7 @@ const Bookmark: React.FC<NodeProps> = ({
   let bkmLinkProps = {
     ref: ref,
     href: node.url,
-    className: 'inline-el-no-wrap-center',
+    className: 'inline-el-no-wrap-center bookmark',
     id: node.id
   };
 
@@ -33,12 +33,10 @@ const Bookmark: React.FC<NodeProps> = ({
   }, [node, colIndex, colCount]);
 
   return (
-    <div className="bookmark">
-      <a {...bkmLinkProps}>
-        {img}
-        {node.title || node.url}
-      </a>
-    </div>
+    <a {...bkmLinkProps}>
+      {img}
+      {node.title || node.url}
+    </a>
   );
 };
 

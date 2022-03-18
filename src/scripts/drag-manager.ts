@@ -52,9 +52,10 @@ class DragMgr {
     DragMgr._draggedElId = id;
     DragMgr._draggedElType = elType;
 
-    currEl &&
-      currEl.parentElement &&
-      currEl.parentElement.classList.add('being-dragged');
+    DragMgr._addBeingDragged(currEl);
+    // currEl &&
+    //   currEl.parentElement &&
+    //   currEl.parentElement.classList.add('being-dragged');
 
     // When dragging pins or titles or when a single node is being dragged.
     if (
@@ -170,7 +171,8 @@ class DragMgr {
           let el = document.getElementById(prevNode.id);
           if (el) {
             let prevClass = getRegClass(DRAG_REG.AFT, direction);
-            el.classList.add(prevClass);
+            DragMgr._addClassToEl(el, prevClass);
+            // el.classList.add(prevClass);
             exceptionData[prevClass] = el.id;
           }
         }
@@ -185,7 +187,8 @@ class DragMgr {
           let el = document.getElementById(nextNode.id);
           if (el) {
             let nextClass = getRegClass(DRAG_REG.BEF, direction);
-            el.classList.add(nextClass);
+            DragMgr._addClassToEl(el, nextClass);
+            // el.classList.add(nextClass);
             exceptionData[nextClass] = el.id;
           }
         }
@@ -194,7 +197,14 @@ class DragMgr {
     DragMgr._cleanExistingClasses(exceptionData);
   }
   private static _addClassToEl(el: HTMLElement, className: string) {
-    !el.classList.contains(className) && el.classList.add(className);
+    el.classList.add(className);
+  }
+  private static _addBeingDragged(el: HTMLElement | null) {
+    if (!el) return;
+
+    el.tagName.toLowerCase() === 'a'
+      ? el.classList.add('being-dragged')
+      : el.parentElement && el.parentElement?.classList.add('being-dragged');
   }
 
   private static _getDragReg(
@@ -259,10 +269,9 @@ class DragMgr {
   ) {
     e.stopPropagation();
 
-    let currEl = e.target as HTMLElement;
-    currEl &&
-      currEl.parentElement &&
-      currEl.parentElement.classList.remove('being-dragged');
+    let elList = document.getElementsByClassName('being-dragged');
+    while (elList.length) elList[0].classList.remove('being-dragged');
+
     DragMgr._cleanExistingClasses();
   }
   public static onDragLeave(e: DragEvent) {
