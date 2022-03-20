@@ -6,7 +6,7 @@ const FolderFullViewColumns: React.FC<FolderColumnsProps> = ({ nodeId }) => {
   // This component should be re-rendered if either of the following 2 changes.
   let colCount = useAppSelector((state) => state.displayState.noOfColumns);
   let nodes = useAppSelector((state) => {
-    let fol = state.bookmarks.get(nodeId);
+    let fol = state.bookmarks.db.get(nodeId);
     return fol && fol.children ? fol.children : [];
   });
 

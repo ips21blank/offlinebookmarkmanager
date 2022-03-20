@@ -22,7 +22,7 @@ const AddressElement: React.FC<{ node: DataNode }> = ({ node }) => {
 };
 
 const HomeButton: React.FC<any> = (props) => {
-  let baseId = useAppSelector((store) => store.bookmarks.baseNodeId);
+  let baseId = useAppSelector((store) => store.bookmarks.db.baseNodeId);
   const dispatchAction: (action: UpdateCurrLocation) => any = useDispatch();
   const clickHandler = () => dispatchAction(changeCurrLocation(baseId));
 
@@ -36,7 +36,7 @@ const HomeButton: React.FC<any> = (props) => {
 const AddressLocation: React.FC<AddressBarProps> = (props) => {
   let parentChain: DataNode[] = useAppSelector((state) => {
     let loc = state.displayState.currLocation;
-    return loc ? state.bookmarks.getParentChain(loc) : [];
+    return loc ? state.bookmarks.db.getParentChain(loc) : [];
   });
 
   return (

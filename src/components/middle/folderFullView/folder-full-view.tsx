@@ -24,11 +24,11 @@ const FolderFullView: React.FC<FolderFullViewProps> = ({ nodeId }) => {
 
   let [currClass, setCurrClass] = useState(classExp);
 
-  let folder = useAppSelector((state) => state.bookmarks.get(nodeId));
+  let folder = useAppSelector((state) => state.bookmarks.db.get(nodeId));
   if (!folder) {
     return <div className={currClass}></div>;
   }
-  let baseChildIds = useAppSelector((state) => state.bookmarks.baseChildIds);
+  let baseChildIds = useAppSelector((state) => state.bookmarks.db.baseChildIds);
 
   const expandCollapseFullViewFolder = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>

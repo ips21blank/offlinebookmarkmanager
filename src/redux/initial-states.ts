@@ -4,10 +4,9 @@ import { DisplayState, FLOW_DIRECTION, Settings } from '@proj-types/types';
 
 const ROOT_LOC = '0';
 
-const initialStateDB = new DataBase(data);
-const getNodeById = (id: string) => {
-  return initialStateDB.get(id);
-};
+const initialStateBkm = { db: new DataBase(data) };
+const getNodeById = (id: string) => initialStateBkm.db.get(id);
+const getParentChain = (id: string) => initialStateBkm.db.getParentChain(id);
 
 const initialStateDisp: DisplayState = {
   rootLocation: ROOT_LOC,
@@ -31,9 +30,11 @@ const initialStateSettings: Settings = {
 };
 
 export {
-  initialStateDB,
+  ROOT_LOC,
+  initialStateBkm,
   initialStateDisp,
   initialStateSettings,
   getNodeById,
+  getParentChain,
   getCount
 };

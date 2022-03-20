@@ -1,3 +1,4 @@
+import { DataBase } from '@scripts/db';
 import { ACTIONS } from './action-types';
 
 interface SelectionState {
@@ -34,10 +35,15 @@ interface DisplayState {
   selection: SelectionState;
 }
 
+interface BookmarkState {
+  db: DataBase;
+}
+
 export type {
   DisplayAction,
   UpdateCurrLocation,
   UpdateColumnCount,
   DisplayState,
-  SelectDeselectNode
+  SelectDeselectNode,
+  BookmarkState
 };

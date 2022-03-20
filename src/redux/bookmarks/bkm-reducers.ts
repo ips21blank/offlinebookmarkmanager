@@ -1,5 +1,4 @@
-import { DataBase } from '@scripts/db';
-import { initialStateDB } from '@redux/initial-states';
+import { initialStateBkm } from '@redux/initial-states';
 import {
   ACTIONS,
   BrowserAction,
@@ -7,37 +6,46 @@ import {
   NodeMoveAction,
   NodeChangeAction,
   NodesReorderedAction,
-  NodeCreateAction
+  NodeCreateAction,
+  BookmarkState
 } from '@proj-types/types';
 
 export const bkmReducer = (
-  state = initialStateDB,
+  state = initialStateBkm,
   action: BrowserAction
-): DataBase => {
+): BookmarkState => {
   switch (action.type) {
     case ACTIONS.REMOVE: {
       let payload = (<NodeRemoveAction>action).payload;
-      return state.rmv(payload.id);
+      state.db.rmv(payload.id);
+
+      return { ...state };
     }
     case ACTIONS.MOVE: {
       let payload = (<NodeMoveAction>action).payload;
-      return state.mov(payload.id, payload.newParentId, payload.index);
+      state.db.mov(payload.id, payload.newParentId, payload.index);
+
+      return { ...state };
     }
     case ACTIONS.CHANGE: {
       let payload = (<NodeChangeAction>action).payload;
 
-      payload.url && state.url(payload.id, payload.url);
-      payload.title && state.url(payload.id, payload.title);
+      payload.url && state.db.url(payload.id, payload.url);
+      payload.title && state.db.url(payload.id, payload.title);
 
-      return state;
+      return { ...state };
     }
     case ACTIONS.REORDER: {
       let payload = (<NodesReorderedAction>action).payload;
-      return state.reorder(payload.id, payload.childIds);
+      state.db.reorder(payload.id, payload.childIds);
+
+      return { ...state };
     }
     case ACTIONS.CREATE: {
       let payload = (<NodeCreateAction>action).payload;
-      return state.add(payload.node);
+      state.db.add(payload.node);
+
+      return { ...state };
     }
     default:
       return state;

@@ -25,12 +25,18 @@ const movNode = (
 
 const changeNode = (
   id: string,
-  url: string,
-  title: string
+  changeInfo: {
+    url?: string;
+    title?: string;
+  }
 ): NodeChangeAction => {
   return {
     type: ACTIONS.CHANGE,
-    payload: { id, url, title }
+    payload: {
+      id,
+      url: changeInfo.url || undefined,
+      title: changeInfo.title || undefined
+    }
   };
 };
 

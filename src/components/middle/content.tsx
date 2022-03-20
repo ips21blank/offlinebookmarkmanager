@@ -7,8 +7,8 @@ import { useAppSelector } from '@redux/redux';
 export const Content: React.FC<ContentProps> = (props) => {
   let folders = useAppSelector((state) => {
     let loc = state.displayState.currLocation;
-    if (state.bookmarks.baseNodeId === loc) {
-      return state.bookmarks.baseChildIds;
+    if (state.bookmarks.db.baseNodeId === loc) {
+      return state.bookmarks.db.baseChildIds;
     }
     return (loc && [loc]) || [];
   });

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { NodeProps } from '@proj-types/types';
-import { getBkmIconSrc } from '@scripts/browser';
+import { browserAPI } from '@scripts/browser-api';
 import { BsLink45Deg } from '@components/icons';
 import { DragEventHandlers } from '@scripts/drag-handlers';
 
@@ -16,7 +16,10 @@ const Bookmark: React.FC<NodeProps> = ({
     err && showIcon ? (
       <BsLink45Deg />
     ) : (
-      <img src={getBkmIconSrc(node.url)} onError={() => setErr(true)} />
+      <img
+        src={browserAPI.getBkmIconSrc(node.url)}
+        onError={() => setErr(true)}
+      />
     );
 
   let ref = useRef<HTMLAnchorElement>(null);

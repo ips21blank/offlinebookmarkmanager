@@ -6,7 +6,7 @@ import { useAppSelector } from '@redux/hooks';
 type P = { props: PinnedFolderProps; key: string };
 
 export const SideMenu: React.FC<SideMenuProps> = (props) => {
-  let db = useAppSelector((state) => state.bookmarks);
+  let db = useAppSelector((state) => state.bookmarks.db);
   let homePin: string = useAppSelector((state) => state.settings.homePin || '');
 
   let pinTargets: string[] = useAppSelector((state) => state.settings.pins);

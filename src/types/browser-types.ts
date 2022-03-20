@@ -36,7 +36,7 @@ export type NodeMovedEvHandler = (id: string, moveInfo: _MvInfo) => void;
 // chrome.bookmarks.onChanged.addListener;
 export interface NodeChangeAction extends BrowserAction {
   type: ACTIONS.CHANGE;
-  payload: { id: string; url: string; title: string };
+  payload: { id: string; url: string | undefined; title: string | undefined };
 }
 export type NodeChangedEvHandler = (id: string, changeInfo: _ChInfo) => void;
 
