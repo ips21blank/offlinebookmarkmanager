@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { NodeProps } from '@proj-types/types';
-import { browserAPI } from '@scripts/browser-api';
+import { browserAPI } from '@scripts/browser/browser-api';
 import { BsLink45Deg } from '@components/icons';
 import { DragEventHandlers } from '@scripts/drag-handlers';
 

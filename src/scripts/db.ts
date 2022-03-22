@@ -92,7 +92,8 @@ class DataBase {
     }
 
     if (i < n) {
-      p.children = [...p.children.splice(i, 1)]; // To update reference.
+      p.children.splice(i, 1);
+      p.children = [...p.children]; // To update reference.
       this._shiftChildIndices(p.children, i, -1);
     }
   }
@@ -175,7 +176,9 @@ class DataBase {
     let node = this.get(id);
     if (node && Boolean(node.url)) {
       node.url = url;
-      this._add({ ...node }); // To update the reference
+      // this._add({ ...node });
+      let parent = this.get(<string>node.parentId);
+      parent && this._add({ ...parent }); // To update the reference
     }
 
     return this;

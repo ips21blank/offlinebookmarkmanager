@@ -1,5 +1,3 @@
-import { store } from '@redux/store';
-
 import { DataNode, FLOW_DIRECTION } from '@proj-types/types';
 import { DragMgr } from './drag-manager';
 import { DRAGTYPE } from './globals';
@@ -53,9 +51,9 @@ class DragHandlers {
     el.addEventListener('dragend', DragMgr.onDragEnd);
 
     //
-    el.parentElement.addEventListener('dragover', DragHandlers.dragoverNode);
-    el.parentElement.addEventListener('drop', DragMgr.onDrop);
-    el.parentElement.addEventListener('dragleave', DragMgr.onDragLeave);
+    el.addEventListener('dragover', DragHandlers.dragoverNode);
+    el.addEventListener('drop', DragMgr.onDrop);
+    el.addEventListener('dragleave', DragMgr.onDragLeave);
   }
 
   public static removeEventsFromNode(nodeId: string) {
@@ -64,13 +62,13 @@ class DragHandlers {
 
     delete DragHandlers.data[nodeId];
 
-    el.removeEventListener('dragover', DragHandlers.dragoverNode);
-    el.parentElement.addEventListener('drop', DragMgr.onDrop);
-    el.parentElement.addEventListener('dragleave', DragMgr.onDragLeave);
+    el.removeEventListener('dragstart', DragHandlers.dragStartNode);
+    el.removeEventListener('dragend', DragMgr.onDragEnd);
 
     //
-    el.addEventListener('dragstart', DragHandlers.dragStartNode);
-    el.addEventListener('dragend', DragMgr.onDragEnd);
+    el.removeEventListener('dragover', DragHandlers.dragoverNode);
+    el.removeEventListener('drop', DragMgr.onDrop);
+    el.removeEventListener('dragleave', DragMgr.onDragLeave);
   }
 }
 

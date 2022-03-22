@@ -59,26 +59,26 @@ const addListenersToBrowser = () => {
   );
 
   // browserEventsAPI.chReord;
-  browserEventsAPI.chReord(
-    (id: string, reorderInfo: { childIds: string[] }) => {
-      store.dispatch(reorderNode(id, reorderInfo.childIds));
-    }
-  );
+  // browserEventsAPI.chReord(
+  //   (id: string, reorderInfo: { childIds: string[] }) => {
+  //     store.dispatch(reorderNode(id, reorderInfo.childIds));
+  //   }
+  // );
 
   // browserEventsAPI.impEnd;
   // browserEventsAPI.impEnd(() => {});
 
   // browserEventsAPI.store;
-  browserEventsAPI.store(
-    (
-      changes: {
-        [key: string]: { newValue?: any; oldValue?: any };
-      },
-      areaName: 'sync' | 'local' | 'managed'
-    ) => {
-      throw new Error('Listner for browser store event not implemented yet.');
-    }
-  );
+  // browserEventsAPI.store(
+  //   (
+  //     changes: {
+  //       [key: string]: { newValue?: any; oldValue?: any };
+  //     },
+  //     areaName: 'sync' | 'local' | 'managed'
+  //   ) => {
+  //     throw new Error('Listner for browser store event not implemented yet.');
+  //   }
+  // );
 };
 
 export { addListenersToBrowser };
