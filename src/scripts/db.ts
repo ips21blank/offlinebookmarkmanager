@@ -68,14 +68,13 @@ class DataBase {
     if (!p || !p.children || !child) return;
 
     let index: number | undefined = child.index;
+    p.children = [...p.children]; // To update reference.
 
     if ((index && index < p.children.length) || index == 0) {
       p.children.splice(index, 0, child);
     } else {
       child.index = p.children.length;
       p.children.push(child);
-
-      p.children = [...p.children]; // To update reference.
       return;
     }
 
@@ -85,13 +84,9 @@ class DataBase {
     let p = this.get(parentId);
     if (!p || !p.children) return;
 
-    let i = 0,
-      n = p.children.length;
-    for (i = 0; i < n; i++) {
-      if (p.children[i].id == childId) break;
-    }
+    let i = p.children.findIndex((ch) => ch.id === childId);
 
-    if (i < n) {
+    if (i !== -1) {
       p.children.splice(i, 1);
       p.children = [...p.children]; // To update reference.
       this._shiftChildIndices(p.children, i, -1);
@@ -152,9 +147,17 @@ class DataBase {
     let node = this.get(id);
     if (!node) return this;
 
+    if (index && newParentId === node.parentId) {
+      let currPar = this.get(node.parentId) as DataNode;
+      let i = (currPar.children as DataNode[]).findIndex((ch) => ch.id === id);
+
+      index = index > i ? index - 1 : index;
+    }
+
     if (node.parentId) this._rmvChildFromChildrenArr(node.id, node.parentId);
 
-    if (index || index === 0) node.index = index;
+    node.index = index || index === 0 ? index : Infinity;
+    // Following function again sets the index if its too large.
     this._addChildToChildrenArr(node, newParentId);
     node.parentId = newParentId;
 

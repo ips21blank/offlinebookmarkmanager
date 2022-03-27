@@ -1,4 +1,5 @@
-import { FLOW_DIRECTION } from '@proj-types/settings-types';
+import { FLOW_DIRECTION, SelectionState } from '@proj-types/types';
+import { Selection } from './selection';
 
 const GLOBAL_SETTINGS = {
   // CHANGES TO FOLLOWING WOULD REQUIRE RELOADS.
@@ -6,8 +7,8 @@ const GLOBAL_SETTINGS = {
   dragMarginsPercentMin: 0.25,
   dragMarginsPercentMax: 0.75,
   minRowsPerCol: 5, // for row direction display.
-  dragSwitchThreshold: 50,
-  dragOverThreshold: 50
+  dragSwitchThreshold: 10,
+  dragOverThreshold: 10
 };
 
 enum DRAGTYPE {
@@ -60,11 +61,16 @@ const getRegClass = (reg: DRAG_REG, direction: FLOW_DIRECTION) => {
   return className;
 };
 
+const SELECTION: SelectionState = new Selection();
+const SELECT_CLASS = 'selected';
+
 export {
   GLOBAL_SETTINGS,
   DRAGTYPE,
   DROPTYPE,
   DRAG_REG,
   REG_CLASSES,
+  SELECTION,
+  SELECT_CLASS,
   getRegClass
 };

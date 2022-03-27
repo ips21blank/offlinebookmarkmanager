@@ -4,18 +4,22 @@ import { FolderFullViewColumn } from './folder-full-view-column';
 
 const FolderFullViewColumns: React.FC<FolderColumnsProps> = ({ nodeId }) => {
   // This component should be re-rendered if either of the following 2 changes.
-  let colCount = useAppSelector((state) => state.displayState.noOfColumns);
+  let [colCount, dispMode] = useAppSelector((state) => [
+    state.displayState.noOfColumns,
+    state.displayState.mode
+  ]);
   let nodes = useAppSelector((state) => {
     let fol = state.bookmarks.db.get(nodeId);
     return fol && fol.children ? fol.children : [];
   });
 
   let colProps: FolderColumnProps[] = [];
-  for (let index = 1; index <= colCount; index++) {
+  for (let colIndex = 1; colIndex <= colCount; colIndex++) {
     colProps.push({
       nodes,
       colCount,
-      index
+      colIndex,
+      dispMode
     });
   }
 
@@ -24,7 +28,7 @@ const FolderFullViewColumns: React.FC<FolderColumnsProps> = ({ nodeId }) => {
       {colProps.map((prop) => (
         <FolderFullViewColumn
           {...prop}
-          key={`full-view-column-${nodeId}-${prop.index}/${colCount}`}
+          key={`full-view-column-${nodeId}-${prop.colIndex}/${colCount}`}
         />
       ))}
     </div>

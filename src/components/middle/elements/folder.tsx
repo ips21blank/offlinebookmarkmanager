@@ -1,5 +1,6 @@
 import {
   DataNode,
+  DISP_MODES,
   FLOW_DIRECTION,
   FolderContentProps,
   NodeProps
@@ -17,22 +18,28 @@ const states = {
 
 const FolderContent: React.FC<FolderContentProps> = ({
   children,
-  initialized
+  initialized,
+  dispMode
 }) => {
   // Does not cause performance issues that much, becuase the hook is used
   // in folder-content containers. Not in nodes (folders and bookmarks).
   let showIcon = useAppSelector((state) => state.settings.showFolBkmIcons);
   const mapChildrenToProps = (child: DataNode) => {
-    let props = {
-      node: child,
-      showIcon: showIcon,
-      direction: FLOW_DIRECTION.COLUMN,
-      key: `node-${child.id}`,
-      colIndex: 1,
-      colCount: 1 // THIS IS USED TO FIND NEXT AND PREV COLs.
-    };
+    let props: NodeProps = {
+        node: child,
+        showIcon: showIcon,
+        direction: FLOW_DIRECTION.COLUMN,
+        dispMode: dispMode,
+        colIndex: 1,
+        colCount: 1 // THIS IS USED TO FIND NEXT AND PREV COLs.
+      },
+      key = `node-${child.id}`;
 
-    return child.url ? <Bookmark {...props} /> : <Folder {...props} />;
+    return child.url ? (
+      <Bookmark {...props} key={key} />
+    ) : (
+      <Folder {...props} key={key} />
+    );
   };
 
   return (
@@ -47,7 +54,8 @@ const Folder: React.FC<NodeProps> = ({
   showIcon,
   direction,
   colIndex,
-  colCount
+  colCount,
+  dispMode
 }) => {
   let [expColClass, setExpColClass]: [
     string,
@@ -56,6 +64,8 @@ const Folder: React.FC<NodeProps> = ({
   let [initialized, setInitialized] = useState(false);
 
   const expandColSubFol = () => {
+    if (dispMode === DISP_MODES.EDIT) return;
+
     if (expColClass === states.COL) {
       setExpColClass(states.EXP);
       setInitialized(true);
@@ -81,8 +91,14 @@ const Folder: React.FC<NodeProps> = ({
   );
 
   useEffect(() => {
-    DragEventHandlers.removeEventsFromNode(node.id);
-    DragEventHandlers.addEventsToNode(node, direction, colIndex, colCount);
+    // DragEventHandlers.removeEventsFromNode(node.id);
+    DragEventHandlers.addEventsToNode(
+      node,
+      direction,
+      colIndex,
+      colCount,
+      dispMode
+    );
   }, [node, colIndex, colCount]);
 
   return (
@@ -92,7 +108,11 @@ const Folder: React.FC<NodeProps> = ({
         {icon}
         {node.title}
       </span>
-      <FolderContent children={node.children} initialized={initialized} />
+      <FolderContent
+        children={node.children}
+        initialized={initialized}
+        dispMode={dispMode}
+      />
     </div>
   );
 };

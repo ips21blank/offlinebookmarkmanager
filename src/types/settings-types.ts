@@ -12,6 +12,11 @@ export enum FLOW_DIRECTION {
   COLUMN
 }
 
+export enum DISP_MODES {
+  EDIT,
+  VIEW
+}
+
 // ACTIONS
 
 export interface SettingsActions {

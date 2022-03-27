@@ -1,6 +1,12 @@
 import { data } from '@scripts/test-data';
 import { DataBase } from '@scripts/db';
-import { DisplayState, FLOW_DIRECTION, Settings } from '@proj-types/types';
+import {
+  DisplayState,
+  DISP_MODES,
+  FLOW_DIRECTION,
+  Settings
+} from '@proj-types/types';
+import { SELECTION } from '@scripts/globals';
 
 const ROOT_LOC = '0';
 
@@ -10,21 +16,15 @@ const getParentChain = (id: string) => initialStateBkm.db.getParentChain(id);
 
 const initialStateDisp: DisplayState = {
   rootLocation: ROOT_LOC,
-  currLocation: '446',
+  currLocation: '1',
   noOfColumns: 4,
-  selection: {
-    folCount: 0,
-    bkmCount: 0,
-    folders: new Set<string>(),
-    bookmarks: new Set<string>()
-  }
+  selection: SELECTION,
+  mode: DISP_MODES.VIEW
 };
-const getCount = () =>
-  initialStateDisp.selection.folCount + initialStateDisp.selection.bkmCount;
 
 const initialStateSettings: Settings = {
   flowDirection: FLOW_DIRECTION.COLUMN,
-  pins: ['1', '2', '3', '330', '446', '447', '161'],
+  pins: ['1', '2', '3', '330', '446', '447', '161', '1574'],
   homePin: undefined,
   showFolBkmIcons: true
 };
@@ -35,6 +35,5 @@ export {
   initialStateDisp,
   initialStateSettings,
   getNodeById,
-  getParentChain,
-  getCount
+  getParentChain
 };

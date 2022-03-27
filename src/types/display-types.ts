@@ -1,12 +1,9 @@
 import { DataBase } from '@scripts/db';
 import { ACTIONS } from './action-types';
+import { SelectionState } from './script-types';
+import { DISP_MODES } from './settings-types';
 
-interface SelectionState {
-  folCount: number;
-  bkmCount: number;
-  folders: Set<string>;
-  bookmarks: Set<string>;
-}
+// ACTIONS
 
 interface DisplayAction {
   type: ACTIONS;
@@ -25,7 +22,7 @@ interface UpdateColumnCount extends DisplayAction {
 
 interface SelectDeselectNode extends DisplayAction {
   type: ACTIONS.SELECT_DESELECT_NODE;
-  payload: { nodeId: string; isBkm: boolean; deselect: boolean };
+  payload: { nodeId: string; isBkm: boolean; doNotDeselect?: boolean };
 }
 
 interface DisplayState {
@@ -33,6 +30,7 @@ interface DisplayState {
   currLocation: string;
   noOfColumns: number;
   selection: SelectionState;
+  mode: DISP_MODES;
 }
 
 interface BookmarkState {

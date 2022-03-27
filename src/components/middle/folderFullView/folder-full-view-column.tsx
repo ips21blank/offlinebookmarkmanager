@@ -1,4 +1,4 @@
-import { DataNode, FolderColumnProps } from '@proj-types/types';
+import { DataNode, FolderColumnProps, NodeProps } from '@proj-types/types';
 import { Bookmark } from '@components/middle/elements/bookmark';
 import { Folder } from '@components/middle/elements/folder';
 import { FLOW_DIRECTION } from '@proj-types/settings-types';
@@ -7,30 +7,32 @@ import { Utilities } from '@scripts/utilities';
 
 const FolderFullViewColumn: React.FC<FolderColumnProps> = ({
   nodes,
-  index,
-  colCount
+  colIndex,
+  colCount,
+  dispMode
 }) => {
   let showIcon = useAppSelector((state) => state.settings.showFolBkmIcons);
-  let flowDir = useAppSelector((state) => state.settings.flowDirection);
+  let direction = useAppSelector((state) => state.settings.flowDirection);
   let className: string = `folder-view-column col-1-${colCount}`;
-  nodes = Utilities.getNodeListForFol(flowDir, nodes, index, colCount);
+  nodes = Utilities.getNodeListForFol(direction, nodes, colIndex, colCount);
 
   return (
     <div className={className}>
       {nodes.map((node: DataNode) => {
-        let nodeProps = {
-          node: node,
-          showIcon: showIcon,
-          direction: flowDir,
-          key: `node-${node.id}`,
-          colIndex: index,
-          colCount: colCount
-        };
+        let nodeProps: NodeProps = {
+            node,
+            showIcon,
+            direction,
+            colIndex,
+            colCount,
+            dispMode
+          },
+          key = `node-${node.id}`;
 
         return node.url ? (
-          <Bookmark {...nodeProps} />
+          <Bookmark {...nodeProps} key={key} />
         ) : (
-          <Folder {...nodeProps} />
+          <Folder {...nodeProps} key={key} />
         );
       })}
     </div>

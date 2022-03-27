@@ -9,7 +9,8 @@ const Bookmark: React.FC<NodeProps> = ({
   showIcon,
   direction,
   colIndex,
-  colCount
+  colCount,
+  dispMode
 }) => {
   let [err, setErr] = useState(false);
   let img =
@@ -31,8 +32,14 @@ const Bookmark: React.FC<NodeProps> = ({
   };
 
   useEffect(() => {
-    DragEventHandlers.removeEventsFromNode(node.id);
-    DragEventHandlers.addEventsToNode(node, direction, colIndex, colCount);
+    // DragEventHandlers.removeEventsFromNode(node.id);
+    DragEventHandlers.addEventsToNode(
+      node,
+      direction,
+      colIndex,
+      colCount,
+      dispMode
+    );
   }, [node, colIndex, colCount]);
 
   return (

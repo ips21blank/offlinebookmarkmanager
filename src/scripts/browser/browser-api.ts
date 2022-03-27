@@ -39,15 +39,10 @@ const browserAPI = {
     target: { parentId: string; index?: number },
     callBack = () => {}
   ) {
-    let i = 0,
-      parentChain: DataNode[] = getParentChain(target.parentId);
+    let parentChain: DataNode[] = getParentChain(target.parentId);
 
-    for (i; i < parentChain.length; i++) {
-      if (parentChain[i].id == id) break;
-    }
-
-    if (i !== parentChain.length) {
-      throw new Error('Trying to move a folder within itself.');
+    if (parentChain.findIndex((node) => node.id === id) !== -1) {
+      throw new Error('Trying to move a folder within itself.'); // REMOVE : IT STOPS THE EXECUTION!!!
       // document.body.appendChild(
       //   _el.info('You cannot place a folder within itself.').blanket
       // );

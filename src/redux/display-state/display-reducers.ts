@@ -3,8 +3,8 @@ import {
   UpdateColumnCount,
   DisplayAction,
   DisplayState,
-  ACTIONS,
-  SelectDeselectNode
+  SelectDeselectNode,
+  ACTIONS
 } from '@proj-types/types';
 import { initialStateDisp } from '@redux/initial-states';
 import { DragMgr } from '@scripts/drag-manager';
@@ -35,20 +35,16 @@ function displayReducer(
     }
 
     case ACTIONS.SELECT_DESELECT_NODE: {
-      let payload = (<SelectDeselectNode>action).payload;
+      let payload = (<SelectDeselectNode>action).payload,
+        id = payload.nodeId,
+        sel = state.selection;
 
-      let selectionSet: Set<string>, counter: string;
-      payload.isBkm
-        ? (selectionSet = state.selection.bookmarks)
-        : (selectionSet = state.selection.folders);
-
-      if (payload.deselect && selectionSet.delete(payload.nodeId)) {
-        payload.isBkm ? state.selection.bkmCount-- : state.selection.folCount--;
-        DragMgr.dec();
-      } else if (!selectionSet.has(payload.nodeId)) {
-        selectionSet.add(payload.nodeId);
-        payload.isBkm ? state.selection.bkmCount++ : state.selection.folCount++;
-        DragMgr.inc();
+      if (!id) {
+        sel.clear();
+      } else if (payload.isBkm) {
+        sel.addBkm(id) || (!payload.doNotDeselect && sel.rmvBkm(id));
+      } else {
+        sel.addFol(id) || (!payload.doNotDeselect && sel.rmvFol(id));
       }
 
       // The bookmarks or folders are supposed to keep track of whether they

@@ -1,3 +1,4 @@
+import { DISP_MODES } from '@proj-types/settings-types';
 import { DataNode } from '../browser-types';
 
 /**
@@ -15,8 +16,9 @@ interface FolderColumnsProps {
 
 interface FolderColumnProps {
   nodes: DataNode[];
-  index: number;
+  colIndex: number;
   colCount: number;
+  dispMode: DISP_MODES;
 }
 
 export type {

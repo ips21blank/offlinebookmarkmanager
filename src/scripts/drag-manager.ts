@@ -1,41 +1,28 @@
 import { DataNode, FLOW_DIRECTION } from '@proj-types/types';
-import { getCount, getNodeById } from '@redux/initial-states';
+import { getNodeById } from '@redux/initial-states';
 import {
   DRAGTYPE,
   DRAG_REG,
   GLOBAL_SETTINGS,
   REG_CLASSES,
-  getRegClass
+  getRegClass,
+  SELECTION
 } from './globals';
 import { Utilities } from './utilities';
+import { browserAPI } from './browser/browser-api';
+import { store, selectDeselectNode } from '@redux/redux';
 
 class DragMgr {
-  private static _n = 0;
-  public static get count() {
-    return DragMgr._n;
-  }
-  public static set count(n: number) {
-    DragMgr._n = n;
-  }
-
-  public static inc(n = 1) {
-    DragMgr._n += n;
-  }
-  public static dec(n = 1) {
-    DragMgr._n -= n;
-  }
-
-  private _updateCount() {
-    DragMgr.count = getCount();
-  }
+  public static selection = SELECTION;
 
   private static _dragOverTime?: number;
-  private static _dragSwitchThreshold = GLOBAL_SETTINGS.dragSwitchThreshold;
 
   private static _draggedElId?: string;
   private static _draggedElType?: DRAGTYPE;
 
+  // The element on which some other element is being dragged.
   private static _currDragOverId?: string;
+  private static _currReg: DRAG_REG;
   private static _currDragOverClass?: string;
   private static _updatePending?: boolean;
 
@@ -60,13 +47,14 @@ class DragMgr {
     // When dragging pins or titles or when a single node is being dragged.
     if (
       elType === DRAGTYPE.FOLDER_PIN ||
-      elType === DRAGTYPE.FULL_VIEW_HEADING ||
-      DragMgr._n < 2
+      elType === DRAGTYPE.FULL_VIEW_HEADING
+      // || DragMgr.selection.total < 2
     ) {
       return;
     }
 
     // When dragging multiple nodes.
+    store.dispatch(selectDeselectNode(id, elType === DRAGTYPE.BKM, true));
     let dragEl = document.getElementById('drag-multiple-el');
     dragEl &&
       event.dataTransfer &&
@@ -105,14 +93,12 @@ class DragMgr {
 
     // Following will still run multiple times.
     if (
-      this._currDragOverId == currEl.id &&
+      DragMgr._currDragOverId == currEl.id &&
       currEl.classList.contains(newClass)
     ) {
       DragMgr._updatePending = false;
       return;
     }
-    this._currDragOverId = currEl.id;
-    this._currDragOverClass = newClass;
     DragMgr._updatePending = true;
 
     setTimeout(() => {
@@ -136,14 +122,13 @@ class DragMgr {
     colCount: number,
     region: DRAG_REG
   ) {
-    if (
-      currEl.id !== this._currDragOverId ||
-      newClass !== this._currDragOverClass ||
-      !DragMgr._updatePending
-    ) {
+    if (!DragMgr._updatePending) {
       return;
     } else {
+      DragMgr._currDragOverId = currEl.id;
+      DragMgr._currDragOverClass = newClass;
       DragMgr._updatePending = false;
+      DragMgr._currReg = region;
     }
 
     DragMgr._addClassToEl(currEl, newClass);
@@ -262,27 +247,78 @@ class DragMgr {
   public static onDrop(e: DragEvent) {
     e.stopPropagation();
     DragMgr._cleanExistingClasses();
-  }
-  public static onDragEnd(
-    e: DragEvent
-    // currEl: HTMLElement | null
-  ) {
-    e.stopPropagation();
 
-    let elList = document.getElementsByClassName('being-dragged');
-    while (elList.length) elList[0].classList.remove('being-dragged');
+    let dropId: string = (e.target as HTMLElement).id,
+      newBefAftI: number | undefined = Infinity,
+      targetNode = getNodeById(dropId);
 
-    DragMgr._cleanExistingClasses();
-  }
-  public static onDragLeave(e: DragEvent) {
-    e.stopPropagation();
-    let dragLeaveTime = new Date().getTime();
+    if (
+      DragMgr._currReg === DRAG_REG.BET &&
+      (DragMgr.selection.hasBkm(dropId) || DragMgr.selection.hasFol(dropId))
+    ) {
+      throw new Error('dropping into self...');
+    }
 
-    setTimeout(() => {
-      if (DragMgr._dragOverTime && DragMgr._dragOverTime < dragLeaveTime)
-        DragMgr._cleanExistingClasses();
-    }, DragMgr._dragSwitchThreshold);
+    if (!targetNode || !DragMgr._draggedElId) return;
+    if (targetNode.index || targetNode.index == 0) {
+      newBefAftI =
+        DragMgr._currReg === DRAG_REG.BEF
+          ? targetNode.index
+          : targetNode.index + 1;
+    }
+
+    const moveElements = (target: {
+      parentId: string;
+      index: number | undefined;
+    }) => {
+      for (let id of DragMgr.selection.folders) {
+        browserAPI.moveBk(id, target);
+      }
+      for (let id of DragMgr.selection.bookmarks) {
+        browserAPI.moveBk(id, target);
+      }
+    };
+
+    switch (DragMgr._currReg) {
+      case DRAG_REG.BEF:
+      case DRAG_REG.AFT:
+        if (!targetNode.parentId) return;
+        moveElements({
+          parentId: targetNode.parentId,
+          index: newBefAftI
+        });
+        break;
+      case DRAG_REG.BET:
+        moveElements({
+          parentId: targetNode.id,
+          index: undefined
+        });
+        break;
+    }
+
+    store.dispatch(selectDeselectNode('', false));
   }
+
+  // public static onDragEnd(
+  //   e: DragEvent
+  //   // currEl: HTMLElement | null
+  // ) {
+  //   e.stopPropagation();
+
+  //   let elList = document.getElementsByClassName('being-dragged');
+  //   while (elList.length) elList[0].classList.remove('being-dragged');
+
+  //   DragMgr._cleanExistingClasses();
+  // }
+  // public static onDragLeave(e: DragEvent) {
+  //   e.stopPropagation();
+  //   let dragLeaveTime = new Date().getTime();
+
+  //   setTimeout(() => {
+  //     if (DragMgr._dragOverTime && DragMgr._dragOverTime < dragLeaveTime)
+  //       DragMgr._cleanExistingClasses();
+  //   }, GLOBAL_SETTINGS.dragSwitchThreshold);
+  // }
 }
 
 export { DragMgr };

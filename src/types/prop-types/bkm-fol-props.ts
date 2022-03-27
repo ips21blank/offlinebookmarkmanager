@@ -1,4 +1,4 @@
-import { FLOW_DIRECTION } from '@proj-types/settings-types';
+import { DISP_MODES, FLOW_DIRECTION } from '@proj-types/settings-types';
 import { DataNode } from '../browser-types';
 
 /**
@@ -10,11 +10,13 @@ interface NodeProps {
   direction: FLOW_DIRECTION;
   colIndex: number;
   colCount: number;
+  dispMode: DISP_MODES;
 }
 
 interface FolderContentProps {
   children: DataNode[] | undefined;
   initialized: boolean;
+  dispMode: DISP_MODES;
 }
 
 export type { NodeProps, FolderContentProps };

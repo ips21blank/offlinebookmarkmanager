@@ -27,11 +27,11 @@ function updateColumnCount(noOfColumns: number): UpdateColumnCount {
 function selectDeselectNode(
   nodeId: string,
   isBkm: boolean,
-  deselect: boolean
+  doNotDeselect?: boolean
 ): SelectDeselectNode {
   return {
     type: ACTIONS.SELECT_DESELECT_NODE,
-    payload: { nodeId, isBkm, deselect }
+    payload: { nodeId, isBkm, doNotDeselect }
   };
 }
 
