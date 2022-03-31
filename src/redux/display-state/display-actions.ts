@@ -2,7 +2,9 @@ import {
   UpdateCurrLocation,
   ACTIONS,
   UpdateColumnCount,
-  SelectDeselectNode
+  SelectDeselectNode,
+  StartDrag,
+  EndDrag
 } from '@proj-types/types';
 
 function changeCurrLocation(newLocation: string): UpdateCurrLocation {
@@ -35,4 +37,18 @@ function selectDeselectNode(
   };
 }
 
-export { changeCurrLocation, updateColumnCount, selectDeselectNode };
+function startDrag(nodeId: string): StartDrag {
+  return { type: ACTIONS.START_DRAG, payload: { nodeId } };
+}
+
+function endDrag(): EndDrag {
+  return { type: ACTIONS.END_DRAG, payload: null };
+}
+
+export {
+  changeCurrLocation,
+  updateColumnCount,
+  selectDeselectNode,
+  startDrag,
+  endDrag
+};

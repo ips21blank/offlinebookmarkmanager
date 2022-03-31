@@ -1,27 +1,46 @@
 import {
   BsFolder as FolIcon,
   BsFillBookmarksFill as BkmIcon,
-  BsGripVertical as Sep
+  BsGripVertical as Sep,
+  BsLink45Deg as BkmIcon2
 } from '@components/icons';
-import { DISP_MODES } from '@proj-types/settings-types';
+import { DataNode } from '@proj-types/browser-types';
 import { useAppSelector } from '@redux/hooks';
 
-const DragMultipleEl: React.FC<any> = (props) => {
-  let [sel, mode] = useAppSelector((state) => [
-    state.displayState.selection,
-    state.displayState.mode
-  ]);
+const DragNode: React.FC<{ node: DataNode }> = ({ node }) => {
+  let img = node.url ? <BkmIcon2 /> : <FolIcon />;
 
-  return mode === DISP_MODES.EDIT ? (
-    <div id="drag-details" className="inline-el-no-wrap-center">
-      <span>Selected: &nbsp;&nbsp;&nbsp;</span>
-      <span id="drag-multiple-el" className="inline-el-no-wrap-center">
-        <FolIcon /> : {sel.folCount} <Sep /> <BkmIcon /> : {sel.bkmCount}
-      </span>
-    </div>
-  ) : (
-    <></>
+  return (
+    <>
+      {img} &nbsp; {node.title || node.url}
+    </>
   );
 };
 
-export { DragMultipleEl };
+const DragEl: React.FC<any> = (props) => {
+  let [sel, dragNode] = useAppSelector((state) => [
+    state.displayState.selection,
+    state.bookmarks.db.get(state.displayState.dragId)
+  ]);
+
+  let dragElement: JSX.Element =
+    sel.total === 1 && dragNode ? (
+      <DragNode node={dragNode} />
+    ) : (
+      <>
+        <FolIcon /> : {sel.folCount} <Sep /> <BkmIcon /> : {sel.bkmCount}
+      </>
+    );
+
+  return (
+    // <div id="drag-details" className="inline-el-no-wrap-center">
+
+    <span id="drag-elements-el" className="inline-el-no-wrap-center">
+      {/* <span>Selected: &nbsp;&nbsp;&nbsp;</span> */}
+      {dragElement}
+      {/* </div> */}
+    </span>
+  );
+};
+
+export { DragEl };

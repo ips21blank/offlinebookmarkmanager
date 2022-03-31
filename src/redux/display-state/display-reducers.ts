@@ -4,7 +4,8 @@ import {
   DisplayAction,
   DisplayState,
   SelectDeselectNode,
-  ACTIONS
+  ACTIONS,
+  StartDrag
 } from '@proj-types/types';
 import { initialStateDisp } from '@redux/initial-states';
 import { DragMgr } from '@scripts/drag-manager';
@@ -53,6 +54,17 @@ function displayReducer(
       // This aspect of their state is not updated using store. Store is used
       // to simply keep data to be used by different functions.
       return { ...state };
+    }
+
+    case ACTIONS.START_DRAG: {
+      let payload = (<StartDrag>action).payload;
+      state.dragId = payload.nodeId;
+
+      return { ...state };
+    }
+
+    case ACTIONS.END_DRAG: {
+      return { ...state, dragId: '' };
     }
 
     default:

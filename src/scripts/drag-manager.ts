@@ -6,11 +6,12 @@ import {
   GLOBAL_SETTINGS,
   REG_CLASSES,
   getRegClass,
-  SELECTION
+  SELECTION,
+  folderStateClasses
 } from './globals';
 import { Utilities } from './utilities';
 import { browserAPI } from './browser/browser-api';
-import { store, selectDeselectNode } from '@redux/redux';
+import { store, selectDeselectNode, startDrag, endDrag } from '@redux/redux';
 
 class DragMgr {
   public static selection = SELECTION;
@@ -18,57 +19,46 @@ class DragMgr {
   private static _dragOverTime?: number;
 
   private static _draggedElId?: string;
-  private static _draggedElType?: DRAGTYPE;
 
   // The element on which some other element is being dragged.
   private static _currDragOverId?: string;
   private static _currReg: DRAG_REG;
-  private static _currDragOverClass?: string;
   private static _updatePending?: boolean;
 
   // EVENTS
+  public static noClick(el: HTMLElement) {
+    let isBkm = el.classList.contains('bookmark');
+
+    let eatClick = (e: MouseEvent) => {
+      if (isBkm) {
+        e.preventDefault();
+      } else {
+        (e.target as HTMLElement).classList.add(folderStateClasses.NO_EXP);
+      }
+
+      el.removeEventListener('click', eatClick);
+    };
+    el.addEventListener('click', eatClick);
+  }
 
   public static onDragStart(
-    event: DragEvent,
     id: string,
     elType: DRAGTYPE,
     currEl: HTMLElement | null
   ) {
-    // e.dataTransfer.setData('type', elType);
-    // e.dataTransfer.setData('id', id);
     DragMgr._draggedElId = id;
-    DragMgr._draggedElType = elType;
-
-    DragMgr._addBeingDragged(currEl);
-    // currEl &&
-    //   currEl.parentElement &&
-    //   currEl.parentElement.classList.add('being-dragged');
-
-    // When dragging pins or titles or when a single node is being dragged.
-    if (
-      elType === DRAGTYPE.FOLDER_PIN ||
-      elType === DRAGTYPE.FULL_VIEW_HEADING
-      // || DragMgr.selection.total < 2
-    ) {
-      return;
-    }
-
-    // When dragging multiple nodes.
+    DragMgr._addBeingDraggedClass(currEl);
     store.dispatch(selectDeselectNode(id, elType === DRAGTYPE.BKM, true));
-    let dragEl = document.getElementById('drag-multiple-el');
-    dragEl &&
-      event.dataTransfer &&
-      event.dataTransfer.setDragImage(dragEl, 0, 0);
+    store.dispatch(startDrag(id));
   }
 
   public static onDragoverNode(
-    event: DragEvent,
+    event: MouseEvent,
     direction: FLOW_DIRECTION,
     node: DataNode,
     colIndex: number,
     colCount: number
   ) {
-    event.stopPropagation();
     let currEl = event.target as HTMLElement;
 
     if (currEl && DragMgr._draggedElId === currEl.id) {
@@ -97,6 +87,7 @@ class DragMgr {
       currEl.classList.contains(newClass)
     ) {
       DragMgr._updatePending = false;
+      DragMgr._dragOverTime = new Date().getTime();
       return;
     }
     DragMgr._updatePending = true;
@@ -126,7 +117,6 @@ class DragMgr {
       return;
     } else {
       DragMgr._currDragOverId = currEl.id;
-      DragMgr._currDragOverClass = newClass;
       DragMgr._updatePending = false;
       DragMgr._currReg = region;
     }
@@ -184,7 +174,7 @@ class DragMgr {
   private static _addClassToEl(el: HTMLElement, className: string) {
     el.classList.add(className);
   }
-  private static _addBeingDragged(el: HTMLElement | null) {
+  private static _addBeingDraggedClass(el: HTMLElement | null) {
     if (!el) return;
 
     el.tagName.toLowerCase() === 'a'
@@ -193,7 +183,7 @@ class DragMgr {
   }
 
   private static _getDragReg(
-    event: DragEvent,
+    event: MouseEvent,
     rect: DOMRect,
     direction: FLOW_DIRECTION,
     isAnchorEl: boolean
@@ -244,19 +234,25 @@ class DragMgr {
     }
   }
 
-  public static onDrop(e: DragEvent) {
-    e.stopPropagation();
+  public static onDrop(event: Event) {
     DragMgr._cleanExistingClasses();
 
-    let dropId: string = (e.target as HTMLElement).id,
+    let dropId: string = (event.target as HTMLElement).id,
       newBefAftI: number | undefined = Infinity,
       targetNode = getNodeById(dropId);
 
-    if (
-      DragMgr._currReg === DRAG_REG.BET &&
-      (DragMgr.selection.hasBkm(dropId) || DragMgr.selection.hasFol(dropId))
-    ) {
-      throw new Error('dropping into self...');
+    let dropOnSelf =
+      DragMgr.selection.hasBkm(dropId) || DragMgr.selection.hasFol(dropId);
+
+    if (dropOnSelf) {
+      if (DragMgr._currReg === DRAG_REG.BET) {
+        throw new Error('dropping into self...');
+      }
+
+      if (targetNode) {
+        let el = document.getElementById(targetNode.id);
+        el && DragMgr.noClick(el);
+      }
     }
 
     if (!targetNode || !DragMgr._draggedElId) return;
@@ -299,26 +295,32 @@ class DragMgr {
     store.dispatch(selectDeselectNode('', false));
   }
 
-  // public static onDragEnd(
-  //   e: DragEvent
-  //   // currEl: HTMLElement | null
-  // ) {
-  //   e.stopPropagation();
+  public static onDragEnd() {
+    let elList = document.getElementsByClassName('being-dragged');
+    while (elList.length) elList[0].classList.remove('being-dragged');
 
-  //   let elList = document.getElementsByClassName('being-dragged');
-  //   while (elList.length) elList[0].classList.remove('being-dragged');
+    DragMgr._cleanExistingClasses();
 
-  //   DragMgr._cleanExistingClasses();
-  // }
-  // public static onDragLeave(e: DragEvent) {
-  //   e.stopPropagation();
-  //   let dragLeaveTime = new Date().getTime();
+    /**
+     * Following clears the selection with one element. If this runs
+     * before drop, drop wouldn't be able to find the element to move.
+     * So its configured to run after it in the custom-drag-events.ts.
+     */
+    if (DragMgr.selection.total === 1) {
+      store.dispatch(selectDeselectNode('', false));
+    }
+    store.dispatch(endDrag());
+  }
 
-  //   setTimeout(() => {
-  //     if (DragMgr._dragOverTime && DragMgr._dragOverTime < dragLeaveTime)
-  //       DragMgr._cleanExistingClasses();
-  //   }, GLOBAL_SETTINGS.dragSwitchThreshold);
-  // }
+  public static onDragLeave(e: MouseEvent) {
+    e.stopPropagation();
+    let dragLeaveTime = new Date().getTime();
+
+    setTimeout(() => {
+      if (DragMgr._dragOverTime && DragMgr._dragOverTime < dragLeaveTime)
+        DragMgr._cleanExistingClasses();
+    }, GLOBAL_SETTINGS.dragLeaveThreshold);
+  }
 }
 
 export { DragMgr };

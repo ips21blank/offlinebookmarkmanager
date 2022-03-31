@@ -25,12 +25,23 @@ interface SelectDeselectNode extends DisplayAction {
   payload: { nodeId: string; isBkm: boolean; doNotDeselect?: boolean };
 }
 
+interface StartDrag extends DisplayAction {
+  type: ACTIONS.START_DRAG;
+  payload: { nodeId: string };
+}
+
+interface EndDrag extends DisplayAction {
+  type: ACTIONS.END_DRAG;
+  payload: null;
+}
+
 interface DisplayState {
   rootLocation: string;
   currLocation: string;
   noOfColumns: number;
   selection: SelectionState;
   mode: DISP_MODES;
+  dragId: string;
 }
 
 interface BookmarkState {
@@ -43,5 +54,7 @@ export type {
   UpdateColumnCount,
   DisplayState,
   SelectDeselectNode,
-  BookmarkState
+  BookmarkState,
+  StartDrag,
+  EndDrag
 };

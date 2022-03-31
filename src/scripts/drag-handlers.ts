@@ -1,6 +1,7 @@
 import { DataNode, DISP_MODES, FLOW_DIRECTION } from '@proj-types/types';
 import { DragMgr } from './drag-manager';
 import { DRAGTYPE } from './globals';
+import { isDragging } from './browser/custom-drag-events';
 import { store, selectDeselectNode } from '@redux/redux';
 
 type T = {
@@ -10,6 +11,40 @@ type T = {
   direction: FLOW_DIRECTION;
 };
 
+let dragEl: HTMLElement;
+// Dragend is global.
+window.addEventListener('customend', (e) => {
+  e.stopPropagation();
+  dragEl && dragEl.classList.add('hidden');
+
+  DragMgr.onDragEnd();
+});
+// window.addEventListener('click', (e) => {
+//   let l = console.log;
+//   l(`clnt : (${e.clientX}, ${e.clientY})`);
+//   l(`ofst : (${e.offsetX}, ${e.offsetY})`);
+//   l(`page : (${e.pageX}, ${e.pageY})`);
+//   l(`scrn : (${e.screenX}, ${e.screenY})`);
+//   l('...............................................');
+// });
+const setDragElPosn = (x: number, y: number) => {
+  let hidden = dragEl.classList.contains('hidden');
+  if (isDragging()) {
+    hidden && dragEl.classList.remove('hidden');
+    dragEl.style.left = `${x}px`;
+    dragEl.style.top = `${y}px`;
+  } else if (!hidden) {
+    dragEl.classList.add('hidden');
+  }
+};
+window.addEventListener('mousemove', (e) => {
+  dragEl = dragEl || document.getElementById('drag-elements-el');
+  if (!dragEl) return;
+
+  setDragElPosn(e.clientX, e.clientY);
+});
+
+//
 class DragHandlers {
   public static data: { [key: string]: T } = {};
 
@@ -21,13 +56,16 @@ class DragHandlers {
       sel = DragMgr.selection;
     if (!node) return;
 
-    node.url
-      ? store.dispatch(selectDeselectNode(node.id, true))
-      : store.dispatch(selectDeselectNode(node.id, false));
+    store.dispatch(selectDeselectNode(node.id, node.url ? true : false));
   }
 
-  public static dragoverNode(e: DragEvent) {
+  public static dragoverNode(e: MouseEvent) {
+    if (!isDragging()) return;
     e.preventDefault();
+    e.stopPropagation();
+
+    setDragElPosn(e.clientX, e.clientY);
+
     let data: T,
       id = (e.target as HTMLElement).id;
 
@@ -43,16 +81,19 @@ class DragHandlers {
       data.colCount
     );
   }
-  public static dragenter(e: DragEvent) {
-    e.preventDefault();
-  }
 
-  public static dragStartNode(e: DragEvent) {
+  public static dragStartNode(e: Event) {
+    e.stopPropagation();
+    // e.preventDefault();
+
     let currEl = e.target as HTMLElement;
     let dragType =
       currEl.tagName.toLowerCase() === 'a' ? DRAGTYPE.BKM : DRAGTYPE.FOL;
-    DragMgr.onDragStart(e, currEl.id, dragType, currEl);
+
+    DragMgr.onDragStart(currEl.id, dragType, currEl);
   }
+
+  public static dragEnd(e: Event) {}
 
   public static addEventsToNode(
     node: chrome.bookmarks.BookmarkTreeNode,
@@ -67,37 +108,15 @@ class DragHandlers {
     // The case where this persists and node is removed is ignored.
     DragHandlers.data[node.id] = { node, colIndex, colCount, direction };
 
-    el.draggable = true;
-    el.addEventListener('dragstart', DragHandlers.dragStartNode);
-    // el.addEventListener('dragend', DragMgr.onDragEnd);
-
     //
-    el.addEventListener('dragover', DragHandlers.dragoverNode);
-    el.addEventListener('dragenter', DragHandlers.dragenter);
-    el.addEventListener('drop', DragMgr.onDrop);
-    // el.addEventListener('dragleave', DragMgr.onDragLeave);
+    el.addEventListener('customdrag', DragHandlers.dragStartNode);
+    el.addEventListener('mousemove', DragHandlers.dragoverNode);
+    el.addEventListener('mouseleave', DragMgr.onDragLeave);
+    el.addEventListener('customdrop', DragMgr.onDrop);
 
     if (dispMode === DISP_MODES.EDIT) {
       el.addEventListener('click', DragHandlers.nodeClick);
     }
-  }
-
-  public static removeEventsFromNode(nodeId: string) {
-    let el = document.getElementById(nodeId);
-    if (!el || !el.parentElement) return;
-
-    delete DragHandlers.data[nodeId];
-
-    el.removeEventListener('dragstart', DragHandlers.dragStartNode);
-    // el.removeEventListener('dragend', DragMgr.onDragEnd);
-
-    //
-    el.removeEventListener('dragover', DragHandlers.dragoverNode);
-    el.removeEventListener('dragenter', DragHandlers.dragenter);
-    el.removeEventListener('drop', DragMgr.onDrop);
-    // el.removeEventListener('dragleave', DragMgr.onDragLeave);
-
-    el.removeEventListener('click', DragHandlers.nodeClick);
   }
 }
 

@@ -23,9 +23,9 @@ const Bookmark: React.FC<NodeProps> = ({
       />
     );
 
-  let ref = useRef<HTMLAnchorElement>(null);
+  // let ref = useRef<HTMLAnchorElement>(null);
   let bkmLinkProps = {
-    ref: ref,
+    // ref: ref,
     href: node.url,
     className: 'inline-el-no-wrap-center bookmark',
     id: node.id

@@ -1,14 +1,22 @@
 import { FLOW_DIRECTION, SelectionState } from '@proj-types/types';
 import { Selection } from './selection';
 
+const getREM: () => number = () => {
+  let fs = getComputedStyle(document.documentElement).fontSize;
+  return parseInt((fs.match(/\d+/g) as string[])[0]) || 14;
+};
+
 const GLOBAL_SETTINGS = {
   // CHANGES TO FOLLOWING WOULD REQUIRE RELOADS.
   showIcons: true,
   dragMarginsPercentMin: 0.25,
   dragMarginsPercentMax: 0.75,
   minRowsPerCol: 5, // for row direction display.
-  dragSwitchThreshold: 10,
-  dragOverThreshold: 10
+  dragLeaveThreshold: 50,
+  dragOverThreshold: 20,
+
+  dragStartThreshold: 0.3 * getREM(), // px
+  rem: getREM()
 };
 
 enum DRAGTYPE {
@@ -64,6 +72,12 @@ const getRegClass = (reg: DRAG_REG, direction: FLOW_DIRECTION) => {
 const SELECTION: SelectionState = new Selection();
 const SELECT_CLASS = 'selected';
 
+const folderStateClasses = {
+  EXP: 'expanded',
+  COL: 'collapsed',
+  NO_EXP: 'do-not-expand'
+};
+
 export {
   GLOBAL_SETTINGS,
   DRAGTYPE,
@@ -72,5 +86,6 @@ export {
   REG_CLASSES,
   SELECTION,
   SELECT_CLASS,
-  getRegClass
+  getRegClass,
+  folderStateClasses
 };

@@ -10,11 +10,7 @@ import { Bookmark } from './bookmark';
 import { BsFolder } from '@components/icons';
 import { useAppSelector } from '@redux/hooks';
 import { DragEventHandlers } from '@scripts/drag-handlers';
-
-const states = {
-  EXP: 'expanded',
-  COL: 'collapsed'
-};
+import { folderStateClasses as states } from '@scripts/globals';
 
 const FolderContent: React.FC<FolderContentProps> = ({
   children,
@@ -62,8 +58,16 @@ const Folder: React.FC<NodeProps> = ({
     Dispatch<SetStateAction<string>>
   ] = useState(states.COL);
   let [initialized, setInitialized] = useState(false);
+  let ref = useRef<HTMLElement>(null);
 
   const expandColSubFol = () => {
+    if (ref.current) {
+      if (ref.current.classList.contains(states.NO_EXP)) {
+        ref.current.classList.remove(states.NO_EXP);
+        return;
+      }
+    }
+
     if (dispMode === DISP_MODES.EDIT) return;
 
     if (expColClass === states.COL) {
@@ -73,7 +77,6 @@ const Folder: React.FC<NodeProps> = ({
       setExpColClass(states.COL);
     }
   };
-  let ref = useRef<HTMLElement>(null);
 
   let folderProps = {
     ref: ref,

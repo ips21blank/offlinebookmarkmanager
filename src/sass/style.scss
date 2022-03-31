@@ -31,3 +31,15 @@ svg {
 .selected {
   background-color: $selected-fol-bkm-bg-color;
 }
+
+:not(input).unselectable * {
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: -moz-none;
+
+  user-select: none;
+}
+
+.hidden {
+  display: none;
+}

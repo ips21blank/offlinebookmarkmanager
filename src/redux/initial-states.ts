@@ -19,7 +19,8 @@ const initialStateDisp: DisplayState = {
   currLocation: '1',
   noOfColumns: 4,
   selection: SELECTION,
-  mode: DISP_MODES.VIEW
+  mode: DISP_MODES.VIEW,
+  dragId: ''
 };
 
 const initialStateSettings: Settings = {

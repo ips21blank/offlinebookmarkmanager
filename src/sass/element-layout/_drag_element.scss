@@ -1,22 +1,33 @@
 @import '../constants/layout-constants';
+@import '../constants/colors-constants';
 
-div#drag-details {
-  position: absolute;
-  bottom: 0.5rem;
-  right: $side-margin1;
+// div#drag-details {
+
+span#drag-elements-el {
+  pointer-events: none;
+  position: fixed;
+  top: -5rem;
+  // left: $side-margin1;
   z-index: 2000;
 
   padding: 0 1rem;
   height: 2rem;
   white-space: nowrap;
-
   font-style: italic;
+  border-radius: 1rem;
+  border: 1px solid black;
+  padding: 0 1rem;
+  height: 2rem;
+  font-style: normal;
 
-  span#drag-multiple-el {
-    border-radius: 1rem;
-    border: 1px solid black;
-    padding: 0 1rem;
-    height: 2rem;
-    font-style: normal;
+  width: 15rem;
+
+  transform: translate(-4rem, -1rem);
+  background-color: $drag-el-bg-col;
+  overflow: hidden;
+
+  & * {
+    flex: 0 0 auto;
   }
 }
+// }
