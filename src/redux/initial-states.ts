@@ -4,6 +4,7 @@ import {
   DisplayState,
   DISP_MODES,
   FLOW_DIRECTION,
+  OverlayState,
   Settings
 } from '@proj-types/types';
 import { SELECTION } from '@scripts/globals';
@@ -20,7 +21,8 @@ const initialStateDisp: DisplayState = {
   noOfColumns: 4,
   selection: SELECTION,
   mode: DISP_MODES.VIEW,
-  dragId: ''
+  dragId: '',
+  elementsMoved: []
 };
 
 const initialStateSettings: Settings = {
@@ -30,11 +32,16 @@ const initialStateSettings: Settings = {
   showFolBkmIcons: true
 };
 
+const initialOverlayState: OverlayState = {
+  visible: false
+};
+
 export {
   ROOT_LOC,
   initialStateBkm,
   initialStateDisp,
   initialStateSettings,
+  initialOverlayState,
   getNodeById,
   getParentChain
 };

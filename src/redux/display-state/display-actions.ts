@@ -4,7 +4,8 @@ import {
   UpdateColumnCount,
   SelectDeselectNode,
   StartDrag,
-  EndDrag
+  EndDrag,
+  HighlightElementsMoved
 } from '@proj-types/types';
 
 function changeCurrLocation(newLocation: string): UpdateCurrLocation {
@@ -45,10 +46,15 @@ function endDrag(): EndDrag {
   return { type: ACTIONS.END_DRAG, payload: null };
 }
 
+function highlightElementsMoved(idList: string[]): HighlightElementsMoved {
+  return { type: ACTIONS.ELEMENTS_MOVED, payload: { idList } };
+}
+
 export {
   changeCurrLocation,
   updateColumnCount,
   selectDeselectNode,
   startDrag,
+  highlightElementsMoved,
   endDrag
 };

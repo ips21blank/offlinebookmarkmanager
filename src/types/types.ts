@@ -5,3 +5,4 @@ export * from './redux-types';
 export * from './display-types';
 export * from './action-types';
 export * from './script-types';
+export * from './overlay-types';

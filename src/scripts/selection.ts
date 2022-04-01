@@ -19,22 +19,22 @@ class Selection implements SelectionState {
     this._folders.clear();
     this._bookmarks.clear();
 
-    let elList = document.getElementsByClassName(SELECT_CLASS);
+    let elList = document.getElementsByClassName(SELECT_CLASS.SEL);
     while (elList.length)
-      elList[elList.length - 1].classList.remove(SELECT_CLASS);
+      elList[elList.length - 1].classList.remove(SELECT_CLASS.SEL);
   }
 
   private _selectNode(id: string) {
     let el = document.getElementById(id);
     if (!el) return;
 
-    el.classList.add(SELECT_CLASS);
+    el.classList.add(SELECT_CLASS.SEL);
   }
   private _deSelectNode(id: string) {
     let el = document.getElementById(id);
     if (!el) return;
 
-    el.classList.remove(SELECT_CLASS);
+    el.classList.remove(SELECT_CLASS.SEL);
   }
 
   public addFol(id: string): boolean {

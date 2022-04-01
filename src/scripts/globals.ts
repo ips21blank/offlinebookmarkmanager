@@ -48,34 +48,23 @@ const REG_CLASSES: { [key: string]: string } = {
   COL_AFT: 'col-aft'
 };
 
-const getRegClass = (reg: DRAG_REG, direction: FLOW_DIRECTION) => {
-  let className: string;
-  direction === FLOW_DIRECTION.COLUMN
-    ? (className = 'col-')
-    : (className = 'row-');
-
-  switch (reg) {
-    case DRAG_REG.BEF:
-      className += 'bef';
-      break;
-    case DRAG_REG.BET:
-      className += 'bet';
-      break;
-    case DRAG_REG.AFT:
-    default:
-      className += 'aft';
-  }
-
-  return className;
+const SELECTION: SelectionState = new Selection();
+const SELECT_CLASS = {
+  SEL: 'selected',
+  WAS_SEL: 'was-selected' // Simply for visual aid.
 };
 
-const SELECTION: SelectionState = new Selection();
-const SELECT_CLASS = 'selected';
-
-const folderStateClasses = {
+const FOLDER_CLASSES = {
   EXP: 'expanded',
   COL: 'collapsed',
   NO_EXP: 'do-not-expand'
+};
+
+const CUSTOM_EVENTS = {
+  // Drag events.
+  customDrag: new Event('customdrag'),
+  customDrop: new Event('customdrop'),
+  customEnd: new Event('customend')
 };
 
 export {
@@ -86,6 +75,6 @@ export {
   REG_CLASSES,
   SELECTION,
   SELECT_CLASS,
-  getRegClass,
-  folderStateClasses
+  FOLDER_CLASSES,
+  CUSTOM_EVENTS
 };

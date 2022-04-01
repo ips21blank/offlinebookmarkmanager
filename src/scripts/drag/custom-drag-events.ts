@@ -1,4 +1,4 @@
-import { GLOBAL_SETTINGS } from '../globals';
+import { GLOBAL_SETTINGS, CUSTOM_EVENTS } from '../globals';
 
 type U = null | number;
 type V = 'up' | 'down';
@@ -12,10 +12,6 @@ const DRAG_LOC: { x: U; y: U; mouse: V; el?: HTMLElement } = {
   mouse: 'up'
 };
 
-const customDrag = new Event('customdrag');
-const customDrop = new Event('customdrop');
-const customEnd = new Event('customend');
-
 const customDragIFFY = () => {
   const checkDragging = (e: MouseEvent) => {
     if (
@@ -25,7 +21,7 @@ const customDragIFFY = () => {
     ) {
       DRAGGING = true;
       window.removeEventListener('mousemove', checkDragging);
-      dragEl.dispatchEvent(customDrag);
+      dragEl.dispatchEvent(CUSTOM_EVENTS.customDrag);
     }
   };
 
@@ -37,7 +33,7 @@ const customDragIFFY = () => {
         (el.classList.contains('bookmark') ||
           (el.parentElement && el.parentElement.classList.contains('folder')));
 
-    if (condn) {
+    if (condn && !e.button) {
       dragEl = el;
       DRAG_LOC.x = e.pageX;
       DRAG_LOC.y = e.pageY;
@@ -55,14 +51,16 @@ const customDragIFFY = () => {
       DRAG_LOC.mouse = 'up';
 
       if (e.target) {
-        e.target.dispatchEvent(customDrop);
+        e.target.dispatchEvent(CUSTOM_EVENTS.customDrop);
       } else {
-        document.body.dispatchEvent(customDrop);
+        document.body.dispatchEvent(CUSTOM_EVENTS.customDrop);
       }
+      /**
+       * This is fired after the customdrop event. Check the
+       * corresponding event in DragMgr.onDragEnd method
+       */
+      window.dispatchEvent(CUSTOM_EVENTS.customEnd);
     }
-
-    // This is fired after the customdrop event.
-    window.dispatchEvent(customEnd);
   });
 };
 

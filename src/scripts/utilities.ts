@@ -1,7 +1,34 @@
 import { DataNode, FLOW_DIRECTION } from '@proj-types/types';
-import { GLOBAL_SETTINGS } from './globals';
+import { DRAG_REG, GLOBAL_SETTINGS, REG_CLASSES } from './globals';
+import React from 'react';
 
 export class Utilities {
+  public static getRegClass(reg: DRAG_REG, direction: FLOW_DIRECTION): string {
+    let colDir: boolean = direction === FLOW_DIRECTION.COLUMN ? true : false;
+
+    switch (reg) {
+      case DRAG_REG.BEF:
+        return colDir ? REG_CLASSES.COL_BEF : REG_CLASSES.ROW_BEF;
+        break;
+      case DRAG_REG.BET:
+        return colDir ? REG_CLASSES.COL_BET : REG_CLASSES.ROW_BET;
+        break;
+      case DRAG_REG.AFT:
+      default:
+        return colDir ? REG_CLASSES.COL_AFT : REG_CLASSES.ROW_AFT;
+    }
+  }
+
+  public static dummyContent(i0: number) {
+    let res: any[] = [];
+    for (let i = 0; i < i0; i++) {
+      res.push(
+        React.createElement('div', { key: i }, `Element No. : ${i + 1}`)
+      );
+    }
+    return res;
+  }
+
   public static areArraysSame(arr1: Array<any>, arr2: Array<any>): boolean {
     if (!arr1 || !arr2 || arr1.length !== arr2.length) {
       return false;

@@ -3,6 +3,7 @@
 @import './nodes';
 @import './side-menu';
 @import './drag_element';
+@import './overlay';
 
 button {
   padding: 0;
@@ -26,4 +27,12 @@ span.btn-icon {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+}
+
+.selected {
+  background-color: $selected-fol-bkm-bg-color;
+}
+
+.was-selected {
+  background-color: $was-moved-fol-bkm-bg-color;
 }

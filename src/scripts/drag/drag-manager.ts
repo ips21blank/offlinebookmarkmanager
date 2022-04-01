@@ -5,13 +5,18 @@ import {
   DRAG_REG,
   GLOBAL_SETTINGS,
   REG_CLASSES,
-  getRegClass,
   SELECTION,
-  folderStateClasses
-} from './globals';
-import { Utilities } from './utilities';
-import { browserAPI } from './browser/browser-api';
-import { store, selectDeselectNode, startDrag, endDrag } from '@redux/redux';
+  FOLDER_CLASSES
+} from '../globals';
+import { Utilities } from '../utilities';
+import { browserAPI } from '../browser/browser-api';
+import {
+  store,
+  selectDeselectNode,
+  startDrag,
+  endDrag,
+  highlightElementsMoved
+} from '@redux/redux';
 
 class DragMgr {
   public static selection = SELECTION;
@@ -33,7 +38,7 @@ class DragMgr {
       if (isBkm) {
         e.preventDefault();
       } else {
-        (e.target as HTMLElement).classList.add(folderStateClasses.NO_EXP);
+        (e.target as HTMLElement).classList.add(FOLDER_CLASSES.NO_EXP);
       }
 
       el.removeEventListener('click', eatClick);
@@ -79,7 +84,7 @@ class DragMgr {
       currEl.tagName.toLowerCase() === 'a'
     );
 
-    let newClass = getRegClass(region, direction);
+    let newClass = Utilities.getRegClass(region, direction);
 
     // Following will still run multiple times.
     if (
@@ -145,7 +150,7 @@ class DragMgr {
 
           let el = document.getElementById(prevNode.id);
           if (el) {
-            let prevClass = getRegClass(DRAG_REG.AFT, direction);
+            let prevClass = Utilities.getRegClass(DRAG_REG.AFT, direction);
             DragMgr._addClassToEl(el, prevClass);
             // el.classList.add(prevClass);
             exceptionData[prevClass] = el.id;
@@ -161,7 +166,7 @@ class DragMgr {
 
           let el = document.getElementById(nextNode.id);
           if (el) {
-            let nextClass = getRegClass(DRAG_REG.BEF, direction);
+            let nextClass = Utilities.getRegClass(DRAG_REG.BEF, direction);
             DragMgr._addClassToEl(el, nextClass);
             // el.classList.add(nextClass);
             exceptionData[nextClass] = el.id;
@@ -170,6 +175,12 @@ class DragMgr {
     }
 
     DragMgr._cleanExistingClasses(exceptionData);
+
+    /**
+     * So that a simultaneous drag-leave firing for reason
+     * does not remove the classes.
+     */
+    DragMgr._dragOverTime = 0;
   }
   private static _addClassToEl(el: HTMLElement, className: string) {
     el.classList.add(className);
@@ -237,6 +248,12 @@ class DragMgr {
   public static onDrop(event: Event) {
     DragMgr._cleanExistingClasses();
 
+    /**
+     * So that some timed out call to _updateElementClasses
+     * does not add the classes after this.
+     */
+    DragMgr._updatePending = false;
+
     let dropId: string = (event.target as HTMLElement).id,
       newBefAftI: number | undefined = Infinity,
       targetNode = getNodeById(dropId);
@@ -263,15 +280,18 @@ class DragMgr {
           : targetNode.index + 1;
     }
 
+    const elementsMoved: string[] = [];
     const moveElements = (target: {
       parentId: string;
       index: number | undefined;
     }) => {
       for (let id of DragMgr.selection.folders) {
         browserAPI.moveBk(id, target);
+        elementsMoved.push(id);
       }
       for (let id of DragMgr.selection.bookmarks) {
         browserAPI.moveBk(id, target);
+        elementsMoved.push(id);
       }
     };
 
@@ -292,6 +312,7 @@ class DragMgr {
         break;
     }
 
+    store.dispatch(highlightElementsMoved(elementsMoved));
     store.dispatch(selectDeselectNode('', false));
   }
 

@@ -1,0 +1,35 @@
+@import '../constants/layout-constants';
+
+div#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 3000;
+  height: 100%;
+  width: 100%;
+
+  overflow: hidden; // should never occur.
+  background-color: $overlay-bg-default-color;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: row nowrap;
+
+  div#overlay-container {
+    overflow: auto;
+    background-color: $overlay-container-bg-default-color;
+
+    max-width: $overlay-container-max-width;
+    min-width: $overlay-container-min-width;
+    max-height: $overlay-container-height;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: $overlay-extra-margin-top;
+
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+}

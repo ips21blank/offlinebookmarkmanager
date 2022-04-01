@@ -5,10 +5,10 @@ import {
   DisplayState,
   SelectDeselectNode,
   ACTIONS,
-  StartDrag
+  StartDrag,
+  HighlightElementsMoved
 } from '@proj-types/types';
 import { initialStateDisp } from '@redux/initial-states';
-import { DragMgr } from '@scripts/drag-manager';
 
 function displayReducer(
   state: DisplayState = initialStateDisp,
@@ -65,6 +65,11 @@ function displayReducer(
 
     case ACTIONS.END_DRAG: {
       return { ...state, dragId: '' };
+    }
+
+    case ACTIONS.ELEMENTS_MOVED: {
+      let payload = (<HighlightElementsMoved>action).payload;
+      return { ...state, elementsMoved: payload.idList };
     }
 
     default:

@@ -35,6 +35,11 @@ interface EndDrag extends DisplayAction {
   payload: null;
 }
 
+interface HighlightElementsMoved extends DisplayAction {
+  type: ACTIONS.ELEMENTS_MOVED;
+  payload: { idList: string[] };
+}
+
 interface DisplayState {
   rootLocation: string;
   currLocation: string;
@@ -42,6 +47,7 @@ interface DisplayState {
   selection: SelectionState;
   mode: DISP_MODES;
   dragId: string;
+  elementsMoved: string[];
 }
 
 interface BookmarkState {
@@ -56,5 +62,6 @@ export type {
   SelectDeselectNode,
   BookmarkState,
   StartDrag,
+  HighlightElementsMoved,
   EndDrag
 };

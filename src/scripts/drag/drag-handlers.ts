@@ -1,7 +1,7 @@
 import { DataNode, DISP_MODES, FLOW_DIRECTION } from '@proj-types/types';
 import { DragMgr } from './drag-manager';
-import { DRAGTYPE } from './globals';
-import { isDragging } from './browser/custom-drag-events';
+import { DRAGTYPE, SELECT_CLASS } from '../globals';
+import { isDragging } from './custom-drag-events';
 import { store, selectDeselectNode } from '@redux/redux';
 
 type T = {
@@ -19,14 +19,7 @@ window.addEventListener('customend', (e) => {
 
   DragMgr.onDragEnd();
 });
-// window.addEventListener('click', (e) => {
-//   let l = console.log;
-//   l(`clnt : (${e.clientX}, ${e.clientY})`);
-//   l(`ofst : (${e.offsetX}, ${e.offsetY})`);
-//   l(`page : (${e.pageX}, ${e.pageY})`);
-//   l(`scrn : (${e.screenX}, ${e.screenY})`);
-//   l('...............................................');
-// });
+
 const setDragElPosn = (x: number, y: number) => {
   let hidden = dragEl.classList.contains('hidden');
   if (isDragging()) {
@@ -44,9 +37,27 @@ window.addEventListener('mousemove', (e) => {
   setDragElPosn(e.clientX, e.clientY);
 });
 
+const rmvWasMovedClass = () => {
+  let elList = document.getElementsByClassName(SELECT_CLASS.WAS_SEL);
+
+  while (elList.length)
+    elList[elList.length - 1].classList.remove(SELECT_CLASS.WAS_SEL);
+};
+window.addEventListener('mousedown', rmvWasMovedClass);
+
 //
 class DragHandlers {
   public static data: { [key: string]: T } = {};
+
+  public static highlightNodesMoved(idList: string[]) {
+    let el: HTMLElement | null;
+
+    rmvWasMovedClass();
+    for (let id of idList) {
+      el = document.getElementById(id);
+      el && el.classList.add(SELECT_CLASS.WAS_SEL);
+    }
+  }
 
   public static nodeClick(e: MouseEvent) {
     // Handles node selection via click for drag and drop.
@@ -93,7 +104,9 @@ class DragHandlers {
     DragMgr.onDragStart(currEl.id, dragType, currEl);
   }
 
-  public static dragEnd(e: Event) {}
+  public static onDragLeave(e: MouseEvent) {
+    isDragging() && DragMgr.onDragLeave(e);
+  }
 
   public static addEventsToNode(
     node: chrome.bookmarks.BookmarkTreeNode,
@@ -111,7 +124,7 @@ class DragHandlers {
     //
     el.addEventListener('customdrag', DragHandlers.dragStartNode);
     el.addEventListener('mousemove', DragHandlers.dragoverNode);
-    el.addEventListener('mouseleave', DragMgr.onDragLeave);
+    el.addEventListener('mouseleave', DragHandlers.onDragLeave);
     el.addEventListener('customdrop', DragMgr.onDrop);
 
     if (dispMode === DISP_MODES.EDIT) {
