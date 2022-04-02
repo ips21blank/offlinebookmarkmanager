@@ -23,6 +23,7 @@ const FolderContent: React.FC<FolderContentProps> = ({
   // Should not cause performance issues that much, becuase the hook is used
   // in folder-content containers. Not in nodes (folders and bookmarks).
   let showIcon = useAppSelector((state) => state.settings.showFolBkmIcons);
+
   const mapChildrenToProps = (child: DataNode) => {
     let props: NodeProps = {
         node: child,
