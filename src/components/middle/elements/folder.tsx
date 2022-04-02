@@ -1,9 +1,11 @@
 import {
+  ACTIONS,
   DataNode,
   DISP_MODES,
   FLOW_DIRECTION,
   FolderContentProps,
-  NodeProps
+  NodeProps,
+  ShowCtxMenu
 } from '@proj-types/types';
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { Bookmark } from './bookmark';
@@ -12,6 +14,8 @@ import { useAppSelector } from '@redux/hooks';
 import { DragEventHandlers } from '@scripts/drag/drag-handlers';
 import { FOLDER_CLASSES, CUSTOM_EVENTS } from '@scripts/globals';
 import { TitleInput } from './title-input';
+import { useDispatch } from 'react-redux';
+import { showCtxMenu } from '@redux/redux';
 
 // Following 2 components are in same file because they both use each other.
 
@@ -61,11 +65,20 @@ const Folder: React.FC<NodeProps> = ({
     string,
     Dispatch<SetStateAction<string>>
   ] = useState(FOLDER_CLASSES.COL);
+  const dispatch: (action: ShowCtxMenu) => any = useDispatch();
   let [editing, editTitle] = useState(false);
 
   let [initialized, setInitialized] = useState(false);
   let ref = useRef<HTMLElement>(null);
 
+  const expandCollapse = () => {
+    if (expColClass === FOLDER_CLASSES.COL) {
+      setExpColClass(FOLDER_CLASSES.EXP);
+      setInitialized(true);
+    } else {
+      setExpColClass(FOLDER_CLASSES.COL);
+    }
+  };
   const expandColSubFol = () => {
     if (editing) return;
     if (ref.current && ref.current.classList.contains(FOLDER_CLASSES.NO_EXP)) {
@@ -74,17 +87,24 @@ const Folder: React.FC<NodeProps> = ({
     }
 
     if (dispMode === DISP_MODES.EDIT) return;
-
-    if (expColClass === FOLDER_CLASSES.COL) {
-      setExpColClass(FOLDER_CLASSES.EXP);
-      setInitialized(true);
-    } else {
-      setExpColClass(FOLDER_CLASSES.COL);
-    }
+    expandCollapse();
   };
+
   const contextMenuHandler = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.stopPropagation();
-    window.dispatchEvent(CUSTOM_EVENTS.nodeCtxMenu);
+    e.preventDefault();
+    // window.dispatchEvent(CUSTOM_EVENTS.nodeCtxMenu);
+
+    dispatch(
+      showCtxMenu(ACTIONS.FOL_CONTEXT_MENU, {
+        node: node,
+        isCollapsed: expColClass === FOLDER_CLASSES.COL,
+        rename: () => editTitle(true),
+        expandCollapse: expandCollapse,
+        x: e.clientX,
+        y: e.clientY
+      })
+    );
   };
 
   let folderProps = {
@@ -125,7 +145,7 @@ const Folder: React.FC<NodeProps> = ({
 
   return (
     <div className={'folder ' + expColClass}>
-      <span {...folderProps} onContextMenu={(e) => {}}>
+      <span {...folderProps}>
         {/* Because of performance issues there is an option for following. */}
         {icon}
         {editing ? titleInput : node.title}

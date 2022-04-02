@@ -1,0 +1,30 @@
+@import '../constants/style-constants';
+@import '../constants/colors-constants';
+
+div#context-menu {
+  position: fixed;
+
+  display: flex;
+  flex-flow: column nowrap;
+  width: $ctx-menu-width;
+
+  &.shift-left {
+    transform: translate(-100%, 0);
+  }
+  &.shift-up {
+    transform: translate(0, -100%);
+  }
+  &.shift-left.shift-up {
+    transform: translate(-100%, -100%);
+  }
+
+  div.ctx-menu-item {
+    height: $ctx-menu-item-height;
+    background-color: $ctx-menu-item-bg-color;
+    padding: 0 $ctx-menu-item-side-pd;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+}

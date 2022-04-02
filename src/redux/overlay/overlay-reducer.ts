@@ -6,6 +6,7 @@ import {
   ToggleOverlay
 } from '@proj-types/types';
 import { initialOverlayState } from '@redux/initial-states';
+import { OVERLAY_CLASSES, OVERLAY_STATES } from '@scripts/globals';
 
 const overlayReducer = (
   state = initialOverlayState,
@@ -19,7 +20,14 @@ const overlayReducer = (
     case ACTIONS.FOL_CONTEXT_MENU:
     case ACTIONS.BKM_CONTEXT_MENU: {
       let payload = (<ShowCtxMenu>action).payload;
-      return { ...state, ...payload };
+      return {
+        ...state,
+        ...payload,
+        state: OVERLAY_STATES.ctxMenu,
+        ctxMenuType: action.type,
+        type: OVERLAY_CLASSES.transparent,
+        visible: true
+      };
     }
     default:
       return state;

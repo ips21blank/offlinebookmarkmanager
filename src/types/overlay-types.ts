@@ -1,17 +1,20 @@
-import { OVERLAY_CLASSES } from '@scripts/globals';
+import { OVERLAY_CLASSES, OVERLAY_STATES } from '@scripts/globals';
 import { ACTIONS } from './action-types';
 import { DataNode } from './browser-types';
 
-interface FolCtxMenu {
+interface NodeCtxMenu {
   node: DataNode;
   rename: () => void;
-  expand: () => void;
+  x: number;
+  y: number;
 }
 
-interface BkmCtxMenu {
-  node: DataNode;
-  rename: () => void;
+interface FolCtxMenu extends NodeCtxMenu {
+  isCollapsed: boolean;
+  expandCollapse: () => void;
 }
+
+interface BkmCtxMenu extends NodeCtxMenu {}
 
 type CtxMenuData = FolCtxMenu | BkmCtxMenu;
 type CtxMenuType = ACTIONS.BKM_CONTEXT_MENU | ACTIONS.FOL_CONTEXT_MENU;
@@ -36,6 +39,8 @@ interface ShowCtxMenu extends OverlayAction {
 interface OverlayState {
   visible: boolean;
   type: OVERLAY_CLASSES;
+
+  state: OVERLAY_STATES;
 
   ctxMenuType?: CtxMenuType;
   ctxMenuData?: CtxMenuData;

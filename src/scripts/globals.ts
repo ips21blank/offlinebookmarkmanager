@@ -7,7 +7,7 @@ const getREM: () => number = () => {
 };
 
 const GLOBAL_SETTINGS = {
-  // CHANGES TO FOLLOWING WOULD REQUIRE RELOADS.
+  // CHANGES TO FOLLOWING MAY REQUIRE RELOADS.
   showIcons: true,
   dragMarginsPercentMin: 0.25,
   dragMarginsPercentMax: 0.75,
@@ -16,7 +16,10 @@ const GLOBAL_SETTINGS = {
   dragOverThreshold: 20,
 
   dragStartThreshold: 0.3 * getREM(), // px
-  rem: getREM()
+  rem: getREM(),
+
+  ctxMenuRightTolerance: 14, // rem - taken from start to right edge.
+  ctxMenuBottomTolenance: 2 // rem - from bottom edge to screen end.
 };
 
 enum DRAGTYPE {
@@ -75,6 +78,12 @@ enum OVERLAY_CLASSES {
   normal
 }
 
+enum OVERLAY_STATES {
+  ctxMenu,
+  modal,
+  blank
+}
+
 export {
   GLOBAL_SETTINGS,
   DRAGTYPE,
@@ -85,5 +94,6 @@ export {
   SELECT_CLASS,
   FOLDER_CLASSES,
   CUSTOM_EVENTS,
-  OVERLAY_CLASSES
+  OVERLAY_CLASSES,
+  OVERLAY_STATES
 };

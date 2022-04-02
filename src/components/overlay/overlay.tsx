@@ -14,11 +14,12 @@ import { OverlayContainer } from './overlay-content';
  * hide the overlay once it is shown.
  */
 const toggleOnEsc = (e: KeyboardEvent) => {
+  console.log('ran once');
   if (e.key === 'Escape') {
     store.dispatch(toggleOverlay());
   }
-  window.removeEventListener('keydown', toggleOnEsc);
 };
+const scrollJammer = (yOffset: number) => () => window.scrollTo(0, yOffset);
 
 const Overlay: React.FC<OverlayProps> = (props) => {
   const [visible, type]: [boolean, OVERLAY_CLASSES] = useAppSelector(
@@ -27,17 +28,19 @@ const Overlay: React.FC<OverlayProps> = (props) => {
   const dispatch: (action: ToggleOverlay) => any = useDispatch();
   const className = type === OVERLAY_CLASSES.transparent ? 'transparent' : '';
 
-  const toggle = () => {
-    dispatch(toggleOverlay());
-    window.removeEventListener('keydown', toggleOnEsc);
-  };
+  const toggle = () => dispatch(toggleOverlay());
+  const jammer = scrollJammer(window.scrollY);
 
   useEffect(() => {
-    window.addEventListener('keydown', toggleOnEsc);
+    if (visible) {
+      window.addEventListener('keydown', toggleOnEsc);
+      window.addEventListener('scroll', jammer);
+    }
     return () => {
       window.removeEventListener('keydown', toggleOnEsc);
+      window.removeEventListener('scroll', jammer);
     };
-  }, []);
+  });
 
   return visible ? (
     <div id="overlay" onClick={toggle} className={className}>
