@@ -12,7 +12,7 @@ const DRAG_LOC: { x: U; y: U; mouse: V; el?: HTMLElement } = {
   mouse: 'up'
 };
 
-const customDragIFFY = () => {
+const addCustomDragEvents = () => {
   const checkDragging = (e: MouseEvent) => {
     if (
       Math.abs(e.pageX - (DRAG_LOC.x as number)) +
@@ -25,13 +25,20 @@ const customDragIFFY = () => {
     }
   };
 
-  window.addEventListener('mousedown', (e) => {
-    e.preventDefault();
-    let el = e.target as HTMLElement,
-      condn =
-        el &&
-        (el.classList.contains('bookmark') ||
-          (el.parentElement && el.parentElement.classList.contains('folder')));
+  window.addEventListener('mousedown', (e: MouseEvent) => {
+    e.preventDefault(); // This focusing/blurring as well.
+
+    document.activeElement instanceof HTMLElement &&
+      document.activeElement.blur();
+
+    let el = e.target;
+    if (!el || !(el instanceof HTMLElement)) return;
+    el.focus();
+
+    let condn =
+      el &&
+      (el.classList.contains('bookmark') ||
+        (el.parentElement && el.parentElement.classList.contains('folder')));
 
     if (condn && !e.button) {
       dragEl = el;
@@ -67,4 +74,4 @@ const customDragIFFY = () => {
 const getDragEl = () => dragEl;
 const isDragging = () => DRAGGING;
 
-export { customDragIFFY, getDragEl, isDragging };
+export { addCustomDragEvents, getDragEl, isDragging };

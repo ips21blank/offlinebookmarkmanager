@@ -31,10 +31,10 @@ const setDragElPosn = (x: number, y: number) => {
   }
 };
 window.addEventListener('mousemove', (e) => {
-  dragEl = dragEl || document.getElementById('drag-elements-el');
-  if (!dragEl) return;
-
-  setDragElPosn(e.clientX, e.clientY);
+  dragEl = document.getElementById('drag-elements-el') as HTMLElement;
+  if (isDragging() && dragEl) {
+    setDragElPosn(e.clientX, e.clientY);
+  }
 });
 
 const rmvWasMovedClass = () => {
@@ -116,12 +116,13 @@ class DragHandlers {
     dispMode: DISP_MODES
   ) {
     let el = document.getElementById(node.id);
-    if (!el || !el.parentElement) return;
+    if (!el) return;
 
     // The case where this persists and node is removed is ignored.
     DragHandlers.data[node.id] = { node, colIndex, colCount, direction };
 
     //
+    // Note: customdrag is slow.
     el.addEventListener('customdrag', DragHandlers.dragStartNode);
     el.addEventListener('mousemove', DragHandlers.dragoverNode);
     el.addEventListener('mouseleave', DragHandlers.onDragLeave);
@@ -130,6 +131,20 @@ class DragHandlers {
     if (dispMode === DISP_MODES.EDIT) {
       el.addEventListener('click', DragHandlers.nodeClick);
     }
+  }
+
+  public static removeEventsFromNode(nodeId: string) {
+    let el = document.getElementById(nodeId);
+    if (!el) return;
+
+    //
+    // Note: customdrag is slow.
+    el.removeEventListener('customdrag', DragHandlers.dragStartNode);
+    el.removeEventListener('mousemove', DragHandlers.dragoverNode);
+    el.removeEventListener('mouseleave', DragHandlers.onDragLeave);
+    el.removeEventListener('customdrop', DragMgr.onDrop);
+
+    el.removeEventListener('click', DragHandlers.nodeClick);
   }
 }
 

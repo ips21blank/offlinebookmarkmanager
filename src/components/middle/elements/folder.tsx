@@ -10,14 +10,17 @@ import { Bookmark } from './bookmark';
 import { BsFolder } from '@components/icons';
 import { useAppSelector } from '@redux/hooks';
 import { DragEventHandlers } from '@scripts/drag/drag-handlers';
-import { FOLDER_CLASSES } from '@scripts/globals';
+import { FOLDER_CLASSES, CUSTOM_EVENTS } from '@scripts/globals';
+import { TitleInput } from './title-input';
+
+// Following 2 components are in same file because they both use each other.
 
 const FolderContent: React.FC<FolderContentProps> = ({
   children,
   initialized,
   dispMode
 }) => {
-  // Does not cause performance issues that much, becuase the hook is used
+  // Should not cause performance issues that much, becuase the hook is used
   // in folder-content containers. Not in nodes (folders and bookmarks).
   let showIcon = useAppSelector((state) => state.settings.showFolBkmIcons);
   const mapChildrenToProps = (child: DataNode) => {
@@ -57,15 +60,16 @@ const Folder: React.FC<NodeProps> = ({
     string,
     Dispatch<SetStateAction<string>>
   ] = useState(FOLDER_CLASSES.COL);
+  let [editing, editTitle] = useState(false);
+
   let [initialized, setInitialized] = useState(false);
   let ref = useRef<HTMLElement>(null);
 
   const expandColSubFol = () => {
-    if (ref.current) {
-      if (ref.current.classList.contains(FOLDER_CLASSES.NO_EXP)) {
-        ref.current.classList.remove(FOLDER_CLASSES.NO_EXP);
-        return;
-      }
+    if (editing) return;
+    if (ref.current && ref.current.classList.contains(FOLDER_CLASSES.NO_EXP)) {
+      ref.current.classList.remove(FOLDER_CLASSES.NO_EXP);
+      return;
     }
 
     if (dispMode === DISP_MODES.EDIT) return;
@@ -77,12 +81,17 @@ const Folder: React.FC<NodeProps> = ({
       setExpColClass(FOLDER_CLASSES.COL);
     }
   };
+  const contextMenuHandler = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    e.stopPropagation();
+    window.dispatchEvent(CUSTOM_EVENTS.nodeCtxMenu);
+  };
 
   let folderProps = {
     ref: ref,
     className: 'inline-el-no-wrap-center',
     id: node.id,
-    onClick: expandColSubFol
+    onClick: expandColSubFol,
+    onContextMenu: contextMenuHandler
   };
 
   let icon = showIcon ? (
@@ -92,9 +101,18 @@ const Folder: React.FC<NodeProps> = ({
   ) : (
     <></>
   );
+  let titleInput = (
+    <TitleInput
+      id={node.id}
+      title={node.title}
+      doneEditing={() => {
+        editTitle(false);
+      }}
+    />
+  );
 
   useEffect(() => {
-    // DragEventHandlers.removeEventsFromNode(node.id);
+    DragEventHandlers.removeEventsFromNode(node.id);
     DragEventHandlers.addEventsToNode(
       node,
       direction,
@@ -102,14 +120,14 @@ const Folder: React.FC<NodeProps> = ({
       colCount,
       dispMode
     );
-  }, [node, colIndex, colCount]);
+  }); // , [node, direction, colIndex, colCount, dispMode]);
 
   return (
     <div className={'folder ' + expColClass}>
-      <span {...folderProps}>
+      <span {...folderProps} onContextMenu={(e) => {}}>
         {/* Because of performance issues there is an option for following. */}
         {icon}
-        {node.title}
+        {editing ? titleInput : node.title}
       </span>
       <FolderContent
         children={node.children}

@@ -1,5 +1,7 @@
-import React from 'react';
-
 interface OverlayProps {}
 
-export type { OverlayProps };
+interface OverlayContentProps {
+  toggleOverlay: () => any;
+}
+
+export type { OverlayProps, OverlayContentProps };

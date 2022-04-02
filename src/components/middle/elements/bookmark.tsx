@@ -32,7 +32,7 @@ const Bookmark: React.FC<NodeProps> = ({
   };
 
   useEffect(() => {
-    // DragEventHandlers.removeEventsFromNode(node.id);
+    DragEventHandlers.removeEventsFromNode(node.id);
     DragEventHandlers.addEventsToNode(
       node,
       direction,
@@ -40,7 +40,7 @@ const Bookmark: React.FC<NodeProps> = ({
       colCount,
       dispMode
     );
-  }, [node, colIndex, colCount]);
+  }); // , [node, direction, colIndex, colCount, dispMode]);
 
   return (
     <a {...bkmLinkProps}>

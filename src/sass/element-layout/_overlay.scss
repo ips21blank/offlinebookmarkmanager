@@ -11,18 +11,23 @@ div#overlay {
   overflow: hidden; // should never occur.
   background-color: $overlay-bg-default-color;
 
+  &.transparent {
+    background-color: transparent;
+  }
+
   display: flex;
   align-items: center;
   justify-content: center;
   flex-flow: row nowrap;
 
-  div#overlay-container {
+  div#overlay-content {
     overflow: auto;
-    background-color: $overlay-container-bg-default-color;
+    background-color: $overlay-content-bg-default-color;
 
-    max-width: $overlay-container-max-width;
-    min-width: $overlay-container-min-width;
-    max-height: $overlay-container-height;
+    max-width: $overlay-content-max-width;
+    min-width: $overlay-content-min-width;
+    max-height: $overlay-content-height;
+    min-height: 2em;
     margin-left: auto;
     margin-right: auto;
     margin-top: $overlay-extra-margin-top;

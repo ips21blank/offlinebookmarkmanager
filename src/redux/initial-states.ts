@@ -7,7 +7,7 @@ import {
   OverlayState,
   Settings
 } from '@proj-types/types';
-import { SELECTION } from '@scripts/globals';
+import { OVERLAY_CLASSES, SELECTION } from '@scripts/globals';
 
 const ROOT_LOC = '0';
 
@@ -33,7 +33,8 @@ const initialStateSettings: Settings = {
 };
 
 const initialOverlayState: OverlayState = {
-  visible: false
+  visible: true,
+  type: OVERLAY_CLASSES.normal
 };
 
 export {

@@ -64,8 +64,16 @@ const CUSTOM_EVENTS = {
   // Drag events.
   customDrag: new Event('customdrag'),
   customDrop: new Event('customdrop'),
-  customEnd: new Event('customend')
+  customEnd: new Event('customend'),
+
+  // Context Menu events.
+  nodeCtxMenu: new Event('node-contextmenu')
 };
+
+enum OVERLAY_CLASSES {
+  transparent,
+  normal
+}
 
 export {
   GLOBAL_SETTINGS,
@@ -76,5 +84,6 @@ export {
   SELECTION,
   SELECT_CLASS,
   FOLDER_CLASSES,
-  CUSTOM_EVENTS
+  CUSTOM_EVENTS,
+  OVERLAY_CLASSES
 };

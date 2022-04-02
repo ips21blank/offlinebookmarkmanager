@@ -16,6 +16,8 @@ export enum ACTIONS {
 
   // Overlay actions
   TOGGLE_OVERLAY,
+  FOL_CONTEXT_MENU,
+  BKM_CONTEXT_MENU,
 
   // Settings actions.
   CHANGE_FLOW_DIRECTION
