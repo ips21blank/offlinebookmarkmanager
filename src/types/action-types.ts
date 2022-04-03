@@ -20,5 +20,7 @@ export enum ACTIONS {
   BKM_CONTEXT_MENU,
 
   // Settings actions.
-  CHANGE_FLOW_DIRECTION
+  CHANGE_FLOW_DIRECTION,
+  ADD_PIN,
+  RMV_PIN
 }

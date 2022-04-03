@@ -13,7 +13,7 @@ const TitleInput: React.FC<{
     doneEditing();
   };
   const checkEnter = (e: React.KeyboardEvent<HTMLElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' || e.key === 'Escape') {
       ref.current && ref.current.blur();
     }
   };
@@ -24,6 +24,7 @@ const TitleInput: React.FC<{
       onChange={(e) => setVal(e.target.value)}
       onKeyDown={checkEnter}
       onBlur={postChange}
+      autoFocus
     />
   );
 };

@@ -30,6 +30,20 @@ const addListenersToBrowser = () => {
     }
   );
 
+  // browserEventsAPI.remove;
+  browserEventsAPI.removeTr(
+    (
+      id: string,
+      removeInfo: {
+        index: number;
+        parentId: string;
+        node: DataNode;
+      }
+    ) => {
+      store.dispatch(rmvNode(id));
+    }
+  );
+
   // browserEventsAPI.edit;
   browserEventsAPI.edit(
     (

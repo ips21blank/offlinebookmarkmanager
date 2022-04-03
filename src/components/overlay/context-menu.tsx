@@ -1,6 +1,9 @@
-import { ACTIONS, FolCtxMenu } from '@proj-types/types';
+import { ACTIONS, BkmCtxMenu, FolCtxMenu, PinFolder } from '@proj-types/types';
 import { useAppSelector } from '@redux/hooks';
+import { pinFolder } from '@redux/redux';
+import { browserAPI } from '@scripts/browser/browser-api';
 import { GLOBAL_SETTINGS } from '@scripts/globals';
+import { useDispatch } from 'react-redux';
 
 const ctxMenuPosn = (x: number, y: number, n: number) => {
   if (!n) return '';
@@ -19,12 +22,16 @@ const ctxMenuPosn = (x: number, y: number, n: number) => {
   return `${moveLeft ? 'shift-left' : ''} ${moveUp ? 'shift-up' : ''}`.trim();
 };
 
-const CtxMenuEl: React.FC<{ title: string; onClick: () => any }> = ({
-  title,
-  onClick
-}) => {
+const CtxMenuEl: React.FC<{
+  title: string;
+  onClick: () => any;
+  highlight?: boolean;
+}> = ({ title, onClick, highlight }) => {
   return (
-    <div className="ctx-menu-item" onClick={onClick}>
+    <div
+      className={`ctx-menu-item${highlight ? ' highlight' : ''}`}
+      onClick={onClick}
+    >
       {title}
     </div>
   );
@@ -35,6 +42,7 @@ const CtxMenu: React.FC<{ toggleOverlay: () => any }> = ({ toggleOverlay }) => {
     state.overlay.ctxMenuType,
     state.overlay.ctxMenuData
   ]);
+  const dispatch: (action: PinFolder) => any = useDispatch();
 
   let content: JSX.Element, n: number;
   if (!menuType || !menuData) {
@@ -49,14 +57,63 @@ const CtxMenu: React.FC<{ toggleOverlay: () => any }> = ({ toggleOverlay }) => {
           title={data.isCollapsed ? 'Expand' : 'Collapse'}
           onClick={data.expandCollapse}
         />
-        <CtxMenuEl title="Open links in folder" onClick={() => {}} />
-        <CtxMenuEl title="Pin Folder" onClick={() => {}} />
-        <CtxMenuEl title="Delete folder" onClick={() => {}} />
+        <CtxMenuEl
+          title="Open links in folder"
+          onClick={() => {
+            if (menuData.node.children)
+              for (let ch of menuData.node.children) {
+                ch.url && window.open(ch.url);
+              }
+          }}
+        />
+        <CtxMenuEl
+          title="Pin Folder"
+          onClick={() => {
+            dispatch(pinFolder(menuData.node, 0));
+          }}
+        />
+        <CtxMenuEl
+          title="Delete folder"
+          onClick={() => {
+            browserAPI.removeBk(menuData.node.id);
+          }}
+        />
       </>
     );
   } else {
-    n = 0;
-    content = <></>;
+    n = 5;
+    let data = menuData as BkmCtxMenu;
+    content = (
+      <>
+        <CtxMenuEl
+          title="Open in new tab"
+          onClick={() => {
+            window.open(data.node.url);
+          }}
+        />
+        <CtxMenuEl title="Rename" onClick={menuData.rename} />
+        <CtxMenuEl
+          title="Edit"
+          onClick={() => {
+            throw 'Not implemented yet';
+          }}
+          highlight
+        />
+        <CtxMenuEl
+          title="Copy to Folder"
+          onClick={() => {
+            // browserAPI.createBk({...data.node, });
+            throw 'Not implemented yet';
+          }}
+        />
+        <CtxMenuEl
+          title="Delete bookmark"
+          onClick={() => {
+            browserAPI.removeBk(menuData.node.id);
+          }}
+        />
+      </>
+    );
   }
 
   return (

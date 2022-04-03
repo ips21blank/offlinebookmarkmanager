@@ -43,7 +43,12 @@ const Overlay: React.FC<OverlayProps> = (props) => {
   });
 
   return visible ? (
-    <div id="overlay" onClick={toggle} className={className}>
+    <div
+      id="overlay"
+      onClick={toggle}
+      className={className}
+      onContextMenu={(e) => e.preventDefault()}
+    >
       <OverlayContainer toggleOverlay={toggle} />
     </div>
   ) : (

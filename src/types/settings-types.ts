@@ -1,30 +1,50 @@
 import { ACTIONS } from './action-types';
 
-export interface Settings {
+interface Settings {
   flowDirection: FLOW_DIRECTION;
   pins: string[];
   homePin?: string;
   showFolBkmIcons: boolean;
 }
 
-export enum FLOW_DIRECTION {
+enum FLOW_DIRECTION {
   ROW,
   COLUMN
 }
 
-export enum DISP_MODES {
+enum DISP_MODES {
   EDIT,
   VIEW
 }
 
 // ACTIONS
 
-export interface SettingsActions {
+interface SettingsActions {
   type: ACTIONS;
   payload: any;
 }
 
-export interface ChangeFlowDirectionAction extends SettingsActions {
+interface ChangeFlowDirectionAction extends SettingsActions {
   type: ACTIONS.CHANGE_FLOW_DIRECTION;
   payload: { newDirection: FLOW_DIRECTION };
 }
+
+interface PinFolder extends SettingsActions {
+  type: ACTIONS.ADD_PIN;
+  payload: { pinId: string; index: number };
+}
+
+interface RmvPin extends SettingsActions {
+  type: ACTIONS.RMV_PIN;
+  payload: { pinId: string };
+}
+
+export type {
+  Settings,
+  SettingsActions,
+  ChangeFlowDirectionAction,
+  PinFolder,
+  RmvPin
+};
+
+export { FLOW_DIRECTION, DISP_MODES };

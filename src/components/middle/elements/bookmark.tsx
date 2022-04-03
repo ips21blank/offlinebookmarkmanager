@@ -1,8 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { NodeProps } from '@proj-types/types';
+import { ACTIONS, NodeProps, ShowCtxMenu } from '@proj-types/types';
 import { browserAPI } from '@scripts/browser/browser-api';
 import { BsLink45Deg } from '@components/icons';
 import { DragEventHandlers } from '@scripts/drag/drag-handlers';
+import { useDispatch } from 'react-redux';
+import { showCtxMenu } from '@redux/redux';
+import { TitleInput } from './title-input';
 
 const Bookmark: React.FC<NodeProps> = ({
   node,
@@ -12,7 +15,9 @@ const Bookmark: React.FC<NodeProps> = ({
   colCount,
   dispMode
 }) => {
+  let [editing, editTitle] = useState(false);
   let [err, setErr] = useState(false);
+  const dispatch: (action: ShowCtxMenu) => any = useDispatch();
   let img =
     err && showIcon ? (
       <BsLink45Deg />
@@ -23,12 +28,28 @@ const Bookmark: React.FC<NodeProps> = ({
       />
     );
 
+  const contextMenuHandler = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    e.stopPropagation();
+    e.preventDefault();
+    // window.dispatchEvent(CUSTOM_EVENTS.nodeCtxMenu);
+
+    dispatch(
+      showCtxMenu(ACTIONS.BKM_CONTEXT_MENU, {
+        node: node,
+        rename: () => editTitle(true),
+        x: e.clientX,
+        y: e.clientY
+      })
+    );
+  };
+
   // let ref = useRef<HTMLAnchorElement>(null);
   let bkmLinkProps = {
     // ref: ref,
     href: node.url,
     className: 'inline-el-no-wrap-center bookmark',
-    id: node.id
+    id: node.id,
+    onContextMenu: contextMenuHandler
   };
 
   useEffect(() => {
@@ -45,7 +66,15 @@ const Bookmark: React.FC<NodeProps> = ({
   return (
     <a {...bkmLinkProps}>
       {img}
-      {node.title || node.url}
+      {editing ? (
+        <TitleInput
+          id={node.id}
+          title={node.title}
+          doneEditing={() => editTitle(false)}
+        />
+      ) : (
+        node.title || node.url
+      )}
     </a>
   );
 };

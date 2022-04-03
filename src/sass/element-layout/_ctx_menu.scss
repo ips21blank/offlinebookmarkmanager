@@ -26,5 +26,12 @@ div#context-menu {
     display: flex;
     align-items: center;
     justify-content: flex-start;
+
+    &:hover {
+      background-color: $ctx-menu-item-bg-color-hov;
+    }
+    &.highlight {
+      background-color: $ctx-menu-item-bg-color-highlight;
+    }
   }
 }

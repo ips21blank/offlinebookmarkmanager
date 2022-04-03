@@ -38,6 +38,14 @@ const BrowserSimulator = {
         BrowserSimulator.bookmarks.onRemoved.listener = cb;
       }
     },
+    removeTree: (id: string, cb: any): any =>
+      (<any>BrowserSimulator.bookmarks.onRemovedTr.listener)(id),
+    onRemovedTr: {
+      listener: () => {},
+      addListener: (cb: any) => {
+        BrowserSimulator.bookmarks.onRemoved.listener = cb;
+      }
+    },
     create: (
       createData: {
         title?: string;

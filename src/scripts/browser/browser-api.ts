@@ -56,9 +56,9 @@ const browserAPI = {
   removeBk(id: string, callBack = () => {}) {
     chrome.bookmarks.remove(id, callBack);
   },
-  // removeTr(id: string, callBack = () => {}) {
-  //   chrome.bookmarks.removeTree(id, callBack);
-  // },
+  removeTr(id: string, callBack = () => {}) {
+    chrome.bookmarks.removeTree(id, callBack);
+  },
   // getLocal(
   //   keys: string | string[],
   //   callBack = (items: { [key: string]: any }) => {}
@@ -70,7 +70,12 @@ const browserAPI = {
   // },
   // mkTab	: function(o, cb){     chrome.tabs.create(o, function(tab){ if(cb) cb(tab); }); },
   createBk(
-    createData: { title?: string; url?: string; parentId?: string },
+    createData: {
+      title?: string;
+      url?: string;
+      parentId?: string;
+      index?: number;
+    },
     callBack = (res: DataNode) => {}
   ) {
     chrome.bookmarks.create(createData, callBack);
@@ -92,6 +97,15 @@ const browserEventsAPI = {
   ) {
     // when a bookmark or a folder is deleted.
     chrome.bookmarks.onRemoved.addListener(callback);
+  },
+  removeTr(
+    callback: (
+      id: string,
+      removeInfo: chrome.bookmarks.BookmarkRemoveInfo
+    ) => void
+  ) {
+    // when a bookmark or a folder is deleted.
+    chrome.bookmarks.onRemovedTr.addListener(callback);
   },
   edit(
     callback: (

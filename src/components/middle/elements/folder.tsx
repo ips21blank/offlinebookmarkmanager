@@ -126,9 +126,7 @@ const Folder: React.FC<NodeProps> = ({
     <TitleInput
       id={node.id}
       title={node.title}
-      doneEditing={() => {
-        editTitle(false);
-      }}
+      doneEditing={() => editTitle(false)}
     />
   );
 
