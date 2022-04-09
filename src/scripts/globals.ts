@@ -1,4 +1,4 @@
-import { FLOW_DIRECTION, SelectionState } from '@proj-types/types';
+import { SelectionState } from '@proj-types/types';
 import { Selection } from './selection';
 
 const getREM: () => number = () => {
@@ -74,8 +74,13 @@ const CUSTOM_EVENTS = {
 };
 
 enum OVERLAY_CLASSES {
-  transparent,
-  normal
+  transparent = 'transparent',
+  normal = 'normal',
+
+  info = 'info-popup',
+  warn = 'warn-popup',
+
+  confirm = 'confirm-popup'
 }
 
 enum OVERLAY_STATES {

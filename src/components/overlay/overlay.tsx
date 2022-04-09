@@ -26,7 +26,7 @@ const Overlay: React.FC<OverlayProps> = (props) => {
     (state) => [state.overlay.visible, state.overlay.type]
   );
   const dispatch: (action: ToggleOverlay) => any = useDispatch();
-  const className = type === OVERLAY_CLASSES.transparent ? 'transparent' : '';
+  const className = type;
 
   const toggle = () => dispatch(toggleOverlay());
   const jammer = scrollJammer(window.scrollY);

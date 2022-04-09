@@ -38,7 +38,7 @@ interface ShowCtxMenu extends OverlayAction {
 
 interface OverlayState {
   visible: boolean;
-  type: OVERLAY_CLASSES;
+  type: OVERLAY_CLASSES.transparent | OVERLAY_CLASSES.normal;
 
   state: OVERLAY_STATES;
 

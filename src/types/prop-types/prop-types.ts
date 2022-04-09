@@ -2,5 +2,5 @@ export * from './bkm-fol-props';
 export * from './folder-full-view-props';
 export * from './top-level-layout-props';
 export * from './top-menu-props';
-export * from './side-bars';
-export * from './overlay';
+export * from './side-bars-props';
+export * from './overlay-props';

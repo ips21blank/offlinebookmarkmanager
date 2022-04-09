@@ -14,10 +14,15 @@ export enum ACTIONS {
   END_DRAG,
   ELEMENTS_MOVED,
 
-  // Overlay actions
+  // OVERLAY
   TOGGLE_OVERLAY,
+  // ctx-menu
   FOL_CONTEXT_MENU,
   BKM_CONTEXT_MENU,
+  // Popups
+  CONFIRM,
+  WARNING,
+  INFO,
 
   // Settings actions.
   CHANGE_FLOW_DIRECTION,
