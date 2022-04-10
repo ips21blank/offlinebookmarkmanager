@@ -1,18 +1,18 @@
-import { EditNodeProps } from '@proj-types/types';
+import { EditNodeProps, PopupFormProps } from '@proj-types/types';
 import { browserAPI } from '@scripts/browser/browser-api';
 import { useState } from 'react';
-import { Popup } from './generic/popup';
+import { GenericPopup } from './generic/generic-popup';
 
 const EditNodePopup: React.FC<EditNodeProps> = (props) => {
   const [formState, setFormState] = useState({
     title: props.node.title,
-    url: props.node.url
+    url: props.node.url || ''
   });
 
-  props.form = {
+  let form: PopupFormProps = {
     fields: []
   };
-  props.form.fields.push({
+  form.fields.push({
     id: `title-f-${props.node.title}`,
     type: 'text',
     label: 'Title',
@@ -21,16 +21,16 @@ const EditNodePopup: React.FC<EditNodeProps> = (props) => {
   });
 
   if (props.node.url) {
-    props.form.fields.push({
+    form.fields.push({
       id: `url-f-${props.node.url}`,
       type: 'text',
       label: 'URL',
-      value: props.node.url,
+      value: formState.url,
       setValue: (val: string) => setFormState({ ...formState, url: val })
     });
   }
 
-  props.actions = [
+  let actions = [
     {
       title: 'Edit',
       action: () => {
@@ -49,7 +49,9 @@ const EditNodePopup: React.FC<EditNodeProps> = (props) => {
     }
   ];
 
-  return <Popup {...props} />;
+  let editNodeProps = { ...props, actions, form };
+
+  return <GenericPopup {...editNodeProps} />;
 };
 
 export { EditNodePopup };

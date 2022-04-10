@@ -2,19 +2,29 @@ import {
   ACTIONS,
   CtxMenuData,
   CtxMenuType,
+  PopupData,
+  PopupType,
   ShowCtxMenu,
+  ShowPopup,
   ToggleOverlay
 } from '@proj-types/types';
 import { OVERLAY_CLASSES } from '@scripts/globals';
 
-const toggleOverlay = (type = OVERLAY_CLASSES.normal): ToggleOverlay => ({
+const toggleOverlay = (): ToggleOverlay => ({
   type: ACTIONS.TOGGLE_OVERLAY,
-  payload: { type }
+  payload: {}
 });
 
+// prettier-ignore
 const showCtxMenu = (
-  ctxMenuType: CtxMenuType,
-  ctxMenuData: CtxMenuData
-): ShowCtxMenu => ({ type: ctxMenuType, payload: { ctxMenuData } });
+  type: CtxMenuType,
+  payload: CtxMenuData
+): ShowCtxMenu => ({ type, payload });
 
-export { toggleOverlay, showCtxMenu };
+// prettier-ignore
+const showPopup = (
+  type: PopupType,
+  payload: PopupData
+): ShowPopup => ({ type, payload });
+
+export { toggleOverlay, showCtxMenu, showPopup };

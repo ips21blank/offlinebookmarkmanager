@@ -1,6 +1,11 @@
-import { ACTIONS, BkmCtxMenu, FolCtxMenu, PinFolder } from '@proj-types/types';
-import { useAppSelector } from '@redux/hooks';
-import { pinFolder } from '@redux/redux';
+import {
+  ACTIONS,
+  BkmCtxMenu,
+  FolCtxMenu,
+  PinFolder,
+  ShowPopup
+} from '@proj-types/types';
+import { useAppSelector, pinFolder, showPopup } from '@redux/redux';
 import { browserAPI } from '@scripts/browser/browser-api';
 import { GLOBAL_SETTINGS } from '@scripts/globals';
 import { useDispatch } from 'react-redux';
@@ -24,13 +29,13 @@ const ctxMenuPosn = (x: number, y: number, n: number) => {
 
 const CtxMenuEl: React.FC<{
   title: string;
-  onClick: () => any;
+  onClickAction: (e: React.MouseEvent) => any | void;
   highlight?: boolean;
-}> = ({ title, onClick, highlight }) => {
+}> = ({ title, onClickAction, highlight }) => {
   return (
     <div
       className={`ctx-menu-item${highlight ? ' highlight' : ''}`}
-      onClick={onClick}
+      onClick={onClickAction}
     >
       {title}
     </div>
@@ -42,7 +47,7 @@ const CtxMenu: React.FC<{ toggleOverlay: () => any }> = ({ toggleOverlay }) => {
     state.overlay.ctxMenuType,
     state.overlay.ctxMenuData
   ]);
-  const dispatch: (action: PinFolder) => any = useDispatch();
+  const dispatch: (action: PinFolder | ShowPopup) => any = useDispatch();
 
   let content: JSX.Element, n: number;
   if (!menuType || !menuData) {
@@ -52,14 +57,14 @@ const CtxMenu: React.FC<{ toggleOverlay: () => any }> = ({ toggleOverlay }) => {
     n = 5;
     content = (
       <>
-        <CtxMenuEl title="Rename" onClick={menuData.rename} />
+        <CtxMenuEl title="Rename" onClickAction={menuData.rename} />
         <CtxMenuEl
           title={data.isCollapsed ? 'Expand' : 'Collapse'}
-          onClick={data.expandCollapse}
+          onClickAction={data.expandCollapse}
         />
         <CtxMenuEl
           title="Open links in folder"
-          onClick={() => {
+          onClickAction={() => {
             if (menuData.node.children)
               for (let ch of menuData.node.children) {
                 ch.url && window.open(ch.url);
@@ -68,13 +73,13 @@ const CtxMenu: React.FC<{ toggleOverlay: () => any }> = ({ toggleOverlay }) => {
         />
         <CtxMenuEl
           title="Pin Folder"
-          onClick={() => {
+          onClickAction={() => {
             dispatch(pinFolder(menuData.node, 0));
           }}
         />
         <CtxMenuEl
           title="Delete folder"
-          onClick={() => {
+          onClickAction={() => {
             browserAPI.removeBk(menuData.node.id);
           }}
         />
@@ -87,28 +92,37 @@ const CtxMenu: React.FC<{ toggleOverlay: () => any }> = ({ toggleOverlay }) => {
       <>
         <CtxMenuEl
           title="Open in new tab"
-          onClick={() => {
+          onClickAction={() => {
             window.open(data.node.url);
           }}
         />
-        <CtxMenuEl title="Rename" onClick={menuData.rename} />
+        <CtxMenuEl title="Rename" onClickAction={menuData.rename} />
         <CtxMenuEl
           title="Edit"
-          onClick={() => {
+          onClickAction={(e: React.MouseEvent) => {
+            e.stopPropagation();
+            dispatch(
+              showPopup(ACTIONS.EDIT_NODE, { node: data.node, title: 'Edit' })
+              // showPopup(ACTIONS.INFO, { title: 'Edit', text: 'Info popup' })
+              // showPopup(ACTIONS.CONFIRM, {
+              //   title: 'Warning',
+              //   text: 'Are you sure?',
+              //   action: () => {}
+              // })
+            );
+          }}
+        />
+        <CtxMenuEl
+          title="Copy to Folder"
+          onClickAction={() => {
+            // browserAPI.createBk({...data.node, });
             throw 'Not implemented yet';
           }}
           highlight
         />
         <CtxMenuEl
-          title="Copy to Folder"
-          onClick={() => {
-            // browserAPI.createBk({...data.node, });
-            throw 'Not implemented yet';
-          }}
-        />
-        <CtxMenuEl
           title="Delete bookmark"
-          onClick={() => {
+          onClickAction={() => {
             browserAPI.removeBk(menuData.node.id);
           }}
         />

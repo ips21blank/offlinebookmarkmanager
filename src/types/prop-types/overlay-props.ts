@@ -1,5 +1,6 @@
-import { ACTIONS } from '@proj-types/action-types';
-import { DataNode } from '@proj-types/browser-types';
+import { ACTIONS } from '../action-types';
+import { DataNode } from '../browser-types';
+import { PopupType } from '../overlay-types';
 
 interface OverlayProps {}
 
@@ -7,7 +8,7 @@ interface OverlayContentProps {
   toggleOverlay: () => any;
 }
 
-type PopupTypes = ACTIONS.CONFIRM | ACTIONS.WARNING | ACTIONS.INFO;
+type PopupTypes = PopupType;
 type PopupAlighment = 'left' | 'center' | 'right';
 
 interface PopupAction {
@@ -68,7 +69,7 @@ interface ConfirmProps extends PopupProps {
   confirmAction: Function;
 
   okTitle?: string;
-  cancelTitle: string;
+  cancelTitle?: string;
 }
 
 interface EditNodeProps extends PopupProps {

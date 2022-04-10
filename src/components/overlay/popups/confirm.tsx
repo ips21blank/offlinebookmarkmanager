@@ -1,26 +1,27 @@
 import { ConfirmProps } from '@proj-types/types';
 import { OVERLAY_CLASSES } from '@scripts/globals';
-import { Popup } from './generic/popup';
+import { GenericPopup } from './generic/generic-popup';
 
 const Confirm: React.FC<ConfirmProps> = (props) => {
-  props.className = OVERLAY_CLASSES.confirm;
-  props.actions = [
-    {
-      title: props.okTitle || 'OK',
-      action: () => {
-        props.confirmAction();
-        props.toggleOverlay();
+  let className = OVERLAY_CLASSES.confirm,
+    actions = [
+      {
+        title: props.okTitle || 'OK',
+        action: () => {
+          props.confirmAction();
+          props.toggleOverlay();
+        }
+      },
+      {
+        title: props.cancelTitle || 'Cancel',
+        action: () => {
+          props.toggleOverlay();
+        }
       }
-    },
-    {
-      title: props.cancelTitle || 'Cancel',
-      action: () => {
-        props.toggleOverlay();
-      }
-    }
-  ];
+    ],
+    confirmProps = { ...props, className, actions };
 
-  return <Popup {...props} />;
+  return <GenericPopup {...confirmProps} />;
 };
 
 export { Confirm };

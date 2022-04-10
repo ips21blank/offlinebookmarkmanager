@@ -1,14 +1,15 @@
 import { ACTIONS, InfoWarnProps } from '@proj-types/types';
 import { OVERLAY_CLASSES } from '@scripts/globals';
 import React from 'react';
-import { Popup } from './generic/popup';
+import { GenericPopup } from './generic/generic-popup';
 
 const InfoWarn: React.FC<InfoWarnProps> = (props) => {
-  props.actions = [{ title: props.buttonText, action: props.toggleOverlay }];
-  props.className =
-    props.type === ACTIONS.INFO ? OVERLAY_CLASSES.info : OVERLAY_CLASSES.warn;
+  let actions = [{ title: props.buttonText, action: props.toggleOverlay }],
+    className =
+      props.type === ACTIONS.INFO ? OVERLAY_CLASSES.info : OVERLAY_CLASSES.warn,
+    infoWarnProps = { ...props, actions, className };
 
-  return <Popup {...props} />;
+  return <GenericPopup {...infoWarnProps} />;
 };
 
 export { InfoWarn };

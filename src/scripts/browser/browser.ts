@@ -7,7 +7,8 @@ import {
   movNode,
   changeNode,
   reorderNode,
-  createNode
+  createNode,
+  rmvPin
 } from '@redux/redux';
 
 const addListenersToBrowser = () => {
@@ -41,6 +42,7 @@ const addListenersToBrowser = () => {
       }
     ) => {
       store.dispatch(rmvNode(id));
+      store.dispatch(rmvPin(id));
     }
   );
 

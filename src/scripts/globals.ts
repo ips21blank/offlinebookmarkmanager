@@ -85,7 +85,7 @@ enum OVERLAY_CLASSES {
 
 enum OVERLAY_STATES {
   ctxMenu,
-  modal,
+  popup,
   blank
 }
 

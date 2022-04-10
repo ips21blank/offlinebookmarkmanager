@@ -12,7 +12,7 @@ import {
  * Also, toggleOverlay should already be present in one or more actions.
  * Form and its state should also be configured.
  */
-const Popup: React.FC<GenericPopupProps> = ({
+const GenericPopup: React.FC<GenericPopupProps> = ({
   className,
   title,
   alignTitle,
@@ -34,4 +34,4 @@ const Popup: React.FC<GenericPopupProps> = ({
   );
 };
 
-export { Popup };
+export { GenericPopup };

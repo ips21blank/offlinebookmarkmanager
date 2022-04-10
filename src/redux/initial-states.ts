@@ -35,7 +35,7 @@ const initialStateSettings: Settings = {
 const initialOverlayState: OverlayState = {
   visible: false,
   type: OVERLAY_CLASSES.normal,
-  state: OVERLAY_STATES.blank
+  overlayState: OVERLAY_STATES.blank
 };
 
 export {

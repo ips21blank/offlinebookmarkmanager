@@ -3,6 +3,7 @@ import {
   OverlayAction,
   OverlayState,
   ShowCtxMenu,
+  ShowPopup,
   ToggleOverlay
 } from '@proj-types/types';
 import { initialOverlayState } from '@redux/initial-states';
@@ -15,17 +16,42 @@ const overlayReducer = (
   switch (action.type) {
     case ACTIONS.TOGGLE_OVERLAY: {
       let payload = (<ToggleOverlay>action).payload;
-      return { ...state, visible: !state.visible, type: payload.type };
+
+      let type =
+          payload.type !== OVERLAY_CLASSES.normal &&
+          payload.type !== OVERLAY_CLASSES.transparent
+            ? OVERLAY_CLASSES.normal
+            : payload.type,
+        visible = !state.visible,
+        overlayState = OVERLAY_STATES.blank;
+
+      return { ...state, type, visible, overlayState };
     }
     case ACTIONS.FOL_CONTEXT_MENU:
     case ACTIONS.BKM_CONTEXT_MENU: {
-      let payload = (<ShowCtxMenu>action).payload;
+      let ctxMenuData = (<ShowCtxMenu>action).payload;
       return {
         ...state,
-        ...payload,
-        state: OVERLAY_STATES.ctxMenu,
+        ctxMenuData,
+        overlayState: OVERLAY_STATES.ctxMenu,
+
         ctxMenuType: action.type,
         type: OVERLAY_CLASSES.transparent,
+        visible: true
+      };
+    }
+    case ACTIONS.INFO:
+    case ACTIONS.WARNING:
+    case ACTIONS.CONFIRM:
+    case ACTIONS.EDIT_NODE: {
+      let popupData = (<ShowPopup>action).payload;
+      return {
+        ...state,
+        popupData,
+        overlayState: OVERLAY_STATES.popup,
+
+        popupType: action.type,
+        type: OVERLAY_CLASSES.normal,
         visible: true
       };
     }

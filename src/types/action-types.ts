@@ -23,6 +23,7 @@ export enum ACTIONS {
   CONFIRM,
   WARNING,
   INFO,
+  EDIT_NODE,
 
   // Settings actions.
   CHANGE_FLOW_DIRECTION,
