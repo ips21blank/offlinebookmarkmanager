@@ -20,28 +20,47 @@ interface BkmCtxMenu extends NodeCtxMenu {}
 type CtxMenuType = ACTIONS.BKM_CONTEXT_MENU | ACTIONS.FOL_CONTEXT_MENU;
 type CtxMenuData = FolCtxMenu | BkmCtxMenu;
 
-// Popups.
+// POPUPS.
+
+// Data used by popups.
 interface CommonPopupData {
   title: string;
 }
-interface InfoWarnPopup extends CommonPopupData {
+interface InfoPopupData extends CommonPopupData {
   text: string;
 }
-interface ConfirmPopup extends CommonPopupData {
+interface WarnPopupData extends CommonPopupData {
+  text: string;
+}
+interface ConfirmPopupData extends CommonPopupData {
   text: string;
   action: () => any;
 }
-interface editNodePopup extends CommonPopupData {
+interface EditNodePopupData extends CommonPopupData {
   node: DataNode;
 }
+interface CopyMovePopupData extends CommonPopupData {
+  idList: string[];
+}
+interface MovePopupData extends CopyMovePopupData {}
+interface CopyToPopupData extends CopyMovePopupData {}
 
 type PopupType =
   | ACTIONS.WARNING
   | ACTIONS.INFO
   | ACTIONS.CONFIRM
-  | ACTIONS.EDIT_NODE;
-type PopupData = InfoWarnPopup | ConfirmPopup | editNodePopup;
+  | ACTIONS.EDIT_NODE
+  | ACTIONS.MOVE_POPUP
+  | ACTIONS.COPY_TO_POPUP;
+type PopupData =
+  | InfoPopupData
+  | WarnPopupData
+  | ConfirmPopupData
+  | EditNodePopupData
+  | MovePopupData
+  | CopyToPopupData;
 
+// ACTION data.
 interface OverlayAction {
   type: ACTIONS;
   payload: any;
@@ -56,12 +75,13 @@ interface ShowCtxMenu extends OverlayAction {
   type: CtxMenuType;
   payload: CtxMenuData;
 }
-
+// Action for all popups is similar - it only differs in payload.
 interface ShowPopup extends OverlayAction {
   type: PopupType;
   payload: PopupData;
 }
 
+// State of overlay object in redux.
 interface OverlayState {
   visible: boolean;
   type: OVERLAY_CLASSES.transparent | OVERLAY_CLASSES.normal;
@@ -89,7 +109,10 @@ export type {
   //
   PopupType,
   PopupData,
-  InfoWarnPopup,
-  ConfirmPopup,
-  editNodePopup
+  InfoPopupData,
+  WarnPopupData,
+  ConfirmPopupData,
+  EditNodePopupData,
+  MovePopupData,
+  CopyToPopupData
 };

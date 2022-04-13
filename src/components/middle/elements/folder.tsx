@@ -96,7 +96,7 @@ const Folder: React.FC<NodeProps> = ({
     // window.dispatchEvent(CUSTOM_EVENTS.nodeCtxMenu);
 
     dispatch(
-      showCtxMenu(ACTIONS.FOL_CONTEXT_MENU, {
+      showCtxMenu({
         node: node,
         isCollapsed: expColClass === FOLDER_CLASSES.COL,
         rename: () => editTitle(true),

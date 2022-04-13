@@ -5,7 +5,14 @@ import {
   PinFolder,
   ShowPopup
 } from '@proj-types/types';
-import { useAppSelector, pinFolder, showPopup } from '@redux/redux';
+import {
+  useAppSelector,
+  pinFolder,
+  showPopup,
+  showEditNodePopup,
+  showCopyToPopup,
+  showMovePopup
+} from '@redux/redux';
 import { browserAPI } from '@scripts/browser/browser-api';
 import { GLOBAL_SETTINGS } from '@scripts/globals';
 import { useDispatch } from 'react-redux';
@@ -78,10 +85,23 @@ const CtxMenu: React.FC<{ toggleOverlay: () => any }> = ({ toggleOverlay }) => {
           }}
         />
         <CtxMenuEl
+          title="Move this Folder"
+          onClickAction={(e: React.MouseEvent) => {
+            e.stopPropagation();
+            dispatch(
+              showMovePopup({
+                title: 'Move to Folder',
+                idList: [menuData.node.id]
+              })
+            );
+          }}
+        />
+        <CtxMenuEl
           title="Delete folder"
           onClickAction={() => {
             browserAPI.removeBk(menuData.node.id);
           }}
+          highlight
         />
       </>
     );
@@ -102,29 +122,55 @@ const CtxMenu: React.FC<{ toggleOverlay: () => any }> = ({ toggleOverlay }) => {
           onClickAction={(e: React.MouseEvent) => {
             e.stopPropagation();
             dispatch(
-              showPopup(ACTIONS.EDIT_NODE, { node: data.node, title: 'Edit' })
+              showEditNodePopup({ node: data.node, title: 'Edit' })
+              // TESTING.
               // showPopup(ACTIONS.INFO, { title: 'Edit', text: 'Info popup' })
               // showPopup(ACTIONS.CONFIRM, {
               //   title: 'Warning',
               //   text: 'Are you sure?',
               //   action: () => {}
               // })
+              // showPopup(ACTIONS.MOVE_POPUP, {
+              //   title: 'Move to Folder',
+              //   idList: [menuData.node.id]
+              // })
+              // showPopup(ACTIONS.COPY_TO_POPUP, {
+              //   title: 'Copy to Folder',
+              //   idList: [menuData.node.id]
+              // })
+            );
+          }}
+        />
+        <CtxMenuEl
+          title="Move to Folder"
+          onClickAction={(e: React.MouseEvent) => {
+            e.stopPropagation();
+            dispatch(
+              showMovePopup({
+                title: 'Move to Folder',
+                idList: [menuData.node.id]
+              })
             );
           }}
         />
         <CtxMenuEl
           title="Copy to Folder"
-          onClickAction={() => {
-            // browserAPI.createBk({...data.node, });
-            throw 'Not implemented yet';
+          onClickAction={(e: React.MouseEvent) => {
+            e.stopPropagation();
+            dispatch(
+              showCopyToPopup({
+                title: 'Copy to Folder',
+                idList: [menuData.node.id]
+              })
+            );
           }}
-          highlight
         />
         <CtxMenuEl
           title="Delete bookmark"
           onClickAction={() => {
             browserAPI.removeBk(menuData.node.id);
           }}
+          highlight
         />
       </>
     );

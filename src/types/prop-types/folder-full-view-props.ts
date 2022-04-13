@@ -1,4 +1,4 @@
-import { DISP_MODES } from '@proj-types/settings-types';
+import { DISP_MODES } from '@proj-types/settings-types-actions';
 import { DataNode } from '../browser-types';
 
 /**

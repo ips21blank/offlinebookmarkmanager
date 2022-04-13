@@ -24,6 +24,8 @@ export enum ACTIONS {
   WARNING,
   INFO,
   EDIT_NODE,
+  MOVE_POPUP,
+  COPY_TO_POPUP,
 
   // Settings actions.
   CHANGE_FLOW_DIRECTION,

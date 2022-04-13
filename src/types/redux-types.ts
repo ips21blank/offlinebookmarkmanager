@@ -1,7 +1,11 @@
 import { BrowserAction } from './browser-types';
-import { BookmarkState, DisplayAction, DisplayState } from './display-types';
-import { OverlayAction, OverlayState } from './overlay-types';
-import { Settings, SettingsActions } from './settings-types';
+import {
+  BookmarkState,
+  DisplayAction,
+  DisplayState
+} from './display-types-actions';
+import { OverlayAction, OverlayState } from './overlay-types-actions';
+import { Settings, SettingsActions } from './settings-types-actions';
 
 export interface StoreType {
   settings: Settings;

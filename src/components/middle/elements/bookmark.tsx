@@ -34,7 +34,7 @@ const Bookmark: React.FC<NodeProps> = ({
     // window.dispatchEvent(CUSTOM_EVENTS.nodeCtxMenu);
 
     dispatch(
-      showCtxMenu(ACTIONS.BKM_CONTEXT_MENU, {
+      showCtxMenu({
         node: node,
         rename: () => editTitle(true),
         x: e.clientX,

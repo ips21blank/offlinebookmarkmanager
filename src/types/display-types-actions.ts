@@ -1,7 +1,7 @@
 import { DataBase } from '@scripts/db';
 import { ACTIONS } from './action-types';
 import { SelectionState } from './script-types';
-import { DISP_MODES } from './settings-types';
+import { DISP_MODES } from './settings-types-actions';
 
 // ACTIONS
 

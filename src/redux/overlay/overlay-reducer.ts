@@ -1,5 +1,6 @@
 import { ACTIONS } from '@proj-types/action-types';
 import {
+  MovePopupData,
   OverlayAction,
   OverlayState,
   ShowCtxMenu,
@@ -43,8 +44,11 @@ const overlayReducer = (
     case ACTIONS.INFO:
     case ACTIONS.WARNING:
     case ACTIONS.CONFIRM:
-    case ACTIONS.EDIT_NODE: {
+    case ACTIONS.EDIT_NODE:
+    case ACTIONS.MOVE_POPUP:
+    case ACTIONS.COPY_TO_POPUP: {
       let popupData = (<ShowPopup>action).payload;
+
       return {
         ...state,
         popupData,

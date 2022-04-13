@@ -1,7 +1,7 @@
 import { OverlayProps, ToggleOverlay } from '@proj-types/types';
 import { useAppSelector } from '@redux/hooks';
 import { store, toggleOverlay } from '@redux/redux';
-import { OVERLAY_CLASSES } from '@scripts/globals';
+import { OVERLAY_STATES } from '@scripts/globals';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { OverlayContainer } from './overlay-content';
@@ -13,31 +13,41 @@ import { OverlayContainer } from './overlay-content';
  * Now any other function than toggleOnEsc and toggle can't be used to show or
  * hide the overlay once it is shown.
  */
-const toggleOnEsc = (e: KeyboardEvent) => {
+const toggleOnEsc = (e?: KeyboardEvent) => {
   console.log('ran once');
-  if (e.key === 'Escape') {
+  if (!e || e.key === 'Escape') {
     store.dispatch(toggleOverlay());
   }
 };
 const scrollJammer = (yOffset: number) => () => window.scrollTo(0, yOffset);
 
 const Overlay: React.FC<OverlayProps> = (props) => {
-  const [visible, type]: [boolean, OVERLAY_CLASSES] = useAppSelector(
-    (state) => [state.overlay.visible, state.overlay.type]
-  );
+  const [visible, type, isCtxMenu] = useAppSelector((state) => [
+    state.overlay.visible,
+    state.overlay.type,
+    state.overlay.overlayState === OVERLAY_STATES.ctxMenu
+  ]);
   const dispatch: (action: ToggleOverlay) => any = useDispatch();
   const className = type;
 
   const toggle = () => dispatch(toggleOverlay());
   const jammer = scrollJammer(window.scrollY);
 
+  let currVisible = visible;
+  const toggleOnScroll = () => {
+    currVisible && toggleOnEsc();
+    currVisible = false;
+  };
+
   useEffect(() => {
     if (visible) {
       window.addEventListener('keydown', toggleOnEsc);
+      isCtxMenu && window.addEventListener('scroll', toggleOnScroll);
       window.addEventListener('scroll', jammer);
     }
     return () => {
       window.removeEventListener('keydown', toggleOnEsc);
+      window.removeEventListener('scroll', toggleOnScroll);
       window.removeEventListener('scroll', jammer);
     };
   });

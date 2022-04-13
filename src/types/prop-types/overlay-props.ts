@@ -1,6 +1,6 @@
 import { ACTIONS } from '../action-types';
 import { DataNode } from '../browser-types';
-import { PopupType } from '../overlay-types';
+import { PopupType } from '../overlay-types-actions';
 
 interface OverlayProps {}
 
@@ -76,6 +76,14 @@ interface EditNodeProps extends PopupProps {
   node: DataNode;
 }
 
+interface copyMoveProps extends PopupProps {
+  copyOrMove: 'copy' | 'move';
+  idList: string[];
+}
+interface MovePopupProps extends copyMoveProps {}
+
+interface CopyToPopupProps extends copyMoveProps {}
+
 export type {
   PopupTypes,
   PopupAlighment,
@@ -91,5 +99,7 @@ export type {
   //
   InfoWarnProps,
   ConfirmProps,
-  EditNodeProps
+  EditNodeProps,
+  MovePopupProps,
+  CopyToPopupProps
 };
