@@ -8,6 +8,9 @@ div#context-menu {
   flex-flow: column nowrap;
   width: $ctx-menu-width;
 
+  border-radius: $ctx-menu-border-radius;
+  overflow: hidden;
+
   &.shift-left {
     transform: translate(-100%, 0);
   }
@@ -32,6 +35,9 @@ div#context-menu {
     }
     &.highlight {
       background-color: $ctx-menu-item-bg-color-highlight;
+    }
+    &.highlight:hover {
+      background-color: $ctx-menu-item-bg-color-highlight-hov;
     }
   }
 }

@@ -5,10 +5,17 @@ import { CtxMenu } from './context-menu';
 import { Popup } from './popup';
 
 const OverlayContainer: React.FC<OverlayContentProps> = ({ toggleOverlay }) => {
-  const overlayState = useAppSelector((state) => state.overlay.overlayState);
+  const [overlayState, fullHeight] = useAppSelector((state) => [
+    state.overlay.overlayState,
+    state.overlay.fullHeight
+  ]);
 
   return (
-    <div id="overlay-content" onClick={(e) => e.stopPropagation()}>
+    <div
+      id="overlay-content"
+      className={fullHeight ? 'full-height' : ''}
+      onClick={(e) => e.stopPropagation()}
+    >
       {overlayState === OVERLAY_STATES.ctxMenu ? (
         <CtxMenu toggleOverlay={toggleOverlay} />
       ) : (

@@ -14,7 +14,6 @@ import { OverlayContainer } from './overlay-content';
  * hide the overlay once it is shown.
  */
 const toggleOnEsc = (e?: KeyboardEvent) => {
-  console.log('ran once');
   if (!e || e.key === 'Escape') {
     store.dispatch(toggleOverlay());
   }

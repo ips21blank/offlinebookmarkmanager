@@ -26,7 +26,7 @@ const overlayReducer = (
         visible = !state.visible,
         overlayState = OVERLAY_STATES.blank;
 
-      return { ...state, type, visible, overlayState };
+      return { ...state, type, visible, overlayState, fullHeight: false };
     }
     case ACTIONS.FOL_CONTEXT_MENU:
     case ACTIONS.BKM_CONTEXT_MENU: {
@@ -38,7 +38,8 @@ const overlayReducer = (
 
         ctxMenuType: action.type,
         type: OVERLAY_CLASSES.transparent,
-        visible: true
+        visible: true,
+        fullHeight: false
       };
     }
     case ACTIONS.INFO:
@@ -47,7 +48,12 @@ const overlayReducer = (
     case ACTIONS.EDIT_NODE:
     case ACTIONS.MOVE_POPUP:
     case ACTIONS.COPY_TO_POPUP: {
-      let popupData = (<ShowPopup>action).payload;
+      let popupData = (<ShowPopup>action).payload,
+        fullHeight =
+          action.type === ACTIONS.MOVE_POPUP ||
+          action.type === ACTIONS.COPY_TO_POPUP
+            ? true
+            : false;
 
       return {
         ...state,
@@ -56,7 +62,8 @@ const overlayReducer = (
 
         popupType: action.type,
         type: OVERLAY_CLASSES.normal,
-        visible: true
+        visible: true,
+        fullHeight
       };
     }
     default:

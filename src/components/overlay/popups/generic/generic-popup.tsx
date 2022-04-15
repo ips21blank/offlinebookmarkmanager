@@ -27,11 +27,13 @@ const GenericPopup: React.FC<GenericPopupProps> = ({
   children
 }) => {
   return (
-    <div className={`popup${className ? ' ' + className : ''}`}>
+    <div id="popup" className={className || ''}>
       <PopupTitle {...{ title, alignTitle }} />
-      <PopupText text={text} />
-      <PopupForm {...form} />
-      {children}
+      <div id="popup-content">
+        <PopupText text={text} />
+        <PopupForm {...form} />
+        {children}
+      </div>
       <PopupButtons {...{ actions, alignButtons }} />
     </div>
   );

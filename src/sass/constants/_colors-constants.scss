@@ -16,10 +16,17 @@ $subfolder-content-odd-bg-color: rgb(150, 150, 150);
 
 $drag-el-bg-col: white;
 
-// Overlay
+// OVERLAY
 $overlay-bg-default-color: rgba(0, 0, 0, 0.7);
 $overlay-content-bg-default-color: white;
 
+// context menu
 $ctx-menu-item-bg-color: white;
 $ctx-menu-item-bg-color-hov: rgb(217, 194, 233);
-$ctx-menu-item-bg-color-highlight: rgb(217, 232, 155);
+$ctx-menu-item-bg-color-highlight: rgb(232, 210, 155);
+$ctx-menu-item-bg-color-highlight-hov: rgb(195, 152, 225);
+
+// Popup
+$popup-btn-text: rgb(236, 236, 236);
+$popup-btn-bg: rgb(45, 124, 203);
+$popup-btn-bg-hov: rgb(30, 84, 139);

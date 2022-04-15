@@ -1,5 +1,10 @@
 import { DataNode } from '@proj-types/types';
-import { BsChevronRight, BsChevronDown } from '@components/icons';
+import {
+  BsChevronRight,
+  BsChevronDown,
+  BsFolder,
+  BsFolder2Open
+} from '@components/icons';
 import { useState } from 'react';
 
 const FolderSelector: React.FC<{
@@ -21,11 +26,18 @@ const FolderSelector: React.FC<{
 
   return (
     <div className="folder-selector">
-      <div className={`select-fol${selected ? ' selected' : ''}`}>
+      <div className="select-fol">
         <span className="btn-icon" onClick={expandFol}>
           {exp ? <BsChevronDown /> : <BsChevronRight />}
         </span>
-        <span onClick={() => selectFol(node.id)}>{node.title}</span>
+        <span
+          className={`inline-el-no-wrap-center${selected ? ' selected' : ''}`}
+          onClick={() => selectFol(node.id)}
+        >
+          {exp ? <BsFolder2Open /> : <BsFolder />}
+          &nbsp;
+          {node.title}
+        </span>
       </div>
       <div className="folder-selector-subfolders">
         {exp &&
@@ -49,7 +61,7 @@ const SelectFolderComp: React.FC<{
   selectedId: string;
 }> = ({ nodes, selectFol, selectedId }) => {
   return (
-    <div>
+    <div id="folder-selector-list">
       <p>Select target Folder</p>
       {nodes.map((node) => (
         <FolderSelector

@@ -9,7 +9,7 @@ import {
 } from '@proj-types/types';
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { Bookmark } from './bookmark';
-import { BsFolder } from '@components/icons';
+import { BsFolder, BsFolder2Open } from '@components/icons';
 import { useAppSelector } from '@redux/hooks';
 import { DragEventHandlers } from '@scripts/drag/drag-handlers';
 import { FOLDER_CLASSES, CUSTOM_EVENTS } from '@scripts/globals';
@@ -61,18 +61,19 @@ const Folder: React.FC<NodeProps> = ({
   colCount,
   dispMode
 }) => {
-  let [expColClass, setExpColClass]: [
+  const [expColClass, setExpColClass]: [
     string,
     Dispatch<SetStateAction<string>>
   ] = useState(FOLDER_CLASSES.COL);
   const dispatch: (action: ShowCtxMenu) => any = useDispatch();
-  let [editing, editTitle] = useState(false);
+  const [editing, editTitle] = useState(false);
 
-  let [initialized, setInitialized] = useState(false);
+  const [initialized, setInitialized] = useState(false);
   let ref = useRef<HTMLElement>(null);
+  const isCollapsed = expColClass === FOLDER_CLASSES.COL;
 
   const expandCollapse = () => {
-    if (expColClass === FOLDER_CLASSES.COL) {
+    if (isCollapsed) {
       setExpColClass(FOLDER_CLASSES.EXP);
       setInitialized(true);
     } else {
@@ -98,7 +99,7 @@ const Folder: React.FC<NodeProps> = ({
     dispatch(
       showCtxMenu({
         node: node,
-        isCollapsed: expColClass === FOLDER_CLASSES.COL,
+        isCollapsed,
         rename: () => editTitle(true),
         expandCollapse: expandCollapse,
         x: e.clientX,
@@ -117,7 +118,7 @@ const Folder: React.FC<NodeProps> = ({
 
   let icon = showIcon ? (
     <span className="folder-icon">
-      <BsFolder />
+      {isCollapsed ? <BsFolder /> : <BsFolder2Open />}
     </span>
   ) : (
     <></>

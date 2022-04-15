@@ -25,6 +25,7 @@ const CopyMovePopup: React.FC<MovePopupProps | CopyToPopupProps> = (props) => {
         title: props.copyOrMove === 'move' ? 'Move' : 'Copy',
         action: () => {
           props.toggleOverlay();
+          if (!selectedId) return;
 
           if (props.copyOrMove === 'move') {
             for (let id of props.idList) {

@@ -93,6 +93,7 @@ interface OverlayState {
 
   popupType?: PopupType;
   popupData?: PopupData;
+  fullHeight?: boolean;
 }
 
 export type {

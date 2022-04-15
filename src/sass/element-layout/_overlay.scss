@@ -21,13 +21,17 @@ div#overlay {
   flex-flow: row nowrap;
 
   div#overlay-content {
+    border-radius: $popup-content-border-radius;
     overflow: auto;
     background-color: $overlay-content-bg-default-color;
 
     max-width: $overlay-content-max-width;
     min-width: $overlay-content-min-width;
     max-height: $overlay-content-height;
-    min-height: 2em;
+    &.full-height {
+      height: $overlay-content-height;
+    }
+    // min-height: 2em;
     margin-left: auto;
     margin-right: auto;
     margin-top: $overlay-extra-margin-top;

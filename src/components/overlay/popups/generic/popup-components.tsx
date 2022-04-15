@@ -5,7 +5,7 @@
 
 function PopupTitle({ title, alignTitle }: any) {
   return title ? (
-    <div className={`popup-title${alignTitle ? ' ' + alignTitle : ''}`}>
+    <div id="popup-title" className={alignTitle || ''}>
       {title}
     </div>
   ) : (
@@ -14,13 +14,20 @@ function PopupTitle({ title, alignTitle }: any) {
 }
 
 function PopupText({ text }: any) {
-  return text ? <div className="popup-text">{text}</div> : <></>;
+  text = text;
+  return text ? <div id="popup-text">{text}</div> : <></>;
 }
 
 function PopupFormField({ id, type, label, disabled, value, setValue }: any) {
   return (
-    <div className="popup-input">
-      {label ? <label htmlFor="">{label}</label> : ''}
+    <div className="popup-input ">
+      {label ? (
+        <label htmlFor={id} className="inline-el-no-wrap-center">
+          {label + ' : '}
+        </label>
+      ) : (
+        ''
+      )}
       <input
         id={id}
         type={type}
@@ -36,7 +43,7 @@ function PopupForm({ title, text, fields }: any) {
 
   // Each field should have its own setvalue at this point.
   return (
-    <div className="popup-form">
+    <div id="popup-form">
       {title ? <span className="popup-form-title">{title}</span> : ''}
       {text ? <span className="popup-form-text">{text}</span> : ''}
       {fields.map((field: any) => (
@@ -56,7 +63,7 @@ function Button({ title, action }: any) {
 function PopupButtons({ actions, alignButtons }: any) {
   // Atleast one button is always there.
   return (
-    <div className={`popup-buttons${alignButtons ? ' ' + alignButtons : ''}`}>
+    <div id="popup-buttons" className={alignButtons || ''}>
       {actions.map((btn: any) => (
         <Button
           title={btn.title}

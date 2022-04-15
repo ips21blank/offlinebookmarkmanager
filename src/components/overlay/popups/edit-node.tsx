@@ -49,7 +49,8 @@ const EditNodePopup: React.FC<EditNodeProps> = (props) => {
     }
   ];
 
-  let editNodeProps = { ...props, actions, form };
+  let text = 'Enter Name and URL to edit the bookmark.';
+  let editNodeProps = { ...props, actions, form, text };
 
   return <GenericPopup {...editNodeProps} />;
 };

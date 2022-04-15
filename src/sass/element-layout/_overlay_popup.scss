@@ -1,0 +1,122 @@
+@import '../constants/layout-constants';
+@import '../constants/style-constants';
+@import '../constants/colors-constants';
+
+// Overall popup element layout.
+div#popup {
+  display: flex;
+  flex-flow: column nowrap;
+  overflow: hidden;
+
+  div#popup-title {
+    font-size: $popup-title-font-size;
+
+    flex: 0 0 $overlay-title-ht;
+    padding: 0 0.5rem;
+
+    display: flex;
+    align-items: center;
+  }
+  div#popup-content {
+    flex: 0 1 auto;
+    padding: $popup-content-pd;
+    height: 100%;
+    overflow: auto;
+  }
+  div#popup-buttons {
+    flex: 0 0 $overlay-buttons-ht;
+
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+
+    padding: $popup-buttons-pd;
+
+    &.left {
+      justify-content: flex-start;
+    }
+    &.center {
+      justify-content: center;
+    }
+
+    // Right one is default.
+    // &.right {
+    justify-content: flex-end;
+    // }
+  }
+}
+div.full-height div#popup {
+  height: 100%;
+}
+
+// Popup content (text, form, folder-selector) layout.
+div#popup-content {
+  div#popup-text {
+    padding: $popup-text-pd;
+    margin: $popup-text-mg;
+  }
+
+  div#folder-selector-list {
+    padding: 0.5rem;
+    p {
+      padding: 0.5rem 0 0.8rem;
+    }
+
+    div.folder-selector {
+      div.select-fol {
+        height: $fol-sel-ht;
+
+        span.btn-icon {
+          cursor: pointer;
+        }
+
+        display: flex;
+        flex-direction: row nowrap;
+      }
+
+      div.folder-selector-subfolders {
+        padding-left: $fol-sel-subfols-pd-lt;
+      }
+    }
+  }
+
+  div#popup-form {
+    padding: $popup-form-pd;
+
+    div.popup-input {
+      height: $popup-form-input-ht;
+      display: flex;
+      flex-flow: row nowrap;
+
+      label {
+        flex: 0 0 $popup-form-input-label-wd;
+        margin: $popup-form-label-mg;
+
+        // lable has class .inline-el-no-wrap-center
+        justify-content: flex-end;
+      }
+      input {
+        flex: 1 1 0;
+      }
+    }
+  }
+}
+
+// Popup buttons - shown at bottom.
+div#popup-buttons div.popup-btn {
+  cursor: pointer;
+  color: $popup-btn-text;
+  background-color: $popup-btn-bg;
+
+  height: $overlay-button-ht;
+  margin: 0 $overlay-button-mg;
+  padding: 0 $popup-btn-pd;
+  border-radius: $popup-btn-border-radius;
+
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background-color: $popup-btn-bg-hov;
+  }
+}
