@@ -118,6 +118,13 @@ const CtxMenu: React.FC<{ toggleOverlay: () => any }> = ({ toggleOverlay }) => {
         />
         <CtxMenuEl title="Rename" onClickAction={menuData.rename} />
         <CtxMenuEl
+          title="Show Icon Only"
+          onClickAction={(e: React.MouseEvent) => {
+            browserAPI.update(menuData.node.id, { title: '' });
+            throw 'Storage API is required for storing bookmark names.';
+          }}
+        />
+        <CtxMenuEl
           title="Edit"
           onClickAction={(e: React.MouseEvent) => {
             e.stopPropagation();

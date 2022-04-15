@@ -35,7 +35,7 @@ const changeNode = (
     payload: {
       id,
       url: changeInfo.url || undefined,
-      title: changeInfo.title || undefined
+      title: changeInfo.title ?? undefined
     }
   };
 };

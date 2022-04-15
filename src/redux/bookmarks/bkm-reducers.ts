@@ -31,7 +31,8 @@ export const bkmReducer = (
       let payload = (<NodeChangeAction>action).payload;
 
       payload.url && state.db.url(payload.id, payload.url);
-      payload.title && state.db.rnm(payload.id, payload.title);
+      (payload.title || payload.title == '') &&
+        state.db.rnm(payload.id, payload.title);
 
       return { ...state };
     }
