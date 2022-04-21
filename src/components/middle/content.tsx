@@ -5,16 +5,18 @@ import { useAppSelector } from '@redux/redux';
 import { DragEventHandlers } from '@scripts/drag/drag-handlers';
 
 export const Content: React.FC<ContentProps> = (props) => {
-  const folders = useAppSelector((state) => {
+  const [folders, nodesMoved] = useAppSelector((state) => {
     let loc = state.displayState.currLocation;
+    let folderIds: string[];
+
     if (state.bookmarks.db.baseNodeId === loc) {
-      return state.bookmarks.db.baseChildIds;
+      folderIds = state.bookmarks.db.baseChildIds;
+    } else {
+      folderIds = (loc && [loc]) || [];
     }
-    return (loc && [loc]) || [];
+
+    return [folderIds, state.displayState.elementsMoved];
   });
-  const nodesMoved = useAppSelector(
-    (state) => state.displayState.elementsMoved
-  );
 
   useEffect(() => {
     DragEventHandlers.highlightNodesMoved(nodesMoved);

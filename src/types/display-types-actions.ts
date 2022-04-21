@@ -48,6 +48,7 @@ interface DisplayState {
   mode: DISP_MODES;
   dragId: string;
   elementsMoved: string[];
+  groupBkmFol: boolean;
 }
 
 interface BookmarkState {

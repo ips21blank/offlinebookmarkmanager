@@ -3,6 +3,8 @@ import { DRAG_REG, GLOBAL_SETTINGS, REG_CLASSES } from './globals';
 import React from 'react';
 
 export class Utilities {
+  public static domNIndexReg: RegExp = /:\/\/\/?/;
+
   public static getRegClass(reg: DRAG_REG, direction: FLOW_DIRECTION): string {
     let colDir: boolean = direction === FLOW_DIRECTION.COLUMN ? true : false;
 
@@ -41,6 +43,32 @@ export class Utilities {
     }
 
     return true;
+  }
+
+  private static _getDomN(url: string): string {
+    let m = url.match(Utilities.domNIndexReg);
+    if (!m || !m.index) return url;
+
+    return url.substring(m.index + m[0].length, url.length).toLowerCase();
+  }
+
+  public static sortNodesForGrouping(nodes: DataNode[]): DataNode[] {
+    let sortedNodes = [...nodes];
+
+    sortedNodes.sort((a, b) => {
+      if (!a.url) {
+        if (b.url) {
+          return -1;
+        }
+        return a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1;
+      } else {
+        if (!b.url) return 1;
+      }
+
+      return Utilities._getDomN(a.url) > Utilities._getDomN(b.url) ? 1 : -1;
+    });
+
+    return sortedNodes;
   }
 
   public static getNodeListForFol(

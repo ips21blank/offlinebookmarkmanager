@@ -22,7 +22,8 @@ const initialStateDisp: DisplayState = {
   selection: SELECTION,
   mode: DISP_MODES.VIEW,
   dragId: '',
-  elementsMoved: []
+  elementsMoved: [],
+  groupBkmFol: true
 };
 
 const initialStateSettings: Settings = {

@@ -1,5 +1,6 @@
 import { FolderColumnProps, FolderColumnsProps } from '@proj-types/types';
 import { useAppSelector } from '@redux/hooks';
+import { Utilities } from '@scripts/utilities';
 import { FolderFullViewColumn } from './folder-full-view-column';
 
 const FolderFullViewColumns: React.FC<FolderColumnsProps> = ({ nodeId }) => {
@@ -8,10 +9,15 @@ const FolderFullViewColumns: React.FC<FolderColumnsProps> = ({ nodeId }) => {
     state.displayState.noOfColumns,
     state.displayState.mode
   ]);
-  let nodes = useAppSelector((state) => {
+  let [nodes, groupBkmFol] = useAppSelector((state) => {
     let fol = state.bookmarks.db.get(nodeId);
-    return fol && fol.children ? fol.children : [];
+    return [
+      fol && fol.children ? fol.children : [],
+      state.displayState.groupBkmFol
+    ];
   });
+
+  if (groupBkmFol) nodes = Utilities.sortNodesForGrouping(nodes);
 
   let colProps: FolderColumnProps[] = [];
   for (let colIndex = 1; colIndex <= colCount; colIndex++) {
