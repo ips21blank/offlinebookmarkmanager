@@ -5,7 +5,10 @@ import {
   SelectDeselectNode,
   StartDrag,
   EndDrag,
-  HighlightElementsMoved
+  HighlightElementsMoved,
+  ChangeEditMode,
+  DISP_MODES,
+  ToggleDispGrouping
 } from '@proj-types/types';
 
 function changeCurrLocation(newLocation: string): UpdateCurrLocation {
@@ -50,11 +53,21 @@ function highlightElementsMoved(idList: string[]): HighlightElementsMoved {
   return { type: ACTIONS.ELEMENTS_MOVED, payload: { idList } };
 }
 
+function toggleDispMode(mode?: DISP_MODES): ChangeEditMode {
+  return { type: ACTIONS.TOGGLE_DISP_MODE, payload: { mode } };
+}
+
+function toggleGrouping(): ToggleDispGrouping {
+  return { type: ACTIONS.TOGGLE_GROUPING, payload: {} };
+}
+
 export {
   changeCurrLocation,
   updateColumnCount,
   selectDeselectNode,
   startDrag,
   highlightElementsMoved,
-  endDrag
+  endDrag,
+  toggleDispMode,
+  toggleGrouping
 };

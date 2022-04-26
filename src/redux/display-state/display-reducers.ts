@@ -6,7 +6,9 @@ import {
   SelectDeselectNode,
   ACTIONS,
   StartDrag,
-  HighlightElementsMoved
+  HighlightElementsMoved,
+  ChangeEditMode,
+  DISP_MODES
 } from '@proj-types/types';
 import { initialStateDisp } from '@redux/initial-states';
 
@@ -70,6 +72,20 @@ function displayReducer(
     case ACTIONS.ELEMENTS_MOVED: {
       let payload = (<HighlightElementsMoved>action).payload;
       return { ...state, elementsMoved: payload.idList };
+    }
+
+    case ACTIONS.TOGGLE_DISP_MODE: {
+      let mode =
+        (<ChangeEditMode>action).payload.mode ??
+        (state.mode === DISP_MODES.VIEW ? DISP_MODES.EDIT : DISP_MODES.VIEW);
+
+      if (mode === DISP_MODES.VIEW) state.selection.clear();
+
+      return { ...state, mode };
+    }
+
+    case ACTIONS.TOGGLE_GROUPING: {
+      return { ...state, groupBkmFol: !state.groupBkmFol };
     }
 
     default:

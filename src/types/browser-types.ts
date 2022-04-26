@@ -1,4 +1,4 @@
-import { ACTIONS } from './action-types';
+import { ACTIONS } from './action-state-enums';
 
 export type DataNode = chrome.bookmarks.BookmarkTreeNode;
 

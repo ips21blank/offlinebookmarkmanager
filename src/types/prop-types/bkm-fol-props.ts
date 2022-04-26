@@ -1,4 +1,4 @@
-import { DISP_MODES, FLOW_DIRECTION } from '@proj-types/settings-types-actions';
+import { DISP_MODES, FLOW_DIRECTION } from '@proj-types/types';
 import { DataNode } from '../browser-types';
 
 /**

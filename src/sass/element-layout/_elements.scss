@@ -19,6 +19,14 @@ button {
   justify-content: flex-start;
 }
 
+.inline-el-no-wrap-center-both {
+  display: flex;
+  flex-flow: row nowrap;
+  white-space: nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
 span.btn-icon {
   flex: 0 0 auto;
   height: 1.5rem;

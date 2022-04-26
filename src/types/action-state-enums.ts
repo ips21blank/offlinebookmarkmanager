@@ -13,6 +13,8 @@ export enum ACTIONS {
   START_DRAG,
   END_DRAG,
   ELEMENTS_MOVED,
+  TOGGLE_DISP_MODE,
+  TOGGLE_GROUPING,
 
   // OVERLAY
   TOGGLE_OVERLAY,
@@ -31,4 +33,14 @@ export enum ACTIONS {
   CHANGE_FLOW_DIRECTION,
   ADD_PIN,
   RMV_PIN
+}
+
+export enum DISP_MODES {
+  EDIT,
+  VIEW
+}
+
+export enum FLOW_DIRECTION {
+  ROW,
+  COLUMN
 }

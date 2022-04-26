@@ -1,20 +1,10 @@
-import { ACTIONS } from './action-types';
+import { ACTIONS, DISP_MODES, FLOW_DIRECTION } from './action-state-enums';
 
 interface Settings {
   flowDirection: FLOW_DIRECTION;
   pins: string[];
   homePin?: string;
   showFolBkmIcons: boolean;
-}
-
-enum FLOW_DIRECTION {
-  ROW,
-  COLUMN
-}
-
-enum DISP_MODES {
-  EDIT,
-  VIEW
 }
 
 // ACTIONS

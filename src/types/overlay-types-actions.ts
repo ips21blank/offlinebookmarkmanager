@@ -1,5 +1,5 @@
 import { OVERLAY_CLASSES, OVERLAY_STATES } from '@scripts/globals';
-import { ACTIONS } from './action-types';
+import { ACTIONS } from './action-state-enums';
 import { DataNode } from './browser-types';
 
 // Context Menu.

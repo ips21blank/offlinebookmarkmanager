@@ -1,5 +1,5 @@
-import { ACTIONS } from '@proj-types/action-types';
 import {
+  ACTIONS,
   MovePopupData,
   OverlayAction,
   OverlayState,

@@ -1,7 +1,6 @@
 import { DataBase } from '@scripts/db';
-import { ACTIONS } from './action-types';
+import { ACTIONS, DISP_MODES } from './action-state-enums';
 import { SelectionState } from './script-types';
-import { DISP_MODES } from './settings-types-actions';
 
 // ACTIONS
 
@@ -40,6 +39,16 @@ interface HighlightElementsMoved extends DisplayAction {
   payload: { idList: string[] };
 }
 
+interface ChangeEditMode extends DisplayAction {
+  type: ACTIONS.TOGGLE_DISP_MODE;
+  payload: { mode?: DISP_MODES };
+}
+
+interface ToggleDispGrouping extends DisplayAction {
+  type: ACTIONS.TOGGLE_GROUPING;
+  payload: {};
+}
+
 interface DisplayState {
   rootLocation: string;
   currLocation: string;
@@ -64,5 +73,7 @@ export type {
   BookmarkState,
   StartDrag,
   HighlightElementsMoved,
-  EndDrag
+  EndDrag,
+  ChangeEditMode,
+  ToggleDispGrouping
 };
