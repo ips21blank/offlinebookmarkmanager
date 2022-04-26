@@ -143,7 +143,7 @@ const Folder: React.FC<NodeProps> = ({
   }); // , [node, direction, colIndex, colCount, dispMode]);
 
   return (
-    <div className={'folder ' + expColClass}>
+    <div className={`${FOLDER_CLASSES.FOL} ` + expColClass}>
       <span {...folderProps}>
         {/* Because of performance issues there is an option for following. */}
         {icon}

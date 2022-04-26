@@ -1,9 +1,9 @@
 import { DataNode, FolderColumnProps, NodeProps } from '@proj-types/types';
 import { Bookmark } from '@components/middle/elements/bookmark';
 import { Folder } from '@components/middle/elements/folder';
-import { FLOW_DIRECTION } from '@proj-types/settings-types-actions';
 import { useAppSelector } from '@redux/hooks';
 import { Utilities } from '@scripts/utilities';
+import { ACCORDION_CLASSES } from '@scripts/globals';
 
 const FolderFullViewColumn: React.FC<FolderColumnProps> = ({
   nodes,
@@ -13,7 +13,7 @@ const FolderFullViewColumn: React.FC<FolderColumnProps> = ({
 }) => {
   let showIcon = useAppSelector((state) => state.settings.showFolBkmIcons);
   let direction = useAppSelector((state) => state.settings.flowDirection);
-  let className: string = `folder-view-column col-1-${colCount}`;
+  let className: string = `${ACCORDION_CLASSES.folCol} col-1-${colCount}`;
   nodes = Utilities.getNodeListForFol(direction, nodes, colIndex, colCount);
 
   return (

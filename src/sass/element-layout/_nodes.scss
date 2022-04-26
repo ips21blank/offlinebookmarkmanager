@@ -55,6 +55,7 @@ div.folder {
     display: inline-block;
     margin: $folder-icon-margins;
     pointer-events: none;
+    flex: 0 0 auto;
   }
   & > span {
     cursor: pointer;

@@ -6,7 +6,8 @@ import {
   GLOBAL_SETTINGS,
   REG_CLASSES,
   SELECTION,
-  FOLDER_CLASSES
+  FOLDER_CLASSES,
+  ACCORDION_CLASSES
 } from '../globals';
 import { Utilities } from '../utilities';
 import { browserAPI } from '../browser/browser-api';
@@ -124,6 +125,24 @@ class DragMgr {
       DragMgr._currDragOverId = currEl.id;
       DragMgr._updatePending = false;
       DragMgr._currReg = region;
+    }
+
+    // In case the elements are grouped.
+    if (
+      store.getState().displayState.groupBkmFol &&
+      // checking if its a column (folder-view-col).
+      Utilities.isElementInFolderColumn(currEl)
+    ) {
+      if (!currEl.classList.contains('bookmark')) {
+        newClass = Utilities.getBetClass(newClass);
+        DragMgr._addClassToEl(currEl, newClass);
+        DragMgr._currReg = DRAG_REG.BET;
+      } else {
+        DragMgr._currReg = DRAG_REG.NUL;
+      }
+
+      DragMgr._cleanExistingClasses({ [newClass]: currEl.id });
+      return;
     }
 
     DragMgr._addClassToEl(currEl, newClass);
@@ -272,6 +291,7 @@ class DragMgr {
       }
     }
 
+    // CHECK.
     if (!targetNode || !DragMgr._draggedElId) return;
     if (targetNode.index || targetNode.index == 0) {
       newBefAftI =
@@ -295,9 +315,19 @@ class DragMgr {
       }
     };
 
+    if (
+      store.getState().displayState.groupBkmFol &&
+      Utilities.isElementInFolderColumn(event.target as HTMLElement | null)
+    ) {
+      if (this._currReg !== DRAG_REG.BET) {
+        this._currReg = DRAG_REG.NUL;
+      }
+    }
+
     switch (DragMgr._currReg) {
       case DRAG_REG.BEF:
       case DRAG_REG.AFT:
+        // CHECK - is it really reqd. or just TS check.
         if (!targetNode.parentId) return;
         moveElements({
           parentId: targetNode.parentId,
@@ -309,6 +339,8 @@ class DragMgr {
           parentId: targetNode.id,
           index: undefined
         });
+        break;
+      case DRAG_REG.NUL:
         break;
     }
 

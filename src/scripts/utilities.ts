@@ -1,5 +1,11 @@
 import { DataNode, FLOW_DIRECTION } from '@proj-types/types';
-import { DRAG_REG, GLOBAL_SETTINGS, REG_CLASSES } from './globals';
+import {
+  ACCORDION_CLASSES,
+  DRAG_REG,
+  FOLDER_CLASSES,
+  GLOBAL_SETTINGS,
+  REG_CLASSES
+} from './globals';
 import React from 'react';
 
 export class Utilities {
@@ -19,6 +25,22 @@ export class Utilities {
       default:
         return colDir ? REG_CLASSES.COL_AFT : REG_CLASSES.ROW_AFT;
     }
+  }
+
+  public static getBetClass(currClass: string): string {
+    return currClass.match(/^row/i) ? REG_CLASSES.ROW_BET : REG_CLASSES.COL_BET;
+  }
+
+  public static isElementInFolderColumn(el: HTMLElement | null): boolean {
+    if (!el) return false;
+
+    let parent = el.parentElement;
+    if (el.classList.contains(FOLDER_CLASSES.FOL)) {
+      parent = parent && parent.parentElement;
+    }
+    return Boolean(
+      parent && parent.classList.contains(ACCORDION_CLASSES.folCol)
+    );
   }
 
   public static dummyContent(i0: number) {

@@ -39,7 +39,8 @@ enum DROPTYPE {
 enum DRAG_REG {
   BEF,
   BET,
-  AFT
+  AFT,
+  NUL
 }
 
 const REG_CLASSES: { [key: string]: string } = {
@@ -57,9 +58,14 @@ const SELECT_CLASS = {
   WAS_SEL: 'was-selected' // Simply for visual aid.
 };
 
+const ACCORDION_CLASSES = {
+  folCol: 'folder-view-column'
+};
+
 const FOLDER_CLASSES = {
   EXP: 'expanded',
   COL: 'collapsed',
+  FOL: 'folder',
   NO_EXP: 'do-not-expand'
 };
 
@@ -100,5 +106,6 @@ export {
   FOLDER_CLASSES,
   CUSTOM_EVENTS,
   OVERLAY_CLASSES,
-  OVERLAY_STATES
+  OVERLAY_STATES,
+  ACCORDION_CLASSES
 };
