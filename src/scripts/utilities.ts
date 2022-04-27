@@ -32,11 +32,11 @@ export class Utilities {
   }
 
   public static isElementInFolderColumn(el: HTMLElement | null): boolean {
-    if (!el) return false;
+    if (!el || !el.parentElement) return false;
 
-    let parent = el.parentElement;
-    if (el.classList.contains(FOLDER_CLASSES.FOL)) {
-      parent = parent && parent.parentElement;
+    let parent: HTMLElement | null = el.parentElement;
+    if (parent.classList.contains(FOLDER_CLASSES.FOL)) {
+      parent = parent.parentElement;
     }
     return Boolean(
       parent && parent.classList.contains(ACCORDION_CLASSES.folCol)
