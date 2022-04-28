@@ -17,7 +17,7 @@ const getParentChain = (id: string) => initialStateBkm.db.getParentChain(id);
 
 const initialStateDisp: DisplayState = {
   rootLocation: ROOT_LOC,
-  currLocation: '1',
+  currLocation: '446',
   noOfColumns: 4,
   selection: SELECTION,
   mode: DISP_MODES.VIEW,

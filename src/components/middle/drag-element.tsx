@@ -6,6 +6,7 @@ import {
 } from '@components/icons';
 import { DataNode } from '@proj-types/browser-types';
 import { useAppSelector } from '@redux/hooks';
+import { Utilities } from '@scripts/utilities';
 
 const DragNode: React.FC<{ node: DataNode }> = ({ node }) => {
   let img = node.url ? <BkmIcon2 /> : <FolIcon />;
@@ -18,9 +19,10 @@ const DragNode: React.FC<{ node: DataNode }> = ({ node }) => {
 };
 
 const DragEl: React.FC<any> = (props) => {
-  let [sel, dragNode] = useAppSelector((state) => [
+  let [sel, dragNode, isPinnedFol] = useAppSelector((state) => [
     state.displayState.selection,
-    state.bookmarks.db.get(state.displayState.dragId)
+    state.bookmarks.db.get(Utilities.parsePinId(state.displayState.dragId)),
+    Utilities.isPinFolId(state.displayState.dragId)
   ]);
 
   let dragElement: JSX.Element =
@@ -35,7 +37,12 @@ const DragEl: React.FC<any> = (props) => {
   return (
     // <div id="drag-details" className="inline-el-no-wrap-center">
 
-    <span id="drag-elements-el" className="inline-el-no-wrap-center">
+    <span
+      id="drag-elements-el"
+      className={`inline-el-no-wrap-center${
+        isPinnedFol ? ' drag-pin-title' : ''
+      }`}
+    >
       {/* <span>Selected: &nbsp;&nbsp;&nbsp;</span> */}
       {dragElement}
       {/* </div> */}

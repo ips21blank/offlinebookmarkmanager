@@ -1,4 +1,9 @@
-import { GLOBAL_SETTINGS, CUSTOM_EVENTS } from '../globals';
+import {
+  GLOBAL_SETTINGS,
+  CUSTOM_EVENTS,
+  FOLDER_CLASSES,
+  BKM_CLASSES
+} from '../globals';
 
 type U = null | number;
 type V = 'up' | 'down';
@@ -29,6 +34,7 @@ const addCustomDragEvents = () => {
     e.preventDefault(); // This focusing/blurring as well.
 
     document.activeElement instanceof HTMLElement &&
+      document.activeElement !== e.target &&
       document.activeElement.blur();
 
     let el = e.target;
@@ -37,8 +43,10 @@ const addCustomDragEvents = () => {
 
     let condn =
       el &&
-      (el.classList.contains('bookmark') ||
-        (el.parentElement && el.parentElement.classList.contains('folder')));
+      (el.classList.contains(BKM_CLASSES.BKM) ||
+        (el.parentElement &&
+          el.parentElement.classList.contains(FOLDER_CLASSES.FOL)) ||
+        el.classList.contains('pin-title'));
 
     if (condn && !e.button) {
       dragEl = el;

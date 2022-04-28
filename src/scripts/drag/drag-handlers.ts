@@ -1,8 +1,9 @@
 import { DataNode, DISP_MODES, FLOW_DIRECTION } from '@proj-types/types';
 import { DragMgr } from './drag-manager';
-import { DRAGTYPE, SELECT_CLASS } from '../globals';
+import { DRAGTYPE, FOLDER_CLASSES, SELECT_CLASS } from '../globals';
 import { isDragging } from './custom-drag-events';
 import { store, selectDeselectNode } from '@redux/redux';
+import { Utilities } from '@scripts/utilities';
 
 type T = {
   node: DataNode;
@@ -93,13 +94,19 @@ class DragHandlers {
     );
   }
 
-  public static dragStartNode(e: Event) {
+  public static dragStart(e: Event) {
     e.stopPropagation();
     // e.preventDefault();
 
     let currEl = e.target as HTMLElement;
-    let dragType =
-      currEl.tagName.toLowerCase() === 'a' ? DRAGTYPE.BKM : DRAGTYPE.FOL;
+    let dragType: DRAGTYPE;
+    if (currEl.tagName.toLowerCase() === 'a') {
+      dragType = DRAGTYPE.BKM;
+    } else if (currEl.parentElement?.classList.contains(FOLDER_CLASSES.FOL)) {
+      dragType = DRAGTYPE.FOL;
+    } else {
+      dragType = DRAGTYPE.FOLDER_PIN;
+    }
 
     DragMgr.onDragStart(currEl.id, dragType, currEl);
   }
@@ -116,14 +123,14 @@ class DragHandlers {
     dispMode: DISP_MODES
   ) {
     let el = document.getElementById(node.id);
-    if (!el) return;
+    if (!el) throw 'Element for drag events not found.';
 
     // The case where this persists and node is removed is ignored.
     DragHandlers.data[node.id] = { node, colIndex, colCount, direction };
 
     //
     // Note: customdrag is slow.
-    el.addEventListener('customdrag', DragHandlers.dragStartNode);
+    el.addEventListener('customdrag', DragHandlers.dragStart);
     el.addEventListener('mousemove', DragHandlers.dragoverNode);
     el.addEventListener('mouseleave', DragHandlers.onDragLeave);
     el.addEventListener('customdrop', DragMgr.onDrop);
@@ -139,12 +146,19 @@ class DragHandlers {
 
     //
     // Note: customdrag is slow.
-    el.removeEventListener('customdrag', DragHandlers.dragStartNode);
+    el.removeEventListener('customdrag', DragHandlers.dragStart);
     el.removeEventListener('mousemove', DragHandlers.dragoverNode);
     el.removeEventListener('mouseleave', DragHandlers.onDragLeave);
     el.removeEventListener('customdrop', DragMgr.onDrop);
 
     el.removeEventListener('click', DragHandlers.nodeClick);
+  }
+
+  public static addEventsToPin(folId: string) {
+    const el = document.getElementById(Utilities.getPinId(folId));
+    if (!el) throw 'Element for drag events not found.';
+
+    el.addEventListener('customdrag', DragHandlers.dragStart);
   }
 }
 

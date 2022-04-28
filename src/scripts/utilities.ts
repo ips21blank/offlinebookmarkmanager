@@ -43,6 +43,18 @@ export class Utilities {
     );
   }
 
+  private static _pinSuffix = '-pin-fol';
+  public static getPinId(id: string): string {
+    return id + this._pinSuffix;
+  }
+  public static parsePinId(id: string): string {
+    let i = id.indexOf(this._pinSuffix);
+    return id.substring(0, i !== -1 ? i : id.length);
+  }
+  public static isPinFolId(id: string): boolean {
+    return id.indexOf(this._pinSuffix) !== -1;
+  }
+
   public static dummyContent(i0: number) {
     let res: any[] = [];
     for (let i = 0; i < i0; i++) {

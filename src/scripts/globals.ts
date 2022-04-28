@@ -68,6 +68,10 @@ const FOLDER_CLASSES = {
   FOL: 'folder',
   NO_EXP: 'do-not-expand'
 };
+const BKM_CLASSES = {
+  BKM: 'bookmark'
+};
+const BEING_DRAGGED_CLASS = 'being-dragged';
 
 const CUSTOM_EVENTS = {
   // Drag events.
@@ -104,6 +108,8 @@ export {
   SELECTION,
   SELECT_CLASS,
   FOLDER_CLASSES,
+  BKM_CLASSES,
+  BEING_DRAGGED_CLASS,
   CUSTOM_EVENTS,
   OVERLAY_CLASSES,
   OVERLAY_STATES,

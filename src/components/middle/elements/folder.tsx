@@ -132,7 +132,8 @@ const Folder: React.FC<NodeProps> = ({
   );
 
   useEffect(() => {
-    DragEventHandlers.removeEventsFromNode(node.id);
+    // Done by Garbage collector.
+    // DragEventHandlers.removeEventsFromNode(node.id);
     DragEventHandlers.addEventsToNode(
       node,
       direction,

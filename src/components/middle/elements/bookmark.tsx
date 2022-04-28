@@ -6,6 +6,7 @@ import { DragEventHandlers } from '@scripts/drag/drag-handlers';
 import { useDispatch } from 'react-redux';
 import { showCtxMenu } from '@redux/redux';
 import { TitleInput } from './title-input';
+import { BKM_CLASSES } from '@scripts/globals';
 
 const Bookmark: React.FC<NodeProps> = ({
   node,
@@ -47,13 +48,14 @@ const Bookmark: React.FC<NodeProps> = ({
   let bkmLinkProps = {
     // ref: ref,
     href: node.url,
-    className: 'inline-el-no-wrap-center bookmark',
+    className: `inline-el-no-wrap-center ${BKM_CLASSES.BKM}`,
     id: node.id,
     onContextMenu: contextMenuHandler
   };
 
   useEffect(() => {
-    DragEventHandlers.removeEventsFromNode(node.id);
+    // Done by Garbage collector.
+    // DragEventHandlers.removeEventsFromNode(node.id);
     DragEventHandlers.addEventsToNode(
       node,
       direction,
@@ -64,7 +66,7 @@ const Bookmark: React.FC<NodeProps> = ({
   }); // , [node, direction, colIndex, colCount, dispMode]);
 
   return (
-    <a {...bkmLinkProps}>
+    <a {...bkmLinkProps} onClick={(e) => editing && e.preventDefault()}>
       {img}
       {editing ? (
         <TitleInput

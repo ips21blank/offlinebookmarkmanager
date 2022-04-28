@@ -60,9 +60,8 @@ function displayReducer(
 
     case ACTIONS.START_DRAG: {
       let payload = (<StartDrag>action).payload;
-      state.dragId = payload.nodeId;
 
-      return { ...state };
+      return { ...state, dragId: payload.nodeId };
     }
 
     case ACTIONS.END_DRAG: {

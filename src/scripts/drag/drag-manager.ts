@@ -7,7 +7,9 @@ import {
   REG_CLASSES,
   SELECTION,
   FOLDER_CLASSES,
-  ACCORDION_CLASSES
+  ACCORDION_CLASSES,
+  BKM_CLASSES,
+  BEING_DRAGGED_CLASS
 } from '../globals';
 import { Utilities } from '../utilities';
 import { browserAPI } from '../browser/browser-api';
@@ -133,7 +135,7 @@ class DragMgr {
       // checking if its a column (folder-view-col).
       Utilities.isElementInFolderColumn(currEl)
     ) {
-      if (!currEl.classList.contains('bookmark')) {
+      if (!currEl.classList.contains(BKM_CLASSES.BKM)) {
         newClass = Utilities.getBetClass(newClass);
         DragMgr._addClassToEl(currEl, newClass);
         DragMgr._currReg = DRAG_REG.BET;
@@ -208,8 +210,9 @@ class DragMgr {
     if (!el) return;
 
     el.tagName.toLowerCase() === 'a'
-      ? el.classList.add('being-dragged')
-      : el.parentElement && el.parentElement?.classList.add('being-dragged');
+      ? el.classList.add(BEING_DRAGGED_CLASS)
+      : el.parentElement &&
+        el.parentElement?.classList.add(BEING_DRAGGED_CLASS);
   }
 
   private static _getDragReg(
@@ -349,8 +352,8 @@ class DragMgr {
   }
 
   public static onDragEnd() {
-    let elList = document.getElementsByClassName('being-dragged');
-    while (elList.length) elList[0].classList.remove('being-dragged');
+    let elList = document.getElementsByClassName(BEING_DRAGGED_CLASS);
+    while (elList.length) elList[0].classList.remove(BEING_DRAGGED_CLASS);
 
     DragMgr._cleanExistingClasses();
 
