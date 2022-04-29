@@ -39,7 +39,7 @@ const DragEl: React.FC<any> = (props) => {
 
     <span
       id="drag-elements-el"
-      className={`inline-el-no-wrap-center${
+      className={`hidden inline-el-no-wrap-center${
         isPinnedFol ? ' drag-pin-title' : ''
       }`}
     >

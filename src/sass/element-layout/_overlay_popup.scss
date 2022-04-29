@@ -109,12 +109,14 @@ div#popup-buttons div.popup-btn {
   background-color: $popup-btn-bg;
 
   height: $overlay-button-ht;
+  min-width: $popup-btn-min-wd;
   margin: 0 $overlay-button-mg;
   padding: 0 $popup-btn-pd;
   border-radius: $popup-btn-border-radius;
 
   display: flex;
   align-items: center;
+  justify-content: center;
 
   &:hover {
     background-color: $popup-btn-bg-hov;

@@ -7,7 +7,7 @@
 span#drag-elements-el {
   pointer-events: none;
   position: fixed;
-  // top: -5rem; // Legacy : was shown permenantly at end.
+  // top: -5rem; // Was used to hide the element initially.
   // left: $side-margin1;
   z-index: 2000;
 
