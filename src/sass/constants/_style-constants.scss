@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 @import './layout-constants';
 
 // address bar
@@ -55,3 +57,8 @@ $drag-el-wd-1: 15rem;
 $drag-el-wd-2: $side-margin1;
 $drag-el-pd: 0 1rem;
 $drag-el-pos: translate(-4rem, -1rem);
+
+// Drag over
+$insert-into-border: 0.3em solid black;
+$insert-lt-rt-border: 4em solid black;
+$insert-top-bot-border: math.div($node-height, 4.5) solid black;

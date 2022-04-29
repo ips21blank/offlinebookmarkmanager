@@ -49,6 +49,8 @@ window.addEventListener('mousedown', rmvWasMovedClass);
 //
 class DragHandlers {
   public static data: { [key: string]: T } = {};
+  private static _dragType: DRAGTYPE;
+  private static _pinCache: string[];
 
   public static highlightNodesMoved(idList: string[]) {
     let el: HTMLElement | null;
@@ -71,12 +73,39 @@ class DragHandlers {
     store.dispatch(selectDeselectNode(node.id, node.url ? true : false));
   }
 
-  public static dragoverNode(e: MouseEvent) {
-    if (!isDragging()) return;
+  public static dragStart(e: Event) {
+    e.stopPropagation();
+    // e.preventDefault();
+
+    let currEl = e.target as HTMLElement;
+    let dragType: DRAGTYPE;
+    if (currEl.tagName.toLowerCase() === 'a') {
+      dragType = DRAGTYPE.BKM;
+    } else if (currEl.parentElement?.classList.contains(FOLDER_CLASSES.FOL)) {
+      dragType = DRAGTYPE.FOL;
+    } else {
+      dragType = DRAGTYPE.FOLDER_PIN;
+    }
+    DragHandlers._pinCache = store.getState().settings.pins;
+    DragHandlers._dragType = dragType;
+
+    DragMgr.onDragStart(currEl.id, dragType, currEl);
+  }
+
+  private static _checkDraggingAndPositionEl(e: MouseEvent): boolean {
+    if (!isDragging()) return false;
+
     e.preventDefault();
     e.stopPropagation();
 
     setDragElPosn(e.clientX, e.clientY);
+
+    return true;
+  }
+
+  public static dragoverNode(e: MouseEvent) {
+    if (DragHandlers._dragType === DRAGTYPE.FOLDER_PIN) return;
+    if (!DragHandlers._checkDraggingAndPositionEl(e)) return;
 
     let data: T,
       id = (e.target as HTMLElement).id;
@@ -94,25 +123,18 @@ class DragHandlers {
     );
   }
 
-  public static dragStart(e: Event) {
-    e.stopPropagation();
-    // e.preventDefault();
+  public static dragoverPin(e: MouseEvent) {
+    if (!DragHandlers._checkDraggingAndPositionEl(e)) return;
 
-    let currEl = e.target as HTMLElement;
-    let dragType: DRAGTYPE;
-    if (currEl.tagName.toLowerCase() === 'a') {
-      dragType = DRAGTYPE.BKM;
-    } else if (currEl.parentElement?.classList.contains(FOLDER_CLASSES.FOL)) {
-      dragType = DRAGTYPE.FOL;
-    } else {
-      dragType = DRAGTYPE.FOLDER_PIN;
-    }
-
-    DragMgr.onDragStart(currEl.id, dragType, currEl);
+    DragMgr.onDragoverPin(e, DragHandlers._pinCache, DragHandlers._dragType);
   }
 
   public static onDragLeave(e: MouseEvent) {
     isDragging() && DragMgr.onDragLeave(e);
+  }
+
+  public static dropOnPin(e: Event) {
+    DragMgr.dropOnPin(e, DragHandlers._dragType, DragHandlers._pinCache);
   }
 
   public static addEventsToNode(
@@ -159,6 +181,9 @@ class DragHandlers {
     if (!el) throw 'Element for drag events not found.';
 
     el.addEventListener('customdrag', DragHandlers.dragStart);
+    el.addEventListener('mousemove', DragHandlers.dragoverPin);
+    el.addEventListener('mouseleave', DragHandlers.onDragLeave);
+    el.addEventListener('customdrop', DragHandlers.dropOnPin);
   }
 }
 

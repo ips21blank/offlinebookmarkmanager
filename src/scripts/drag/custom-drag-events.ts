@@ -18,6 +18,10 @@ const DRAG_LOC: { x: U; y: U; mouse: V; el?: HTMLElement } = {
 };
 
 const addCustomDragEvents = () => {
+  const eatClick = (e: MouseEvent) => {
+    e.preventDefault();
+    window.removeEventListener('click', eatClick);
+  };
   const checkDragging = (e: MouseEvent) => {
     if (
       Math.abs(e.pageX - (DRAG_LOC.x as number)) +
@@ -26,20 +30,22 @@ const addCustomDragEvents = () => {
     ) {
       DRAGGING = true;
       window.removeEventListener('mousemove', checkDragging);
+      window.addEventListener('click', eatClick);
       dragEl.dispatchEvent(CUSTOM_EVENTS.customDrag);
     }
   };
 
   window.addEventListener('mousedown', (e: MouseEvent) => {
     e.preventDefault(); // This focusing/blurring as well.
+    let isNotFocused = document.activeElement !== e.target;
 
     document.activeElement instanceof HTMLElement &&
-      document.activeElement !== e.target &&
+      isNotFocused &&
       document.activeElement.blur();
 
     let el = e.target;
     if (!el || !(el instanceof HTMLElement)) return;
-    el.focus();
+    isNotFocused && el.focus();
 
     let condn =
       el &&
@@ -61,6 +67,7 @@ const addCustomDragEvents = () => {
     window.removeEventListener('mousemove', checkDragging);
 
     if (DRAGGING) {
+      e.preventDefault();
       DRAGGING = false;
       DRAG_LOC.x = DRAG_LOC.y = null;
       DRAG_LOC.mouse = 'up';

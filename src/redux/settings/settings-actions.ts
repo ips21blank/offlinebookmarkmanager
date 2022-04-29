@@ -4,7 +4,8 @@ import {
   ChangeFlowDirectionAction,
   PinFolder,
   DataNode,
-  RmvPin
+  RmvPin,
+  MovPin
 } from '@proj-types/types';
 
 const changeFlowDirection = (
@@ -26,4 +27,9 @@ const rmvPin = (pinId: string): RmvPin => ({
   payload: { pinId }
 });
 
-export { changeFlowDirection, pinFolder, rmvPin };
+const movPin = (pinId: string, newIndex?: number): MovPin => ({
+  type: ACTIONS.MOV_PIN,
+  payload: { pinId, newIndex }
+});
+
+export { changeFlowDirection, pinFolder, rmvPin, movPin };

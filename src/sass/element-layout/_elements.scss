@@ -46,3 +46,19 @@ span.btn-icon {
 .was-selected {
   background-color: $was-moved-fol-bkm-bg-color;
 }
+
+// Transition for move classes
+// &.row-bef,
+.row-bef,
+// &.row-bet,
+.row-bet,
+// &.row-aft,
+.row-aft,
+// &.col-bef,
+.col-bef,
+// &.col-bet,
+.col-bet,
+// &.col-aft,
+.col-aft {
+  transition: border-width 0.1s ease-in;
+}

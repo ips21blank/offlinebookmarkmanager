@@ -1,5 +1,3 @@
-@use 'sass:math';
-
 @import '../constants/layout-constants';
 @import '../constants/colors-constants';
 
@@ -84,42 +82,28 @@ a.bookmark {
 // Drag over classes.
 div.folder,
 a.bookmark {
-  .row-bef,
-  &.row-bef {
-    border-left: 4em solid black;
-  }
-  .row-bet,
-  &.row-bet {
-    border: 0.4em solid black;
-  }
-  .row-aft,
-  &.row-aft {
-    border-right: 4em solid black;
-  }
-  .col-bef,
-  &.col-bef {
-    border-top: math.div($node-height, 4.5) solid black;
-  }
-  .col-bet,
-  &.col-bet {
-    border: 0.3em solid black;
-  }
-  .col-aft,
-  &.col-aft {
-    border-bottom: math.div($node-height, 4.5) solid black;
-  }
-  .row-bef,
   &.row-bef,
-  .row-bet,
+  .row-bef {
+    border-left: $insert-lt-rt-border;
+  }
   &.row-bet,
-  .row-aft,
+  .row-bet {
+    border: $insert-into-border;
+  }
   &.row-aft,
-  .col-bef,
+  .row-aft {
+    border-right: $insert-lt-rt-border;
+  }
   &.col-bef,
-  .col-bet,
+  .col-bef {
+    border-top: $insert-top-bot-border;
+  }
   &.col-bet,
-  .col-aft,
-  &.col-aft {
-    transition: border-width 0.1s ease-in;
+  .col-bet {
+    border: $insert-into-border;
+  }
+  &.col-aft,
+  .col-aft {
+    border-bottom: $insert-top-bot-border;
   }
 }

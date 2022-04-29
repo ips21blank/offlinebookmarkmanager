@@ -32,7 +32,8 @@ export enum ACTIONS {
   // Settings actions.
   CHANGE_FLOW_DIRECTION,
   ADD_PIN,
-  RMV_PIN
+  RMV_PIN,
+  MOV_PIN
 }
 
 export enum DISP_MODES {

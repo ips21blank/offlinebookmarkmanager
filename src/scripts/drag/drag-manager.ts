@@ -18,7 +18,9 @@ import {
   selectDeselectNode,
   startDrag,
   endDrag,
-  highlightElementsMoved
+  highlightElementsMoved,
+  showInfoPopup,
+  movPin
 } from '@redux/redux';
 
 class DragMgr {
@@ -112,6 +114,72 @@ class DragMgr {
       );
     }, GLOBAL_SETTINGS.dragOverThreshold);
   }
+  public static onDragoverPin(
+    event: MouseEvent,
+    pins: string[],
+    dragType: DRAGTYPE
+  ) {
+    let prevClass = '',
+      currClass = '',
+      nextClass = '';
+
+    let prevEl: HTMLElement | null = null,
+      currEl = event.target as HTMLElement,
+      nextEl: HTMLElement | null = null;
+
+    let iCurr = pins.indexOf(Utilities.parsePinId(currEl.id));
+    if (iCurr === -1 || DragMgr._draggedElId === currEl.id) {
+      DragMgr._cleanExistingClasses();
+      return;
+    }
+
+    if (dragType !== DRAGTYPE.FOLDER_PIN) {
+      DragMgr._cleanExistingClasses();
+      DragMgr._addClassToEl(currEl, REG_CLASSES.COL_BET);
+      return;
+    }
+
+    let region = DragMgr._getDragReg(
+      event,
+      currEl.getBoundingClientRect(),
+      FLOW_DIRECTION.COLUMN,
+      // Treat as anchor el if dragged el is also a pin.
+      dragType === DRAGTYPE.FOLDER_PIN // will be true.
+    );
+
+    const getEl = (id: string) =>
+      document.getElementById(Utilities.getPinId(id));
+    // prettier-ignore
+    switch (region) {
+      case DRAG_REG.BEF:
+        prevClass = REG_CLASSES.COL_AFT; currClass = REG_CLASSES.COL_BEF;
+        iCurr && (prevEl = getEl(pins[iCurr - 1]));
+        break;
+      case DRAG_REG.BET: // should not happen.
+        currClass = REG_CLASSES.COL_BET;
+        break;
+      case DRAG_REG.AFT:
+        currClass = REG_CLASSES.COL_AFT; nextClass = REG_CLASSES.COL_BEF;
+        (iCurr < pins.length - 1) && (nextEl = getEl(pins[iCurr + 1]));
+        break;
+    }
+
+    if (
+      DragMgr._currDragOverId == currEl.id &&
+      currEl.classList.contains(currClass)
+    ) {
+      DragMgr._updatePending = false;
+      DragMgr._dragOverTime = new Date().getTime();
+      return;
+    }
+    DragMgr._updatePending = true;
+
+    DragMgr._updatePinClasses(currEl.id, region, [
+      { el: prevEl, cl: prevClass },
+      { el: currEl, cl: currClass },
+      { el: nextEl, cl: nextClass }
+    ]);
+  }
   private static _updateElementClasses(
     node: DataNode,
     currEl: HTMLElement,
@@ -203,8 +271,32 @@ class DragMgr {
      */
     DragMgr._dragOverTime = 0;
   }
+  private static _updatePinClasses(
+    currId: string,
+    dragReg: DRAG_REG,
+    elements: { cl: string; el: HTMLElement | null }[]
+  ) {
+    if (!DragMgr._updatePending) {
+      return;
+    } else {
+      DragMgr._currDragOverId = currId;
+      DragMgr._updatePending = false;
+      DragMgr._currReg = dragReg;
+    }
+
+    let exceptionData: any = {};
+    for (let el of elements) {
+      if (el.el && el.cl) {
+        el.el.classList.add(el.cl);
+        exceptionData[el.cl] = el.el.id;
+      }
+    }
+
+    DragMgr._cleanExistingClasses(exceptionData);
+    DragMgr._dragOverTime = 0;
+  }
   private static _addClassToEl(el: HTMLElement, className: string) {
-    el.classList.add(className);
+    !el.classList.contains(className) && el.classList.add(className);
   }
   private static _addBeingDraggedClass(el: HTMLElement | null) {
     if (!el) return;
@@ -285,7 +377,18 @@ class DragMgr {
 
     if (dropOnSelf) {
       if (DragMgr._currReg === DRAG_REG.BET) {
-        throw new Error('dropping into self...');
+        if (
+          DragMgr._draggedElId &&
+          !DragMgr.selection.hasBkm(DragMgr._draggedElId)
+        ) {
+          store.dispatch(
+            showInfoPopup({
+              title: 'Dropping on itself',
+              text: 'Cannot drop the selection onto a folder that was selected as well.'
+            })
+          );
+        }
+        return;
       }
 
       if (targetNode) {
@@ -303,21 +406,6 @@ class DragMgr {
           : targetNode.index + 1;
     }
 
-    const elementsMoved: string[] = [];
-    const moveElements = (target: {
-      parentId: string;
-      index: number | undefined;
-    }) => {
-      for (let id of DragMgr.selection.folders) {
-        browserAPI.moveBk(id, target);
-        elementsMoved.push(id);
-      }
-      for (let id of DragMgr.selection.bookmarks) {
-        browserAPI.moveBk(id, target);
-        elementsMoved.push(id);
-      }
-    };
-
     if (
       store.getState().displayState.groupBkmFol &&
       Utilities.isElementInFolderColumn(event.target as HTMLElement | null)
@@ -327,29 +415,87 @@ class DragMgr {
       }
     }
 
+    const elementsMoved: string[] = [];
     switch (DragMgr._currReg) {
       case DRAG_REG.BEF:
       case DRAG_REG.AFT:
         // CHECK - is it really reqd. or just TS check.
         if (!targetNode.parentId) return;
-        moveElements({
-          parentId: targetNode.parentId,
-          index: newBefAftI
-        });
+        DragMgr._moveElementsToFol(
+          {
+            parentId: targetNode.parentId,
+            index: newBefAftI
+          },
+          elementsMoved
+        );
         break;
       case DRAG_REG.BET:
-        moveElements({
-          parentId: targetNode.id,
-          index: undefined
-        });
+        DragMgr._moveElementsToFol(
+          {
+            parentId: targetNode.id,
+            index: undefined
+          },
+          elementsMoved
+        );
         break;
       case DRAG_REG.NUL:
         break;
     }
 
+    DragMgr._highlightMovedAndDeselect(elementsMoved);
+  }
+  public static dropOnPin(event: Event, dragType: DRAGTYPE, pins: string[]) {
+    DragMgr._updatePending = false;
+    DragMgr._cleanExistingClasses();
+
+    let targetEl = event.target as HTMLElement;
+    let targetId = Utilities.parsePinId(targetEl.id);
+    if (targetId === DragMgr._draggedElId || !DragMgr._draggedElId || !targetId)
+      return;
+
+    if (dragType !== DRAGTYPE.FOLDER_PIN) {
+      let elementsMoved: string[] = [];
+      DragMgr._moveElementsToFol(
+        { parentId: targetId, index: undefined },
+        elementsMoved
+      );
+
+      DragMgr._highlightMovedAndDeselect(elementsMoved);
+      return;
+    }
+
+    let newIndex: number,
+      iTarget = pins.indexOf(targetId);
+    if (DragMgr._currReg === DRAG_REG.BEF) {
+      newIndex = iTarget;
+    } else {
+      newIndex = iTarget + 1;
+    }
+
+    store.dispatch(
+      movPin(Utilities.parsePinId(DragMgr._draggedElId), newIndex)
+    );
+  }
+  private static _highlightMovedAndDeselect(elementsMoved: string[]) {
     store.dispatch(highlightElementsMoved(elementsMoved));
     store.dispatch(selectDeselectNode('', false));
   }
+  private static _moveElementsToFol = (
+    target: {
+      parentId: string;
+      index: number | undefined;
+    },
+    elementsMoved: string[] = []
+  ) => {
+    for (let id of DragMgr.selection.folders) {
+      browserAPI.moveBk(id, target);
+      elementsMoved.push(id);
+    }
+    for (let id of DragMgr.selection.bookmarks) {
+      browserAPI.moveBk(id, target);
+      elementsMoved.push(id);
+    }
+  };
 
   public static onDragEnd() {
     let elList = document.getElementsByClassName(BEING_DRAGGED_CLASS);

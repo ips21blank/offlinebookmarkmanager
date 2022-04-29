@@ -29,12 +29,18 @@ interface RmvPin extends SettingsActions {
   payload: { pinId: string };
 }
 
+interface MovPin extends SettingsActions {
+  type: ACTIONS.MOV_PIN;
+  payload: { pinId: string; newIndex?: number };
+}
+
 export type {
   Settings,
   SettingsActions,
   ChangeFlowDirectionAction,
   PinFolder,
-  RmvPin
+  RmvPin,
+  MovPin
 };
 
 export { FLOW_DIRECTION, DISP_MODES };
