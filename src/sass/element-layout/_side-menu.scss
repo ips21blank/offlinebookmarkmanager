@@ -27,6 +27,7 @@ nav#side-menu {
     text-decoration: underline;
   }
   div#pinned-folders {
+    padding-top: $pin-fol-mg-top;
     flex: 1 1 auto;
 
     display: flex;

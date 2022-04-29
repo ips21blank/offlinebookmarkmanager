@@ -21,7 +21,7 @@ interface ChangeFlowDirectionAction extends SettingsActions {
 
 interface PinFolder extends SettingsActions {
   type: ACTIONS.ADD_PIN;
-  payload: { pinId: string; index: number };
+  payload: { pinId: string; index?: number };
 }
 
 interface RmvPin extends SettingsActions {

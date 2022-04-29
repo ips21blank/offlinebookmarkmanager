@@ -17,7 +17,7 @@ const changeFlowDirection = (
   };
 };
 
-const pinFolder = (node: DataNode, index: number): PinFolder => {
+const pinFolder = (node: DataNode, index?: number): PinFolder => {
   let pinId: string = node.url ? '' : node.id;
   return { type: ACTIONS.ADD_PIN, payload: { pinId, index } };
 };

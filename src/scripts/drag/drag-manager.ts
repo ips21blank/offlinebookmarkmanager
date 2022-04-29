@@ -20,7 +20,8 @@ import {
   endDrag,
   highlightElementsMoved,
   showInfoPopup,
-  movPin
+  movPin,
+  pinFolder
 } from '@redux/redux';
 
 class DragMgr {
@@ -72,7 +73,7 @@ class DragMgr {
     let currEl = event.target as HTMLElement;
 
     if (currEl && DragMgr._draggedElId === currEl.id) {
-      DragMgr._cleanExistingClasses();
+      DragMgr.cleanExistingClasses();
       return;
     }
 
@@ -129,12 +130,12 @@ class DragMgr {
 
     let iCurr = pins.indexOf(Utilities.parsePinId(currEl.id));
     if (iCurr === -1 || DragMgr._draggedElId === currEl.id) {
-      DragMgr._cleanExistingClasses();
+      DragMgr.cleanExistingClasses();
       return;
     }
 
     if (dragType !== DRAGTYPE.FOLDER_PIN) {
-      DragMgr._cleanExistingClasses();
+      DragMgr.cleanExistingClasses();
       DragMgr._addClassToEl(currEl, REG_CLASSES.COL_BET);
       return;
     }
@@ -211,7 +212,7 @@ class DragMgr {
         DragMgr._currReg = DRAG_REG.NUL;
       }
 
-      DragMgr._cleanExistingClasses({ [newClass]: currEl.id });
+      DragMgr.cleanExistingClasses({ [newClass]: currEl.id });
       return;
     }
 
@@ -263,7 +264,7 @@ class DragMgr {
         }
     }
 
-    DragMgr._cleanExistingClasses(exceptionData);
+    DragMgr.cleanExistingClasses(exceptionData);
 
     /**
      * So that a simultaneous drag-leave firing for reason
@@ -292,7 +293,7 @@ class DragMgr {
       }
     }
 
-    DragMgr._cleanExistingClasses(exceptionData);
+    DragMgr.cleanExistingClasses(exceptionData);
     DragMgr._dragOverTime = 0;
   }
   private static _addClassToEl(el: HTMLElement, className: string) {
@@ -337,7 +338,7 @@ class DragMgr {
       return DRAG_REG.BET;
     }
   }
-  private static _cleanExistingClasses(exceptionData?: {
+  public static cleanExistingClasses(exceptionData?: {
     [key: string]: string;
   }) {
     const clearRegClass = (regClass: any) => {
@@ -360,7 +361,7 @@ class DragMgr {
   }
 
   public static onDrop(event: Event) {
-    DragMgr._cleanExistingClasses();
+    DragMgr.cleanExistingClasses();
 
     /**
      * So that some timed out call to _updateElementClasses
@@ -446,7 +447,7 @@ class DragMgr {
   }
   public static dropOnPin(event: Event, dragType: DRAGTYPE, pins: string[]) {
     DragMgr._updatePending = false;
-    DragMgr._cleanExistingClasses();
+    DragMgr.cleanExistingClasses();
 
     let targetEl = event.target as HTMLElement;
     let targetId = Utilities.parsePinId(targetEl.id);
@@ -476,6 +477,14 @@ class DragMgr {
       movPin(Utilities.parsePinId(DragMgr._draggedElId), newIndex)
     );
   }
+  public static dropOnPinContainer(event: Event, dragType: DRAGTYPE) {
+    if (dragType !== DRAGTYPE.FOL) return;
+
+    if (DragMgr._draggedElId) {
+      let node = getNodeById(DragMgr._draggedElId);
+      node && store.dispatch(pinFolder(node));
+    }
+  }
   private static _highlightMovedAndDeselect(elementsMoved: string[]) {
     store.dispatch(highlightElementsMoved(elementsMoved));
     store.dispatch(selectDeselectNode('', false));
@@ -501,7 +510,7 @@ class DragMgr {
     let elList = document.getElementsByClassName(BEING_DRAGGED_CLASS);
     while (elList.length) elList[0].classList.remove(BEING_DRAGGED_CLASS);
 
-    DragMgr._cleanExistingClasses();
+    DragMgr.cleanExistingClasses();
 
     /**
      * Following clears the selection with one element. If this runs
@@ -520,7 +529,7 @@ class DragMgr {
 
     setTimeout(() => {
       if (DragMgr._dragOverTime && DragMgr._dragOverTime < dragLeaveTime)
-        DragMgr._cleanExistingClasses();
+        DragMgr.cleanExistingClasses();
     }, GLOBAL_SETTINGS.dragLeaveThreshold);
   }
 }

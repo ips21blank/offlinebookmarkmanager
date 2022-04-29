@@ -21,9 +21,9 @@ export const settingsReducer = (
     case ACTIONS.ADD_PIN: {
       let payload = (<PinFolder>action).payload;
       let index =
-        payload.index >= 0 && payload.index < state.pins.length
+        payload.index && payload.index >= 0 && payload.index < state.pins.length
           ? payload.index
-          : state.pins.length;
+          : 0;
 
       let currI = state.pins.indexOf(payload.pinId);
       if (currI !== -1) {

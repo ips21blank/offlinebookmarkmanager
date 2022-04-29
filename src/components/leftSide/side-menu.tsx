@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { DataNode, PinnedFolderProps, SideMenuProps } from '@proj-types/types';
 import { PinnedFolder } from './pinned-folder';
 import { useAppSelector } from '@redux/hooks';
+import { DragEventHandlers } from '@scripts/drag/drag-handlers';
 
 type P = { props: PinnedFolderProps; key: string };
 
 export const SideMenu: React.FC<SideMenuProps> = (props) => {
+  useEffect(() => {
+    DragEventHandlers.addEventsToPinnedFolContainer();
+  });
   let db = useAppSelector((state) => state.bookmarks.db);
   let homePin: string = useAppSelector((state) => state.settings.homePin || '');
 

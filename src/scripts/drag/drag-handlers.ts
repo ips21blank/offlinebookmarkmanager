@@ -35,6 +35,7 @@ window.addEventListener('mousemove', (e) => {
   dragEl = document.getElementById('drag-elements-el') as HTMLElement;
   if (isDragging() && dragEl) {
     setDragElPosn(e.clientX, e.clientY);
+    DragMgr.cleanExistingClasses();
   }
 });
 
@@ -129,12 +130,18 @@ class DragHandlers {
     DragMgr.onDragoverPin(e, DragHandlers._pinCache, DragHandlers._dragType);
   }
 
+  public static pinContainerDragover(e: MouseEvent) {}
+
   public static onDragLeave(e: MouseEvent) {
     isDragging() && DragMgr.onDragLeave(e);
   }
 
   public static dropOnPin(e: Event) {
     DragMgr.dropOnPin(e, DragHandlers._dragType, DragHandlers._pinCache);
+  }
+
+  public static dropOnPinContainer(e: Event) {
+    DragMgr.dropOnPinContainer(e, DragHandlers._dragType);
   }
 
   public static addEventsToNode(
@@ -184,6 +191,15 @@ class DragHandlers {
     el.addEventListener('mousemove', DragHandlers.dragoverPin);
     el.addEventListener('mouseleave', DragHandlers.onDragLeave);
     el.addEventListener('customdrop', DragHandlers.dropOnPin);
+  }
+
+  public static addEventsToPinnedFolContainer() {
+    const el = document.getElementById('pinned-folders');
+    if (!el) return;
+
+    // To highlight the region before drop.
+    el.addEventListener('mousemove', DragHandlers.pinContainerDragover);
+    el.addEventListener('customdrop', DragHandlers.dropOnPinContainer);
   }
 }
 
