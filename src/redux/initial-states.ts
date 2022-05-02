@@ -1,5 +1,5 @@
 import { data } from '@scripts/test-data';
-import { DataBase } from '@scripts/db';
+import { DataBase } from '@scripts/data/db';
 import {
   DisplayState,
   DISP_MODES,

@@ -64,6 +64,9 @@ class DragHandlers {
   }
 
   public static nodeClick(e: MouseEvent) {
+    // It may be better to use it here than trigger un-necessary re-renders.
+    if (store.getState().displayState.mode !== DISP_MODES.EDIT) return;
+
     // Handles node selection via click for drag and drop.
     e.preventDefault();
     let el = e.target as HTMLElement,

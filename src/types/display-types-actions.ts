@@ -1,4 +1,4 @@
-import { DataBase } from '@scripts/db';
+import { DataBase } from '@scripts/data/db';
 import { ACTIONS, DISP_MODES } from './action-state-enums';
 import { SelectionState } from './script-types';
 

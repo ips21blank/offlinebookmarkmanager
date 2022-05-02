@@ -1,4 +1,5 @@
 import { DataNode } from '@proj-types/types';
+import { SearchResult } from './search-result';
 
 class DataBase {
   public bkms: Set<string>; // Ids of bookmarks.
@@ -136,8 +137,22 @@ class DataBase {
 
     return this;
   }
-  public getAll() {
-    /* probably not required. */
+
+  public getAllChildren(id: string | undefined): DataNode[] {
+    const parent = this.get(id || this._baseNodeId);
+    if (!parent) return [];
+
+    const nodes: DataNode[] = [];
+    const addChildren = (node: DataNode) => {
+      if (node.children)
+        for (let ch of node.children) {
+          nodes.push(ch);
+          addChildren(ch);
+        }
+    };
+    addChildren(parent);
+
+    return nodes;
   }
 
   public mov(id: string, newParentId: string, index?: number): DataBase {
@@ -225,6 +240,21 @@ class DataBase {
     }
 
     return this;
+  }
+
+  public search(id: string, queryString: string): SearchResult {
+    let nodes = this.getAllChildren(id);
+
+    const queries = queryString.split(',').map((str) => str.trim());
+    const result = new SearchResult(queryString);
+
+    for (let query of queries) {
+      for (let node of nodes) {
+        result.matchNodeAndQuery(node, query);
+      }
+    }
+
+    return result;
   }
 }
 

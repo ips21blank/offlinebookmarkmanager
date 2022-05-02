@@ -1,5 +1,3 @@
-import { DataBase } from '@scripts/db';
-
 /**
  * TOP LEVEL LAYOUT ELEMENTS
  * side menu
