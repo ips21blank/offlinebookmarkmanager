@@ -8,7 +8,8 @@ import {
   StartDrag,
   HighlightElementsMoved,
   ChangeEditMode,
-  DISP_MODES
+  DISP_MODES,
+  FolPageData
 } from '@proj-types/types';
 import { initialStateDisp } from '@redux/initial-states';
 
@@ -20,11 +21,12 @@ function displayReducer(
     case ACTIONS.SET_CURR_LOCATION: {
       let payload = (<UpdateCurrLocation>action).payload;
 
-      return payload.newLocation === state.currLocation
+      return payload.newLocation ===
+        (state.pageData as FolPageData).currLocation
         ? state
         : {
             ...state,
-            currLocation: payload.newLocation
+            pageData: { currLocation: payload.newLocation }
           };
     }
 

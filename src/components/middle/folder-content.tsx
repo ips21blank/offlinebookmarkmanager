@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
-import { ContentProps, DataNode } from '@proj-types/types';
+import { ContentProps, FolPageData } from '@proj-types/types';
 import { FolderFullView } from './folderFullView/folder-full-view';
 import { useAppSelector } from '@redux/redux';
 import { DragEventHandlers } from '@scripts/drag/drag-handlers';
 
-export const Content: React.FC<ContentProps> = (props) => {
+export const FolderContent: React.FC<ContentProps> = (props) => {
   const [folders, nodesMoved] = useAppSelector((state) => {
-    let loc = state.displayState.currLocation;
+    let loc: string =
+      (state.displayState.pageData as FolPageData).currLocation ||
+      state.displayState.rootFolLocation;
     let folderIds: string[];
 
     if (state.bookmarks.db.baseNodeId === loc) {

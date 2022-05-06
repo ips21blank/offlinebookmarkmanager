@@ -5,6 +5,7 @@ import {
   DISP_MODES,
   FLOW_DIRECTION,
   OverlayState,
+  PAGE_TYPE,
   Settings
 } from '@proj-types/types';
 import { OVERLAY_CLASSES, OVERLAY_STATES, SELECTION } from '@scripts/globals';
@@ -16,14 +17,15 @@ const getNodeById = (id: string) => initialStateBkm.db.get(id);
 const getParentChain = (id: string) => initialStateBkm.db.getParentChain(id);
 
 const initialStateDisp: DisplayState = {
-  rootLocation: ROOT_LOC,
-  currLocation: '446',
+  rootFolLocation: ROOT_LOC,
   noOfColumns: 4,
   selection: SELECTION,
   mode: DISP_MODES.VIEW,
   dragId: '',
   elementsMoved: [],
-  groupBkmFol: false
+  groupBkmFol: false,
+  pageType: PAGE_TYPE.FOL,
+  pageData: { currLocation: '446' }
 };
 
 const initialStateSettings: Settings = {

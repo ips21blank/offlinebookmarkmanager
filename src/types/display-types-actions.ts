@@ -1,5 +1,6 @@
 import { DataBase } from '@scripts/data/db';
-import { ACTIONS, DISP_MODES } from './action-state-enums';
+import { ACTIONS, DISP_MODES, PAGE_TYPE } from './action-state-enums';
+import { DataNode } from './browser-types';
 import { SelectionState } from './script-types';
 
 // ACTIONS
@@ -49,15 +50,29 @@ interface ToggleDispGrouping extends DisplayAction {
   payload: {};
 }
 
-interface DisplayState {
-  rootLocation: string;
+interface PageData {}
+
+interface FolPageData {
   currLocation: string;
+}
+interface SetPageData extends FolPageData {}
+interface SrhPageData extends FolPageData {
+  querry: string;
+  orderedNodes: DataNode[];
+}
+interface RecPageData extends FolPageData {}
+interface DupPageData extends FolPageData {}
+
+interface DisplayState {
+  rootFolLocation: string;
   noOfColumns: number;
   selection: SelectionState;
   mode: DISP_MODES;
   dragId: string;
   elementsMoved: string[];
   groupBkmFol: boolean;
+  pageType: PAGE_TYPE;
+  pageData: PageData;
 }
 
 interface BookmarkState {
@@ -75,5 +90,10 @@ export type {
   HighlightElementsMoved,
   EndDrag,
   ChangeEditMode,
-  ToggleDispGrouping
+  ToggleDispGrouping,
+  FolPageData,
+  SetPageData,
+  SrhPageData,
+  RecPageData,
+  DupPageData
 };

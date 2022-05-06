@@ -1,6 +1,8 @@
 import {
   AddressBarProps,
   DataNode,
+  FolPageData,
+  PAGE_TYPE,
   UpdateCurrLocation
 } from '@proj-types/types';
 import { changeCurrLocation, useAppSelector } from '@redux/redux';
@@ -35,7 +37,17 @@ const HomeButton: React.FC<any> = (props) => {
 
 const AddressLocation: React.FC<AddressBarProps> = (props) => {
   let parentChain: DataNode[] = useAppSelector((state) => {
-    let loc = state.displayState.currLocation;
+    let loc: string;
+    switch (state.displayState.pageType) {
+      case PAGE_TYPE.FOL: {
+        let data = state.displayState.pageData as FolPageData;
+        loc = data.currLocation;
+        break;
+      }
+      default: {
+        loc = '';
+      }
+    }
     return loc ? state.bookmarks.db.getParentChain(loc) : [];
   });
 

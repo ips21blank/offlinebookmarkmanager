@@ -10,7 +10,7 @@ import { browserAPI } from '@scripts/browser/browser-api';
 import { addCustomDragEvents } from '@scripts/drag/custom-drag-events';
 import { initialStateBkm } from '@redux/initial-states';
 import './sass/style.scss';
-import { DragEl } from '@components/middle/drag-element';
+import { DragEl } from '@components/middle/elements/drag-element';
 import { Overlay } from '@components/overlay/overlay';
 
 import { testFn } from '@scripts/test';
