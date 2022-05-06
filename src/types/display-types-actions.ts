@@ -55,13 +55,13 @@ interface PageData {}
 interface FolPageData {
   currLocation: string;
 }
-interface SetPageData extends FolPageData {}
+interface SetPageData extends PageData {}
 interface SrhPageData extends FolPageData {
   querry: string;
   orderedNodes: DataNode[];
 }
-interface RecPageData extends FolPageData {}
-interface DupPageData extends FolPageData {}
+interface RecPageData extends PageData {}
+interface DupPageData extends PageData {}
 
 interface DisplayState {
   rootFolLocation: string;

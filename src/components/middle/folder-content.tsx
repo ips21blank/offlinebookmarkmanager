@@ -25,10 +25,10 @@ export const FolderContent: React.FC<ContentProps> = (props) => {
   }, [nodesMoved]);
 
   return (
-    <div id="content">
+    <>
       {folders.map((fol) => (
         <FolderFullView nodeId={fol} key={'full-view-' + fol} />
       ))}
-    </div>
+    </>
   );
 };
