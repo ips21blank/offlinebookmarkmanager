@@ -63,26 +63,10 @@ nav#top-menu {
   justify-content: space-between;
 
   div#address-bar {
-    @include flex-row-nowrap();
+    display: flex;
+    flex-flow: row nowrap;
     min-width: $address-bar-min-width;
     flex: 1 1 auto;
-    justify-content: space-between;
-
-    div#address-bar-location {
-      overflow: hidden;
-      @include flex-row-nowrap();
-      align-items: center;
-      flex-direction: row-reverse;
-      span {
-        @include flex-row-nowrap();
-        align-items: center;
-      }
-      span.address-location {
-        cursor: pointer;
-      }
-      flex: 0 1 auto;
-      background-color: white;
-    }
   }
 }
 

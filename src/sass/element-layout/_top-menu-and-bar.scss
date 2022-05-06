@@ -6,6 +6,30 @@ div#address-bar-location {
 div#address-bar {
   padding-right: $gap-bw-search-and-buttons;
   padding-left: 0.4rem;
+  justify-content: space-between;
+
+  div#address-bar-location {
+    overflow: hidden;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    flex-direction: row-reverse;
+
+    span {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+    }
+    span.address-location {
+      cursor: pointer;
+    }
+    flex: 0 1 auto;
+    background-color: white;
+  }
+
+  input#search-input {
+    flex: 1 1 auto;
+  }
 
   span.btn-icon {
     height: $address-bar-height;
