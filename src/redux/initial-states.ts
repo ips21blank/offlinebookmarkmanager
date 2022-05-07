@@ -1,6 +1,7 @@
 import { data } from '@scripts/test-data';
 import { DataBase } from '@scripts/data/db';
 import {
+  BookmarkState,
   DisplayState,
   DISP_MODES,
   FLOW_DIRECTION,
@@ -12,7 +13,7 @@ import { OVERLAY_CLASSES, OVERLAY_STATES, SELECTION } from '@scripts/globals';
 
 const ROOT_LOC = '0';
 
-const initialStateBkm = { db: new DataBase(data) };
+const initialStateBkm: BookmarkState = { db: new DataBase(data) };
 const getNodeById = (id: string) => initialStateBkm.db.get(id);
 const getParentChain = (id: string) => initialStateBkm.db.getParentChain(id);
 

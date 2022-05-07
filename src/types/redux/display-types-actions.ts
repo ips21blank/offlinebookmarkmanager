@@ -1,7 +1,5 @@
-import { DataBase } from '@scripts/data/db';
 import { ACTIONS } from './action-types';
 import { DISP_MODES, PAGE_TYPE } from '../state-types';
-import { DataNode } from './bookmark-types-actions';
 import { SelectionState } from '../script-types';
 
 // ACTIONS
@@ -72,7 +70,6 @@ interface FolPageData extends PageData {
 interface SetPageData extends PageData {}
 interface SrhPageData extends FolPageData {
   querry: string;
-  orderedNodes: DataNode[];
 }
 interface RecPageData extends PageData {}
 interface DupPageData extends PageData {}
@@ -96,10 +93,6 @@ interface DisplayState {
   pageData: PageDataTypes;
 }
 
-interface BookmarkState {
-  db: DataBase;
-}
-
 export type {
   DisplayAction,
   UpdateCurrLocation,
@@ -108,7 +101,6 @@ export type {
   UpdateColumnCount,
   DisplayState,
   SelectDeselectNode,
-  BookmarkState,
   StartDrag,
   HighlightElementsMoved,
   EndDrag,

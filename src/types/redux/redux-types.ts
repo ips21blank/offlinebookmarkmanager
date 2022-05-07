@@ -1,9 +1,5 @@
 import { BookmarkAction } from './bookmark-types-actions';
-import {
-  BookmarkState,
-  DisplayAction,
-  DisplayState
-} from './display-types-actions';
+import { BookmarkState, DisplayAction, DisplayState } from '@proj-types/types';
 import { OverlayAction, OverlayState } from './overlay-types-actions';
 import { Settings, SettingsActions } from './settings-types-actions';
 

@@ -1,4 +1,4 @@
-import { DataNode } from '@proj-types/types';
+import { DataNode, NodeScoreData } from '@proj-types/types';
 
 // Following weights are also used as identifiers also.
 enum MATCH_TYPE {
@@ -15,7 +15,7 @@ enum MATCH_TYPE {
   parTurl = 1
 }
 
-class NodeScore {
+class NodeScore implements NodeScoreData {
   constructor(
     public node: DataNode,
     // public fulLtag = 0,
