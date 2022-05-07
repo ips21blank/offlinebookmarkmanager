@@ -6,14 +6,14 @@ const SearchStats: React.FC<any> = (props) => {
   return <div id="search-stats">Stats</div>;
 };
 
-const SearchResults: React.FC<any> = (props: any) => {
+const SearchResultsPg: React.FC<any> = (props: any) => {
   const [colCount, dispMode, loc, nodes] = useAppSelector((state) => {
     let data = state.displayState.pageData as SrhPageData;
     return [
       state.displayState.noOfColumns,
       state.displayState.mode,
       data.currLocation,
-      data.orderedNodes
+      data.orderedNodes || []
     ];
   });
 
@@ -41,4 +41,4 @@ const SearchResults: React.FC<any> = (props: any) => {
   );
 };
 
-export { SearchResults };
+export { SearchResultsPg };

@@ -5,10 +5,22 @@ import {
   PAGE_TYPE,
   UpdateCurrLocation
 } from '@proj-types/types';
-import { changeCurrLocation, useAppSelector } from '@redux/redux';
-import { BsHouseDoorFill, BsSearch, BsChevronRight } from '@components/icons';
+import {
+  changeCurrLocation,
+  showPrevPage,
+  showSearchPage,
+  useAppSelector
+} from '@redux/redux';
+import {
+  BsHouseDoorFill,
+  BsSearch,
+  BsChevronRight,
+  BsXLg
+} from '@components/icons';
 import { useDispatch } from 'react-redux';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { DebounceCheck } from '@scripts/debounce';
+import { GLOBAL_SETTINGS } from '@scripts/globals';
 
 const AddressElement: React.FC<{ node: DataNode }> = ({ node }) => {
   const dispatchAction: (action: UpdateCurrLocation) => any = useDispatch();
@@ -63,9 +75,18 @@ const AddressLocation: React.FC<AddressBarProps> = (props) => {
 };
 
 const SearchInput: React.FC<{
-  onBlur: () => any | void;
-}> = ({ onBlur }) => {
-  const [q, setQ] = useState('');
+  q: string;
+  setQuery: (q: string) => void;
+}> = ({ q, setQuery }) => {
+  const [debouncer] = useState(
+    new DebounceCheck(GLOBAL_SETTINGS.srhDelay, { obs: q })
+  );
+  const dispatch = useDispatch();
+  const setQ = (q: string) => {
+    setQuery(q);
+    debouncer.obsVal = q;
+    debouncer.debounce(() => {});
+  };
 
   return (
     <input
@@ -73,7 +94,6 @@ const SearchInput: React.FC<{
       type="text"
       value={q}
       onChange={(e) => setQ(e.target.value)}
-      onBlur={onBlur}
       onClick={(e) => e.stopPropagation()}
       autoFocus
     />
@@ -81,28 +101,37 @@ const SearchInput: React.FC<{
 };
 
 export const AddressBar: React.FC<AddressBarProps> = (props) => {
+  const [q, setQuery] = useState('');
   const [inputShown, setInputShown] = useState(false);
+  const pgType = useAppSelector((state) => state.displayState.pageType);
+  const dispatch = useDispatch();
+
+  if (pgType !== PAGE_TYPE.SRH) {
+    inputShown && setInputShown(false);
+    q && setQuery('');
+  }
+
   const onClickHandler = (e: React.MouseEvent) => {
-    setInputShown(!inputShown);
     e.stopPropagation();
+
+    if (inputShown) {
+      dispatch(showPrevPage());
+    } else {
+      dispatch(showSearchPage());
+    }
+
+    setInputShown(!inputShown);
   };
 
-  let content: JSX.Element = inputShown ? (
-    <SearchInput
-      onBlur={() => {
-        console.log('asdf');
-        setInputShown(false);
-      }}
-    />
-  ) : (
-    <AddressLocation {...props} />
-  );
+  let [content, srhIcon] = inputShown
+    ? [<SearchInput {...{ q, setQuery }} />, <BsXLg />]
+    : [<AddressLocation {...props} />, <BsSearch />];
 
   return (
-    <div id="address-bar" onClick={onClickHandler}>
+    <div id="address-bar" onClick={(e) => setInputShown(true)}>
       {content}
-      <span className="btn-icon">
-        <BsSearch id="search" />
+      <span className="btn-icon" onClick={onClickHandler}>
+        {srhIcon}
       </span>
     </div>
   );

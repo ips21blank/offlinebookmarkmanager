@@ -25,7 +25,7 @@ const initialStateDisp: DisplayState = {
   elementsMoved: [],
   groupBkmFol: false,
   pageType: PAGE_TYPE.FOL,
-  pageData: { currLocation: '446' }
+  pageData: { currLocation: '446', prevPage: PAGE_TYPE.FOL }
 };
 
 const initialStateSettings: Settings = {

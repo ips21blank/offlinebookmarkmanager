@@ -4,15 +4,26 @@ import { DataNode } from './browser-types';
 import { SelectionState } from './script-types';
 
 // ACTIONS
-
+type GenericPagePayload = { page: PAGE_TYPE };
 interface DisplayAction {
   type: ACTIONS;
   payload: any;
 }
 
-interface UpdateCurrLocation extends DisplayAction {
+interface SetPageAction extends DisplayAction {
+  payload: GenericPagePayload;
+}
+interface UpdateCurrLocation extends SetPageAction {
   type: ACTIONS.SET_CURR_LOCATION;
-  payload: { newLocation: string };
+  payload: { newLocation: string; page: PAGE_TYPE.FOL };
+}
+interface ShowSearchPage extends DisplayAction {
+  type: ACTIONS.SHOW_SRH_PG;
+  payload: {};
+}
+interface ShowPrevPage extends DisplayAction {
+  type: ACTIONS.SHOW_PREV_PG;
+  payload: {};
 }
 
 interface UpdateColumnCount extends DisplayAction {
@@ -50,9 +61,11 @@ interface ToggleDispGrouping extends DisplayAction {
   payload: {};
 }
 
-interface PageData {}
+interface PageData {
+  prevPage: PAGE_TYPE; // Just to return from search.
+}
 
-interface FolPageData {
+interface FolPageData extends PageData {
   currLocation: string;
 }
 interface SetPageData extends PageData {}
@@ -63,6 +76,13 @@ interface SrhPageData extends FolPageData {
 interface RecPageData extends PageData {}
 interface DupPageData extends PageData {}
 
+type PageDataTypes =
+  | FolPageData
+  | SetPageData
+  | SrhPageData
+  | RecPageData
+  | DupPageData;
+
 interface DisplayState {
   rootFolLocation: string;
   noOfColumns: number;
@@ -72,7 +92,7 @@ interface DisplayState {
   elementsMoved: string[];
   groupBkmFol: boolean;
   pageType: PAGE_TYPE;
-  pageData: PageData;
+  pageData: PageDataTypes;
 }
 
 interface BookmarkState {
@@ -82,6 +102,8 @@ interface BookmarkState {
 export type {
   DisplayAction,
   UpdateCurrLocation,
+  ShowSearchPage,
+  ShowPrevPage,
   UpdateColumnCount,
   DisplayState,
   SelectDeselectNode,

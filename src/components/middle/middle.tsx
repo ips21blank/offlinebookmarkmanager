@@ -3,7 +3,7 @@ import { MiddleProps, PAGE_TYPE } from '@proj-types/types';
 import { FolderContent } from './folder-content';
 import { TopMenu } from './topMenu/top-menu';
 import { useAppSelector } from '@redux/hooks';
-import { SearchResults } from './search-results';
+import { SearchResultsPg } from './search-results-pg';
 
 export const Middle: React.FC<MiddleProps> = (props) => {
   let content: JSX.Element;
@@ -15,7 +15,7 @@ export const Middle: React.FC<MiddleProps> = (props) => {
       break;
     }
     case PAGE_TYPE.SRH: {
-      content = <SearchResults />;
+      content = <SearchResultsPg />;
       break;
     }
     default:

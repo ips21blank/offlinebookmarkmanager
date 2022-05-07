@@ -9,7 +9,8 @@ import {
   HighlightElementsMoved,
   ChangeEditMode,
   DISP_MODES,
-  FolPageData
+  FolPageData,
+  PAGE_TYPE
 } from '@proj-types/types';
 import { initialStateDisp } from '@redux/initial-states';
 
@@ -26,8 +27,29 @@ function displayReducer(
         ? state
         : {
             ...state,
-            pageData: { currLocation: payload.newLocation }
+            pageType: PAGE_TYPE.FOL,
+            pageData: {
+              currLocation: payload.newLocation,
+              prevPage: state.pageType
+            }
           };
+    }
+
+    case ACTIONS.SHOW_SRH_PG: {
+      // This does not alter data of the page. So prev page can be show properly.
+      return {
+        ...state,
+        pageType: PAGE_TYPE.SRH,
+        pageData: { ...state.pageData, prevPage: state.pageType }
+      };
+    }
+
+    case ACTIONS.SHOW_PREV_PG: {
+      return {
+        ...state,
+        pageType: state.pageData.prevPage,
+        pageData: { ...state.pageData, prevPage: state.pageType }
+      };
     }
 
     case ACTIONS.UPDATE_COL_COUNT: {

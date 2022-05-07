@@ -8,13 +8,28 @@ import {
   HighlightElementsMoved,
   ChangeEditMode,
   DISP_MODES,
-  ToggleDispGrouping
+  ToggleDispGrouping,
+  ShowSearchPage,
+  PAGE_TYPE,
+  ShowPrevPage
 } from '@proj-types/types';
 
 function changeCurrLocation(newLocation: string): UpdateCurrLocation {
   return {
     type: ACTIONS.SET_CURR_LOCATION,
-    payload: { newLocation }
+    payload: { newLocation, page: PAGE_TYPE.FOL }
+  };
+}
+function showSearchPage(): ShowSearchPage {
+  return {
+    type: ACTIONS.SHOW_SRH_PG,
+    payload: {}
+  };
+}
+function showPrevPage(): ShowPrevPage {
+  return {
+    type: ACTIONS.SHOW_PREV_PG,
+    payload: {}
   };
 }
 
@@ -63,6 +78,8 @@ function toggleGrouping(): ToggleDispGrouping {
 
 export {
   changeCurrLocation,
+  showSearchPage,
+  showPrevPage,
   updateColumnCount,
   selectDeselectNode,
   startDrag,
