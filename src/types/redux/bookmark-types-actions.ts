@@ -78,8 +78,12 @@ export interface SearchNodes extends BookmarkAction {
   type: ACTIONS.BKM_SRH;
   payload: { id: string; q: string };
 }
+export interface RefreshSearch extends BookmarkAction {
+  type: ACTIONS.BKM_SRH_REF;
+  payload: {};
+}
 
 export interface BookmarkState {
   db: BookmarkTree;
-  orderedNodesPromise?: Promise<NodeSearchResult>;
+  searchPromise?: Promise<NodeSearchResult>;
 }

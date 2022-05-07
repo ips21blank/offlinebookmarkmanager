@@ -87,7 +87,7 @@ class Matches {
 }
 class SearchResult {
   private _scoredNodes: NodeScore[] | null = null;
-  constructor(public query: string, public match = new Matches()) {}
+  constructor(public query: string = '', public match = new Matches()) {}
 
   public matchNodesAndQueries(nodes: DataNode[], queries: string[]): void {
     for (let query of queries) {

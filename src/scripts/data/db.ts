@@ -1,9 +1,4 @@
-import {
-  DataNode,
-  NodeScoreData,
-  BookmarkTree,
-  NodeSearchResult
-} from '@proj-types/types';
+import { DataNode, BookmarkTree, NodeSearchResult } from '@proj-types/types';
 import { SearchResult } from './search-result';
 
 // prettier-ignore
@@ -12,7 +7,8 @@ class SearchCache implements SearchCacheId {
   constructor(
     public result: SearchResult,
     public id: string,
-    public q: string
+    public q: string,
+    public resultId = 0
   ) {}
 
   public isSameAs(sr: SearchCacheId): boolean {
@@ -28,7 +24,12 @@ class DataBase implements BookmarkTree {
   private _baseNode: DataNode;
   private _baseChildIds: string[];
 
-  private _searchCache: SearchCache | null = null;
+  private _searchCache: SearchCache = new SearchCache(
+    new SearchResult(),
+    '',
+    '',
+    0
+  );
 
   constructor(treeNode: DataNode) {
     let bkms: string[] = [],
@@ -90,7 +91,7 @@ class DataBase implements BookmarkTree {
     if (!p || !p.children || !child) return;
 
     let index: number | undefined = child.index;
-    p.children = [...p.children]; // To update reference.
+    // p.children = [...p.children]; // To update reference.
 
     if ((index && index < p.children.length) || index == 0) {
       p.children.splice(index, 0, child);
@@ -110,8 +111,20 @@ class DataBase implements BookmarkTree {
 
     if (i !== -1) {
       p.children.splice(i, 1);
-      p.children = [...p.children]; // To update reference.
+      // p.children = [...p.children]; // To update reference.
       this._shiftChildIndices(p.children, i, -1);
+    }
+  }
+
+  private _updateRefInTree(node: DataNode) {
+    // Not sure if this is necessary.
+    let newNode = { ...node };
+    this._add(newNode);
+
+    let parent = node.parentId && this.get(node.parentId);
+    if (parent && parent.children) {
+      let i = parent.children.findIndex((ch) => ch.id === node.id);
+      parent.children.splice(i, 1, { ...node });
     }
   }
 
@@ -142,6 +155,7 @@ class DataBase implements BookmarkTree {
     this._addId(node.id, Boolean(node.url));
     if (node.parentId) this._addChildToChildrenArr(node, node.parentId);
     this._add(node);
+    this._invalidateSrhCache();
 
     return this;
   }
@@ -155,6 +169,7 @@ class DataBase implements BookmarkTree {
     this._rmvId(node.id, Boolean(node.url));
     if (node.parentId) this._rmvChildFromChildrenArr(node.id, node.parentId);
     this._rmv(node.id);
+    this._invalidateSrhCache();
 
     return this;
   }
@@ -204,7 +219,8 @@ class DataBase implements BookmarkTree {
     let node = this.get(id);
     if (node) {
       node.title = title;
-      this._add({ ...node }); // To update the reference
+      // this._updateRefInTree(node); // To update the reference
+      this._updateSrhResultId();
     }
 
     return this;
@@ -215,9 +231,10 @@ class DataBase implements BookmarkTree {
     let node = this.get(id);
     if (node && Boolean(node.url)) {
       node.url = url;
-      // this._add({ ...node });
+
       let parent = this.get(<string>node.parentId);
-      parent && this._add({ ...parent }); // To update the reference
+      // this._updateRefInTree(node); // To update the reference
+      this._updateSrhResultId();
     }
 
     return this;
@@ -258,6 +275,7 @@ class DataBase implements BookmarkTree {
           return node;
         }
       });
+      this._updateSrhResultId();
     }
 
     return this;
@@ -269,10 +287,14 @@ class DataBase implements BookmarkTree {
   ): Promise<NodeSearchResult> {
     return new Promise((resolve, reject) => {
       const q = queryString,
-        resultId = Math.random();
+        resultId = this._getSrhCacheId();
       if (!q) resolve({ resultId, nodeScores: [] });
 
-      if (!this._searchCache || !this._searchCache.isSameAs({ id, q })) {
+      if (
+        !this._searchCache.resultId || // If its been invalidated.
+        !this._searchCache ||
+        !this._searchCache.isSameAs({ id, q })
+      ) {
         let nodes = this.getAllChildren(id);
         const newCache = new SearchCache(new SearchResult(q), id, q);
 
@@ -287,6 +309,27 @@ class DataBase implements BookmarkTree {
         nodeScores: this._searchCache.result.scoredNodes
       });
     });
+  }
+  public refreshSearch() {
+    return this.search(this._searchCache.id, this._searchCache.q);
+  }
+  public getCachedSrhResult(): Promise<NodeSearchResult> {
+    return Promise.resolve({
+      resultId: this._searchCache.resultId,
+      nodeScores: this._searchCache.result.scoredNodes
+    });
+  }
+
+  private _getSrhCacheId(): number {
+    // 0 is for invalidated or deleted cache.
+    return Math.random() + new Date().getTime();
+  }
+  private _updateSrhResultId() {
+    // Not really reqd. because same objects are referenced everywhere.
+    // this._searchCache.resultId = this._getSrhCacheId();
+  }
+  private _invalidateSrhCache() {
+    this._searchCache.resultId = 0;
   }
 }
 

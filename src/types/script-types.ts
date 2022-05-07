@@ -58,6 +58,8 @@ interface BookmarkTree {
   reorder(id: string, children: string[]): BookmarkTree;
 
   search(id: string, queryString: string): Promise<NodeSearchResult>;
+  refreshSearch(): Promise<NodeSearchResult>;
+  getCachedSrhResult(): Promise<NodeSearchResult>;
 }
 
 export type {

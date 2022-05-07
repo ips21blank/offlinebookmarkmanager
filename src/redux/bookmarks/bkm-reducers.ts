@@ -8,7 +8,8 @@ import {
   NodesReorderedAction,
   NodeCreateAction,
   BookmarkState,
-  SearchNodes
+  SearchNodes,
+  RefreshSearch
 } from '@proj-types/types';
 
 export const bkmReducer = (
@@ -20,7 +21,7 @@ export const bkmReducer = (
       let payload = (<NodeRemoveAction>action).payload;
       state.db.rmv(payload.id);
 
-      return { ...state };
+      return { ...state, searchPromise: state.db.getCachedSrhResult() };
     }
     case ACTIONS.MOVE: {
       let payload = (<NodeMoveAction>action).payload;
@@ -47,14 +48,21 @@ export const bkmReducer = (
       let payload = (<NodeCreateAction>action).payload;
       state.db.add(payload.node);
 
-      return { ...state };
+      return { ...state, searchPromise: state.db.getCachedSrhResult() };
     }
 
     case ACTIONS.BKM_SRH: {
       let payload = (<SearchNodes>action).payload;
       const orderedNodesPromise = state.db.search(payload.id, payload.q);
 
-      return { ...state, orderedNodesPromise };
+      return { ...state, searchPromise: orderedNodesPromise };
+    }
+
+    case ACTIONS.BKM_SRH_REF: {
+      let payload = (<RefreshSearch>action).payload;
+      const orderedNodesPromise = state.db.refreshSearch();
+
+      return { ...state, searchPromise: orderedNodesPromise };
     }
     default:
       return state;

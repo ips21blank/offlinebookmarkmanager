@@ -6,8 +6,10 @@ import {
   NodeSearchResult
 } from '@proj-types/types';
 import { useAppSelector } from '@redux/hooks';
+import { refreshSrh } from '@redux/redux';
 import { GLOBAL_SETTINGS } from '@scripts/globals';
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { FolderFullViewColumn } from './folderFullView/folder-full-view-column';
 
 const SearchStats: React.FC<any> = (props) => {
@@ -17,31 +19,37 @@ const SearchStats: React.FC<any> = (props) => {
 const SearchResultsPg: React.FC<any> = (props: any) => {
   const [nodes, setNodes] = useState([] as DataNode[]);
   const [resId, setResId] = useState(1);
+  const dispatch = useDispatch();
 
-  const [colCount, dispMode, loc, resultPromise] = useAppSelector((state) => {
-    let data = state.displayState.pageData as SrhPageData;
-    return [
-      state.displayState.noOfColumns,
-      state.displayState.mode,
-      data.currLocation,
-      state.bookmarks.orderedNodesPromise ||
-        Promise.resolve({ nodeScores: [], resultId: 1 })
-    ];
-  });
+  const [colCount, dispMode, locNode, resultPromise] = useAppSelector(
+    (state) => {
+      let data = state.displayState.pageData as SrhPageData;
+      return [
+        state.displayState.noOfColumns,
+        state.displayState.mode,
+        state.bookmarks.db.get(data.currLocation),
+        state.bookmarks.searchPromise ||
+          Promise.resolve({ nodeScores: [], resultId: 1 })
+      ];
+    }
+  );
 
   useEffect(() => {
     let timeout: number;
-    resultPromise.then(
-      (result: NodeSearchResult) =>
-        (timeout = setTimeout(() => {
+
+    resultPromise.then((result: NodeSearchResult) => {
+      if (!result.resultId) {
+        // resultId 0 means invalidated.
+        dispatch(refreshSrh());
+      } else if (resId !== result.resultId) {
+        timeout = setTimeout(() => {
           let orderedNodes = result.nodeScores.map((ns) => ns.node);
 
-          if (resId !== result.resultId) {
-            setResId(result.resultId);
-            setNodes(orderedNodes);
-          }
-        }, GLOBAL_SETTINGS.srhDispDelay))
-    );
+          setResId(result.resultId);
+          setNodes([...orderedNodes]);
+        }, GLOBAL_SETTINGS.srhDispDelay);
+      }
+    });
 
     return () => clearTimeout(timeout);
   });

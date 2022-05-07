@@ -6,7 +6,8 @@ import {
   NodesReorderedAction,
   NodeCreateAction,
   DataNode,
-  SearchNodes
+  SearchNodes,
+  RefreshSearch
 } from '@proj-types/types';
 
 const rmvNode = (id: string): NodeRemoveAction => {
@@ -62,4 +63,16 @@ const searchNodes = (q: string, id = ''): SearchNodes => {
   };
 };
 
-export { rmvNode, movNode, changeNode, reorderNode, createNode, searchNodes };
+const refreshSrh = (): RefreshSearch => {
+  return { type: ACTIONS.BKM_SRH_REF, payload: {} };
+};
+
+export {
+  rmvNode,
+  movNode,
+  changeNode,
+  reorderNode,
+  createNode,
+  searchNodes,
+  refreshSrh
+};

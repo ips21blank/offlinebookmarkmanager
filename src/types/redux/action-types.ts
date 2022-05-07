@@ -8,6 +8,7 @@ export enum ACTIONS {
 
   // Bookmark actions.
   BKM_SRH,
+  BKM_SRH_REF,
   BKM_DUP,
 
   // Actions related to the display state.
