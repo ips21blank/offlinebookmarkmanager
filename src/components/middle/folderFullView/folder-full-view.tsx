@@ -12,7 +12,7 @@ const FolderTitle: React.FC<any> = ({ title, nodeId }) => {
   let ref = useRef<HTMLElement>(null);
 
   let titleProps = {
-    ref: ref
+    // ref: ref
   };
 
   return <span {...titleProps}>{title}</span>;
@@ -55,13 +55,13 @@ const FolderFullView: React.FC<FolderFullViewProps> = ({ nodeId }) => {
           {expColIcon}
           <FolderTitle title={folder.title} nodeId={nodeId} />
         </div>
-        {baseChildIds.indexOf(nodeId) === -1 ? (
+        {/* {baseChildIds.indexOf(nodeId) === -1 ? (
           <span className="btn-icon" onClick={(e) => e.stopPropagation()}>
             <BsFillPencilFill className="edit-icon" />
           </span>
         ) : (
           ''
-        )}
+        )} */}
       </div>
       <FolderFullViewColumns nodeId={nodeId} />
     </div>

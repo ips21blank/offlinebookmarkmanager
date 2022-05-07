@@ -8,7 +8,7 @@ export const FolderContent: React.FC<ContentProps> = (props) => {
   const [folders, nodesMoved] = useAppSelector((state) => {
     let loc: string =
       (state.displayState.pageData as FolPageData).currLocation ||
-      state.displayState.rootFolLocation;
+      state.bookmarks.db.baseNodeId;
     let folderIds: string[];
 
     if (state.bookmarks.db.baseNodeId === loc) {

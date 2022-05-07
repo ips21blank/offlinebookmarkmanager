@@ -23,7 +23,8 @@ function displayReducer(
       let payload = (<UpdateCurrLocation>action).payload;
 
       return payload.newLocation ===
-        (state.pageData as FolPageData).currLocation
+        (state.pageData as FolPageData).currLocation &&
+        state.pageType === PAGE_TYPE.FOL
         ? state
         : {
             ...state,

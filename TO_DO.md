@@ -15,3 +15,5 @@ Allow dropping on accordions directly, not just on their child folders.
 ### Can't select text in search input bar when searching.
 
 ## SHOW IN FOLDER.
+
+## Scroll up or down when dragging close to ends.
