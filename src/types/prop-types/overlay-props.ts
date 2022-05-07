@@ -1,6 +1,6 @@
-import { ACTIONS } from '../action-state-enums';
-import { DataNode } from '../browser-types';
-import { PopupType } from '../overlay-types-actions';
+import { ACTIONS } from '../redux/action-types';
+import { DataNode } from '../redux/bookmark-types-actions';
+import { PopupType } from '../redux/overlay-types-actions';
 
 interface OverlayProps {}
 

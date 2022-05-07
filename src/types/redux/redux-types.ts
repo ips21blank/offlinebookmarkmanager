@@ -1,4 +1,4 @@
-import { BrowserAction } from './browser-types';
+import { BookmarkAction } from './bookmark-types-actions';
 import {
   BookmarkState,
   DisplayAction,
@@ -16,6 +16,12 @@ export interface StoreType {
 
 export type GeneralAction =
   | SettingsActions
-  | BrowserAction
+  | BookmarkAction
   | DisplayAction
   | OverlayAction;
+
+export * from './display-types-actions';
+export * from './settings-types-actions';
+export * from './overlay-types-actions';
+export * from './bookmark-types-actions';
+export * from './action-types';

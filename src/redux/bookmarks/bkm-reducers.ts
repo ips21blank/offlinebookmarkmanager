@@ -1,7 +1,7 @@
 import { initialStateBkm } from '@redux/initial-states';
 import {
   ACTIONS,
-  BrowserAction,
+  BookmarkAction,
   NodeRemoveAction,
   NodeMoveAction,
   NodeChangeAction,
@@ -12,7 +12,7 @@ import {
 
 export const bkmReducer = (
   state = initialStateBkm,
-  action: BrowserAction
+  action: BookmarkAction
 ): BookmarkState => {
   switch (action.type) {
     case ACTIONS.REMOVE: {

@@ -1,5 +1,5 @@
 import { DISP_MODES } from '@proj-types/types';
-import { DataNode } from '../browser-types';
+import { DataNode } from '../redux/bookmark-types-actions';
 
 /**
  * FULL FOLDER VIEW PROPS

@@ -1,4 +1,4 @@
-import { DataNode } from '@proj-types/browser-types';
+import { DataNode } from '@proj-types/types';
 
 interface PinnedFolderProps {
   node: DataNode;

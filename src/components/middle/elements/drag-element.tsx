@@ -4,7 +4,7 @@ import {
   BsGripVertical as Sep,
   BsLink45Deg as BkmIcon2
 } from '@components/icons';
-import { DataNode } from '@proj-types/browser-types';
+import { DataNode } from '@proj-types/types';
 import { useAppSelector } from '@redux/hooks';
 import { Utilities } from '@scripts/utilities';
 

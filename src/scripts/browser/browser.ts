@@ -1,4 +1,4 @@
-import { DataNode } from '@proj-types/browser-types';
+import { DataNode } from '@proj-types/types';
 import { browserEventsAPI } from './browser-api';
 
 import { store } from '@redux/store';

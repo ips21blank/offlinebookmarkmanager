@@ -1,7 +1,8 @@
 import { DataBase } from '@scripts/data/db';
-import { ACTIONS, DISP_MODES, PAGE_TYPE } from './action-state-enums';
-import { DataNode } from './browser-types';
-import { SelectionState } from './script-types';
+import { ACTIONS } from './action-types';
+import { DISP_MODES, PAGE_TYPE } from '../state-types';
+import { DataNode } from './bookmark-types-actions';
+import { SelectionState } from '../script-types';
 
 // ACTIONS
 type GenericPagePayload = { page: PAGE_TYPE };

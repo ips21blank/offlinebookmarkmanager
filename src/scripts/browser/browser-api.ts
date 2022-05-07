@@ -1,4 +1,4 @@
-import { DataNode } from '@proj-types/browser-types';
+import { DataNode } from '@proj-types/types';
 import { getParentChain } from '@redux/initial-states';
 import { BrowserSimulator as chrome } from './mock-browser';
 

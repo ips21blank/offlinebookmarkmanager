@@ -1,5 +1,5 @@
 import { DISP_MODES, FLOW_DIRECTION } from '@proj-types/types';
-import { DataNode } from '../browser-types';
+import { DataNode } from '../redux/bookmark-types-actions';
 
 /**
  * FOLDER AND BOOKMARK PROPS

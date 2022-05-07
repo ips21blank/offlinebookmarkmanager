@@ -1,4 +1,5 @@
-import { ACTIONS, DISP_MODES, FLOW_DIRECTION } from './action-state-enums';
+import { ACTIONS } from './action-types';
+import { DISP_MODES, FLOW_DIRECTION } from '../state-types';
 
 interface Settings {
   flowDirection: FLOW_DIRECTION;

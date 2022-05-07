@@ -6,6 +6,10 @@ export enum ACTIONS {
   REORDER,
   CREATE,
 
+  // Bookmark actions.
+  BKM_SRH,
+  BKM_DUP,
+
   // Actions related to the display state.
   SET_CURR_LOCATION,
   UPDATE_COL_COUNT,
@@ -36,22 +40,4 @@ export enum ACTIONS {
   ADD_PIN,
   RMV_PIN,
   MOV_PIN
-}
-
-export enum DISP_MODES {
-  EDIT,
-  VIEW
-}
-
-export enum FLOW_DIRECTION {
-  ROW,
-  COLUMN
-}
-
-export enum PAGE_TYPE {
-  FOL, // Viewing a folder
-  SET, // Settings page
-  SRH, // A search being shown in a folder
-  REC, // Recents page
-  DUP // Duplicates page
 }

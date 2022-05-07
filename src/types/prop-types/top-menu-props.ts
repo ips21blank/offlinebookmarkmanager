@@ -1,4 +1,4 @@
-import { DataNode } from '../browser-types';
+import { DataNode } from '../redux/bookmark-types-actions';
 
 /**
  * TOP-MENU AND ADDRESS BAR PROPS

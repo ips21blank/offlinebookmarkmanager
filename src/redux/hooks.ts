@@ -1,5 +1,5 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import { StoreType } from '@proj-types/redux-types';
+import { StoreType } from '@proj-types/types';
 
 // THIS IS JUST TYPE CASTING.
 // (Use throughout your app instead of plain `useDispatch` and `useSelector`)

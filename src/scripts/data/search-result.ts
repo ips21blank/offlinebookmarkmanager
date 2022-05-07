@@ -1,4 +1,4 @@
-import { DataNode } from '@proj-types/browser-types';
+import { DataNode } from '@proj-types/types';
 
 // Following weights are also used as identifiers also.
 enum MATCH_TYPE {

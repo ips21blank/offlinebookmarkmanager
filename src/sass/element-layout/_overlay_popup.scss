@@ -118,6 +118,8 @@ div#popup-buttons div.popup-btn {
   align-items: center;
   justify-content: center;
 
+  font-size: $popup-btn-ft-sz;
+
   &:hover {
     background-color: $popup-btn-bg-hov;
   }
