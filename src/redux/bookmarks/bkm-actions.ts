@@ -5,7 +5,8 @@ import {
   NodeChangeAction,
   NodesReorderedAction,
   NodeCreateAction,
-  DataNode
+  DataNode,
+  SearchNodes
 } from '@proj-types/types';
 
 const rmvNode = (id: string): NodeRemoveAction => {
@@ -54,4 +55,11 @@ const createNode = (id: string, node: DataNode): NodeCreateAction => {
   };
 };
 
-export { rmvNode, movNode, changeNode, reorderNode, createNode };
+const searchNodes = (q: string, id = ''): SearchNodes => {
+  return {
+    type: ACTIONS.BKM_SRH,
+    payload: { q, id }
+  };
+};
+
+export { rmvNode, movNode, changeNode, reorderNode, createNode, searchNodes };

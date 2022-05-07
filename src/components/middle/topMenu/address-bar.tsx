@@ -7,6 +7,7 @@ import {
 } from '@proj-types/types';
 import {
   changeCurrLocation,
+  searchNodes,
   showPrevPage,
   showSearchPage,
   useAppSelector
@@ -18,9 +19,10 @@ import {
   BsXLg
 } from '@components/icons';
 import { useDispatch } from 'react-redux';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { DebounceCheck } from '@scripts/debounce';
 import { GLOBAL_SETTINGS } from '@scripts/globals';
+import { Utilities } from '@scripts/utilities';
 
 const AddressElement: React.FC<{ node: DataNode }> = ({ node }) => {
   const dispatchAction: (action: UpdateCurrLocation) => any = useDispatch();
@@ -77,7 +79,8 @@ const AddressLocation: React.FC<AddressBarProps> = (props) => {
 const SearchInput: React.FC<{
   q: string;
   setQuery: (q: string) => void;
-}> = ({ q, setQuery }) => {
+  loc: string;
+}> = ({ q, setQuery, loc }) => {
   const [debouncer] = useState(
     new DebounceCheck(GLOBAL_SETTINGS.srhDelay, { obs: q })
   );
@@ -85,7 +88,7 @@ const SearchInput: React.FC<{
   const setQ = (q: string) => {
     setQuery(q);
     debouncer.obsVal = q;
-    debouncer.debounce(() => {});
+    debouncer.debounce(() => dispatch(searchNodes(q, loc)));
   };
 
   return (
@@ -102,33 +105,33 @@ const SearchInput: React.FC<{
 
 export const AddressBar: React.FC<AddressBarProps> = (props) => {
   const [q, setQuery] = useState('');
-  const [inputShown, setInputShown] = useState(false);
-  const pgType = useAppSelector((state) => state.displayState.pageType);
+  const [pgType, loc] = useAppSelector((state) => {
+    return [
+      state.displayState.pageType,
+      Utilities.getCurrLoc(state.displayState)
+    ];
+  });
+  const srhMode = pgType === PAGE_TYPE.SRH;
   const dispatch = useDispatch();
 
-  if (pgType !== PAGE_TYPE.SRH) {
-    inputShown && setInputShown(false);
+  if (!srhMode) {
     q && setQuery('');
   }
 
   const onClickHandler = (e: React.MouseEvent) => {
     e.stopPropagation();
-
-    if (inputShown) {
-      dispatch(showPrevPage());
-    } else {
-      dispatch(showSearchPage());
-    }
-
-    setInputShown(!inputShown);
+    srhMode ? dispatch(showPrevPage()) : dispatch(showSearchPage());
   };
 
-  let [content, srhIcon] = inputShown
-    ? [<SearchInput {...{ q, setQuery }} />, <BsXLg />]
+  let [content, srhIcon] = srhMode
+    ? [<SearchInput {...{ q, setQuery, loc }} />, <BsXLg />]
     : [<AddressLocation {...props} />, <BsSearch />];
 
   return (
-    <div id="address-bar" onClick={(e) => setInputShown(true)}>
+    <div
+      id="address-bar"
+      onClick={(e) => !srhMode && dispatch(showSearchPage())}
+    >
       {content}
       <span className="btn-icon" onClick={onClickHandler}>
         {srhIcon}

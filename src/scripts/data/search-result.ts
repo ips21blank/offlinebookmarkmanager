@@ -63,8 +63,8 @@ class NodeScore implements NodeScoreData {
 class Match {
   constructor(private _nodes = new Map<DataNode, number>()) {}
 
-  public add(id: DataNode): void {
-    this._nodes.set(id, (this._nodes.get(id) || 0) + 1);
+  public add(node: DataNode): void {
+    this._nodes.set(node, (this._nodes.get(node) || 0) + 1);
   }
 
   public getAll(): [DataNode, number][] {
@@ -89,13 +89,28 @@ class SearchResult {
   private _scoredNodes: NodeScore[] | null = null;
   constructor(public query: string, public match = new Matches()) {}
 
+  public matchNodesAndQueries(nodes: DataNode[], queries: string[]): void {
+    for (let query of queries) {
+      for (let node of nodes) {
+        this.matchNodeAndQuery(node, query.toLowerCase());
+      }
+    }
+  }
+
   public matchNodeAndQuery(node: DataNode, query: string): void {
     if (!query) return;
 
-    const urlComp = node.url === query,
-      titleComp = node.title === query,
-      urlPart = node.url && node.url.indexOf(query) !== -1,
-      titlePart = node.title.indexOf(query) !== -1;
+    const url: string =
+      (node as any).urlLower ||
+      ((node as any).urlLower = (node.url || '').toLowerCase());
+    const title: string =
+      (node as any).titleLower ||
+      ((node as any).titleLower = node.title.toLowerCase());
+
+    const urlComp = url === query,
+      titleComp = title === query;
+    const urlPart = !urlComp && url.indexOf(query) !== -1,
+      titlePart = !titleComp && title.indexOf(query) !== -1;
 
     const addMatch = (type: MATCH_TYPE) => this.addMatch(node, type);
 
@@ -140,14 +155,14 @@ class SearchResult {
 
     // prettier-ignore
     {let part = this.match.partial, full = this.match.complete;
-    // for(let score of part.tag.getAll()) addMatch(...score, MATCH_TYPE.fulLtag);
-    for(let score of part.url.getAll()) addMatch(...score, MATCH_TYPE.fulLurl);
-    for(let score of part.nam.getAll()) addMatch(...score, MATCH_TYPE.fulLnam);
-    for(let score of part.fol.getAll()) addMatch(...score, MATCH_TYPE.fulLfol);
-    // for(let score of full.tag.getAll()) addMatch(...score, MATCH_TYPE.parTtag);
-    for(let score of full.url.getAll()) addMatch(...score, MATCH_TYPE.parTurl);
-    for(let score of full.nam.getAll()) addMatch(...score, MATCH_TYPE.parTnam);
-    for(let score of full.fol.getAll()) addMatch(...score, MATCH_TYPE.parTfol);}
+    // for(let score of part.tag.getAll()) addMatch(...score, MATCH_TYPE.parTtag);
+    for(let score of part.url.getAll()) addMatch(...score, MATCH_TYPE.parTurl);
+    for(let score of part.nam.getAll()) addMatch(...score, MATCH_TYPE.parTnam);
+    for(let score of part.fol.getAll()) addMatch(...score, MATCH_TYPE.parTfol);
+    // for(let score of full.tag.getAll()) addMatch(...score, MATCH_TYPE.fulLtag);
+    for(let score of full.url.getAll()) addMatch(...score, MATCH_TYPE.fulLurl);
+    for(let score of full.nam.getAll()) addMatch(...score, MATCH_TYPE.fulLnam);
+    for(let score of full.fol.getAll()) addMatch(...score, MATCH_TYPE.fulLfol);}
 
     return Array.from(allNodes);
   }

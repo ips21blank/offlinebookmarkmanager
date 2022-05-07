@@ -1,13 +1,34 @@
-import { DataNode } from '@proj-types/types';
+import {
+  DataNode,
+  NodeScoreData,
+  BookmarkTree,
+  NodeSearchResult
+} from '@proj-types/types';
 import { SearchResult } from './search-result';
 
-class DataBase {
+// prettier-ignore
+interface SearchCacheId { id: string; q: string; }
+class SearchCache implements SearchCacheId {
+  constructor(
+    public result: SearchResult,
+    public id: string,
+    public q: string
+  ) {}
+
+  public isSameAs(sr: SearchCacheId): boolean {
+    return this.id === sr.id && this.q === sr.q;
+  }
+}
+
+class DataBase implements BookmarkTree {
   public bkms: Set<string>; // Ids of bookmarks.
   public fols: Set<string>; // Ids of folders.
   private _nodes: Map<string, DataNode>; // data objects for nodes.
   private _baseNodeId: string;
   private _baseNode: DataNode;
   private _baseChildIds: string[];
+
+  private _searchCache: SearchCache | null = null;
 
   constructor(treeNode: DataNode) {
     let bkms: string[] = [],
@@ -242,19 +263,30 @@ class DataBase {
     return this;
   }
 
-  public search(id: string, queryString: string): SearchResult {
-    let nodes = this.getAllChildren(id);
+  public async search(
+    id: string,
+    queryString: string
+  ): Promise<NodeSearchResult> {
+    return new Promise((resolve, reject) => {
+      const q = queryString,
+        resultId = Math.random();
+      if (!q) resolve({ resultId, nodeScores: [] });
 
-    const queries = queryString.split(',').map((str) => str.trim());
-    const result = new SearchResult(queryString);
+      if (!this._searchCache || !this._searchCache.isSameAs({ id, q })) {
+        let nodes = this.getAllChildren(id);
+        const newCache = new SearchCache(new SearchResult(q), id, q);
 
-    for (let query of queries) {
-      for (let node of nodes) {
-        result.matchNodeAndQuery(node, query);
+        const queries = q.split(',').map((str) => str.trim());
+        newCache.result.matchNodesAndQueries(nodes, queries);
+
+        this._searchCache = newCache;
       }
-    }
 
-    return result;
+      resolve({
+        resultId,
+        nodeScores: this._searchCache.result.scoredNodes
+      });
+    });
   }
 }
 

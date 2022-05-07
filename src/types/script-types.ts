@@ -18,6 +18,26 @@ interface SelectionState {
 }
 type DataNode = chrome.bookmarks.BookmarkTreeNode;
 
+interface NodeDetail extends DataNode {
+  readonly urlLower: string;
+  readonly titleLower: string;
+}
+
+interface NodeScoreData {
+  node: DataNode;
+  // fulLtag = 0;
+  fulLfol: number;
+  fulLnam: number;
+  fulLurl: number;
+  // parTtag : number;
+  parTfol: number;
+  parTnam: number;
+  parTurl: number;
+  score: number;
+}
+
+type NodeSearchResult = { nodeScores: NodeScoreData[]; resultId: number };
+
 interface BookmarkTree {
   bkms: Set<string>;
   fols: Set<string>;
@@ -37,20 +57,14 @@ interface BookmarkTree {
   getParentChain(id: string): DataNode[];
   reorder(id: string, children: string[]): BookmarkTree;
 
-  search(id: string, queryString: string): Promise<NodeScoreData[]>;
+  search(id: string, queryString: string): Promise<NodeSearchResult>;
 }
 
-interface NodeScoreData {
-  node: DataNode;
-  // fulLtag = 0;
-  fulLfol: number;
-  fulLnam: number;
-  fulLurl: number;
-  // parTtag : number;
-  parTfol: number;
-  parTnam: number;
-  parTurl: number;
-  score: number;
-}
-
-export type { SelectionState, DataNode, NodeScoreData, BookmarkTree };
+export type {
+  SelectionState,
+  DataNode,
+  NodeDetail,
+  NodeScoreData,
+  BookmarkTree,
+  NodeSearchResult
+};

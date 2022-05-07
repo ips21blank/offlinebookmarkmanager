@@ -9,10 +9,10 @@ class DebounceCheck {
 
   public debounce(callBack: Function) {
     const initialVal = this._observable.obs;
-    setTimeout(() => {
-      if (initialVal == this._observable.obs) callBack();
-      else console.log('Bounced!');
-    }, this.delay);
+    setTimeout(
+      () => initialVal == this._observable.obs && callBack(),
+      this.delay
+    );
   }
 }
 

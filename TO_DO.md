@@ -11,3 +11,7 @@ _brLocalTest = [/^file:\/\//i, /^chrome:\/\//i];
 Allow dropping on accordions directly, not just on their child folders.
 
 ### Highlight sidebar and accordions in dragover.
+
+### Can't select text in search input bar when searching.
+
+## SHOW IN FOLDER.

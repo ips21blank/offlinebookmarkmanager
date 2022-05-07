@@ -1,6 +1,10 @@
+import {
+  DataNode,
+  NodeScoreData,
+  BookmarkTree,
+  NodeSearchResult
+} from '../script-types';
 import { ACTIONS } from './action-types';
-
-export type DataNode = chrome.bookmarks.BookmarkTreeNode;
 
 // Aliases for different types:-
 type _RmInfo = chrome.bookmarks.BookmarkRemoveInfo;
@@ -8,6 +12,10 @@ type _MvInfo = chrome.bookmarks.BookmarkMoveInfo;
 type _ChInfo = chrome.bookmarks.BookmarkChangeInfo;
 type _RoInfo = chrome.bookmarks.BookmarkReorderInfo;
 type _CrInfo = chrome.bookmarks.BookmarkTreeNode;
+
+/**
+ * BOOKMAKR ACTIONS
+ */
 
 export interface BookmarkAction {
   type: ACTIONS;
@@ -61,3 +69,17 @@ export type NodeCreatedEvHandler = (id: string, bookmark: _CrInfo) => void;
 export type ImportBeganEvHandler = () => void;
 // chrome.bookmarks.onImportEnded.addListener;
 export type ImportEndedEvHandler = () => void;
+
+/**
+ * OTHER ACTIONS
+ */
+
+export interface SearchNodes extends BookmarkAction {
+  type: ACTIONS.BKM_SRH;
+  payload: { id: string; q: string };
+}
+
+export interface BookmarkState {
+  db: BookmarkTree;
+  orderedNodesPromise?: Promise<NodeSearchResult>;
+}

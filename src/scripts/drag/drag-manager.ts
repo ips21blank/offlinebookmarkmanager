@@ -1,4 +1,4 @@
-import { DataNode, FLOW_DIRECTION } from '@proj-types/types';
+import { DataNode, FLOW_DIRECTION, PAGE_TYPE } from '@proj-types/types';
 import { getNodeById } from '@redux/initial-states';
 import {
   DRAGTYPE,
@@ -199,8 +199,9 @@ class DragMgr {
     }
 
     // In case the elements are grouped.
+    const displayState = store.getState().displayState;
     if (
-      store.getState().displayState.groupBkmFol &&
+      (displayState.groupBkmFol || displayState.pageType === PAGE_TYPE.SRH) &&
       // checking if its a column (folder-view-col).
       Utilities.isElementInFolderColumn(currEl)
     ) {

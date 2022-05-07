@@ -20,7 +20,8 @@ const GLOBAL_SETTINGS = {
 
   ctxMenuRightTolerance: 14, // rem - taken from start to right edge.
   ctxMenuBottomTolenance: 2, // rem - from bottom edge to screen end.
-  srhDelay: 500 // ms
+  srhDelay: 500, // ms
+  srhDispDelay: 300 // ms - added just for observation - how it seems.
 };
 
 enum DRAGTYPE {

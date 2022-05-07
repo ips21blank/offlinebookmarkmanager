@@ -7,7 +7,8 @@ import {
   NodeChangeAction,
   NodesReorderedAction,
   NodeCreateAction,
-  BookmarkState
+  BookmarkState,
+  SearchNodes
 } from '@proj-types/types';
 
 export const bkmReducer = (
@@ -47,6 +48,13 @@ export const bkmReducer = (
       state.db.add(payload.node);
 
       return { ...state };
+    }
+
+    case ACTIONS.BKM_SRH: {
+      let payload = (<SearchNodes>action).payload;
+      const orderedNodesPromise = state.db.search(payload.id, payload.q);
+
+      return { ...state, orderedNodesPromise };
     }
     default:
       return state;

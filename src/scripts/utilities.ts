@@ -1,4 +1,11 @@
-import { DataNode, FLOW_DIRECTION } from '@proj-types/types';
+import {
+  DataNode,
+  DisplayState,
+  FLOW_DIRECTION,
+  FolPageData,
+  PAGE_TYPE,
+  SrhPageData
+} from '@proj-types/types';
 import {
   ACCORDION_CLASSES,
   DRAG_REG,
@@ -233,5 +240,23 @@ export class Utilities {
       // }
       return [prevI, nextI];
     }
+  }
+
+  // Get current location in search mode.
+  public static getCurrLoc(state: DisplayState): string {
+    let loc = '';
+
+    if (state.pageType === PAGE_TYPE.FOL) {
+      loc = (state.pageData as FolPageData).currLocation;
+    } else if (
+      state.pageType === PAGE_TYPE.SRH &&
+      state.pageData.prevPage === PAGE_TYPE.FOL
+    ) {
+      // currLocation should always have a value, but its read
+      // only if the page previously was folder page.
+      loc = (state.pageData as SrhPageData).currLocation;
+    }
+
+    return loc;
   }
 }
