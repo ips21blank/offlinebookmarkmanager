@@ -1,6 +1,6 @@
 import { ACTIONS } from './action-types';
 import { DISP_MODES, PAGE_TYPE } from '../state-types';
-import { SelectionState } from '../script-types';
+import { DataNode, SelectionState } from '../script-types';
 
 // ACTIONS
 type GenericPagePayload = { page: PAGE_TYPE };
@@ -19,6 +19,10 @@ interface UpdateCurrLocation extends SetPageAction {
 interface ShowSearchPage extends DisplayAction {
   type: ACTIONS.SHOW_SRH_PG;
   payload: {};
+}
+interface ShowRecentPage extends DisplayAction {
+  type: ACTIONS.SHOW_REC_PG;
+  payload: { i: number; count: number };
 }
 interface ShowPrevPage extends DisplayAction {
   type: ACTIONS.SHOW_PREV_PG;
@@ -71,7 +75,10 @@ interface SetPageData extends PageData {}
 interface SrhPageData extends FolPageData {
   querry: string;
 }
-interface RecPageData extends PageData {}
+interface RecPageData extends PageData {
+  i1: number;
+  count: number;
+}
 interface DupPageData extends PageData {}
 
 type PageDataTypes =
@@ -97,6 +104,7 @@ export type {
   DisplayAction,
   UpdateCurrLocation,
   ShowSearchPage,
+  ShowRecentPage,
   ShowPrevPage,
   UpdateColumnCount,
   DisplayState,

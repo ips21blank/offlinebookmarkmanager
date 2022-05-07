@@ -46,6 +46,8 @@ interface BookmarkTree {
   readonly baseNode: DataNode;
   readonly baseChildIds: string[];
 
+  readonly recent: DataNode[];
+
   get(id: string): DataNode | undefined;
   add(node: DataNode, i?: number): BookmarkTree;
 

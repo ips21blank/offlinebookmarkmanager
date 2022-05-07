@@ -143,6 +143,16 @@ class DataBase implements BookmarkTree {
     return this._baseChildIds;
   }
 
+  public get recent(): DataNode[] {
+    let arr: DataNode[] = <DataNode[]>Array.from(this.bkms)
+      .map((id) => this.get(id))
+      .filter((el) => (el ? true : false));
+
+    arr.sort((a, b) => (b.dateAdded || 0) - (a.dateAdded || 0));
+
+    return arr;
+  }
+
   public get(id: string): DataNode | undefined {
     return this._nodes.get(id);
   }

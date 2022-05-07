@@ -11,8 +11,10 @@ import {
   ToggleDispGrouping,
   ShowSearchPage,
   PAGE_TYPE,
-  ShowPrevPage
+  ShowPrevPage,
+  ShowRecentPage
 } from '@proj-types/types';
+import { GLOBAL_SETTINGS } from '@scripts/globals';
 
 function changeCurrLocation(newLocation: string): UpdateCurrLocation {
   return {
@@ -24,6 +26,15 @@ function showSearchPage(): ShowSearchPage {
   return {
     type: ACTIONS.SHOW_SRH_PG,
     payload: {}
+  };
+}
+function showRecentPage(): ShowRecentPage {
+  return {
+    type: ACTIONS.SHOW_REC_PG,
+    payload: {
+      i: 0,
+      count: GLOBAL_SETTINGS.recentCountPerRow * GLOBAL_SETTINGS.noOfCols
+    }
   };
 }
 function showPrevPage(): ShowPrevPage {
@@ -79,6 +90,7 @@ function toggleGrouping(): ToggleDispGrouping {
 export {
   changeCurrLocation,
   showSearchPage,
+  showRecentPage,
   showPrevPage,
   updateColumnCount,
   selectDeselectNode,

@@ -4,6 +4,7 @@ import { FolderContent } from './folder-content';
 import { TopMenu } from './topMenu/top-menu';
 import { useAppSelector } from '@redux/hooks';
 import { SearchResultsPg } from './search-results-pg';
+import { Recent } from './recent';
 
 export const Middle: React.FC<MiddleProps> = (props) => {
   let content: JSX.Element;
@@ -16,6 +17,10 @@ export const Middle: React.FC<MiddleProps> = (props) => {
     }
     case PAGE_TYPE.SRH: {
       content = <SearchResultsPg />;
+      break;
+    }
+    case PAGE_TYPE.REC: {
+      content = <Recent />;
       break;
     }
     default:

@@ -14,14 +14,18 @@ const GLOBAL_SETTINGS = {
   minRowsPerCol: 5, // for row direction display.
   dragLeaveThreshold: 50,
   dragOverThreshold: 20,
+  noOfCols: 4,
 
   dragStartThreshold: 0.3 * getREM(), // px
   rem: getREM(),
 
   ctxMenuRightTolerance: 14, // rem - taken from start to right edge.
   ctxMenuBottomTolenance: 2, // rem - from bottom edge to screen end.
+
   srhDelay: 500, // ms
-  srhDispDelay: 300 // ms - added just for observation - how it seems.
+  srhDispDelay: 300, // ms - added just for observation - how it seems.
+
+  recentCountPerRow: 10
 };
 
 enum DRAGTYPE {

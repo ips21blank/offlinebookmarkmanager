@@ -5,7 +5,7 @@ import { useAppSelector } from '@redux/hooks';
 import { DragEventHandlers } from '@scripts/drag/drag-handlers';
 import { BsHouse, BsCalendarDate, FiCopy } from '@components/icons';
 import { useDispatch } from 'react-redux';
-import { changeCurrLocation } from '@redux/redux';
+import { changeCurrLocation, showRecentPage } from '@redux/redux';
 
 type P = { props: PinnedFolderProps; key: string };
 
@@ -43,7 +43,10 @@ export const SideMenu: React.FC<SideMenuProps> = (props) => {
         >
           <BsHouse /> &nbsp;| Home
         </span>
-        <span className="inline-el-no-wrap-center">
+        <span
+          className="inline-el-no-wrap-center"
+          onClick={() => dispatch(showRecentPage())}
+        >
           <BsCalendarDate /> &nbsp;| Recent
         </span>
         <span className="inline-el-no-wrap-center">

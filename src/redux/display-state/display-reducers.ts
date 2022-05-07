@@ -10,7 +10,9 @@ import {
   ChangeEditMode,
   DISP_MODES,
   FolPageData,
-  PAGE_TYPE
+  PAGE_TYPE,
+  ShowSearchPage,
+  ShowRecentPage
 } from '@proj-types/types';
 import { initialStateDisp } from '@redux/initial-states';
 
@@ -42,6 +44,20 @@ function displayReducer(
         ...state,
         pageType: PAGE_TYPE.SRH,
         pageData: { ...state.pageData, prevPage: state.pageType }
+      };
+    }
+
+    case ACTIONS.SHOW_REC_PG: {
+      let payload = (<ShowRecentPage>action).payload;
+
+      return {
+        ...state,
+        pageType: PAGE_TYPE.REC,
+        pageData: {
+          prevPage: state.pageType,
+          i1: payload.i,
+          count: payload.count
+        }
       };
     }
 

@@ -9,7 +9,12 @@ import {
   PAGE_TYPE,
   Settings
 } from '@proj-types/types';
-import { OVERLAY_CLASSES, OVERLAY_STATES, SELECTION } from '@scripts/globals';
+import {
+  GLOBAL_SETTINGS,
+  OVERLAY_CLASSES,
+  OVERLAY_STATES,
+  SELECTION
+} from '@scripts/globals';
 
 const ROOT_LOC = '0';
 
@@ -19,7 +24,7 @@ const getParentChain = (id: string) => initialStateBkm.db.getParentChain(id);
 
 const initialStateDisp: DisplayState = {
   rootFolLocation: ROOT_LOC,
-  noOfColumns: 4,
+  noOfColumns: GLOBAL_SETTINGS.noOfCols,
   selection: SELECTION,
   mode: DISP_MODES.VIEW,
   dragId: '',
