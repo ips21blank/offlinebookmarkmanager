@@ -72,7 +72,8 @@ const FOLDER_CLASSES = {
   EXP: 'expanded',
   COL: 'collapsed',
   FOL: 'folder',
-  NO_EXP: 'do-not-expand'
+  NO_EXP: 'do-not-expand',
+  PIN_TITLE: 'pin-title'
 };
 const BKM_CLASSES = {
   BKM: 'bookmark'

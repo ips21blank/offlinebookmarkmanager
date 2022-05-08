@@ -11,6 +11,15 @@ type V = 'up' | 'down';
 let DRAGGING: boolean = false;
 let dragEl: HTMLElement;
 
+const checkIfElIsDragElement = (el: HTMLElement): boolean => {
+  return (
+    (el.parentElement &&
+      el.parentElement.classList.contains(FOLDER_CLASSES.FOL)) ||
+    el.classList.contains(BKM_CLASSES.BKM) ||
+    el.classList.contains(FOLDER_CLASSES.PIN_TITLE)
+  );
+};
+
 const DRAG_LOC: { x: U; y: U; mouse: V; el?: HTMLElement } = {
   x: null,
   y: null,
@@ -36,7 +45,7 @@ const addCustomDragEvents = () => {
   };
 
   window.addEventListener('mousedown', (e: MouseEvent) => {
-    e.preventDefault(); // This focusing/blurring as well.
+    // e.preventDefault(); // MOVED DOWN: This focusing/blurring as well.
     let isNotFocused = document.activeElement !== e.target;
 
     document.activeElement instanceof HTMLElement &&
@@ -46,6 +55,8 @@ const addCustomDragEvents = () => {
     let el = e.target;
     if (!el || !(el instanceof HTMLElement)) return;
     isNotFocused && el.focus();
+
+    if (checkIfElIsDragElement(el)) e.preventDefault();
 
     let condn =
       el &&
