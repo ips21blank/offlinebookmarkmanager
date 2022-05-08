@@ -5,6 +5,7 @@ import { TopMenu } from './topMenu/top-menu';
 import { useAppSelector } from '@redux/hooks';
 import { SearchResultsPg } from './search-results-pg';
 import { Recent } from './recent';
+import { Duplicats } from './duplicates';
 
 export const Middle: React.FC<MiddleProps> = (props) => {
   let content: JSX.Element;
@@ -21,6 +22,10 @@ export const Middle: React.FC<MiddleProps> = (props) => {
     }
     case PAGE_TYPE.REC: {
       content = <Recent />;
+      break;
+    }
+    case PAGE_TYPE.DUP: {
+      content = <Duplicats />;
       break;
     }
     default:
