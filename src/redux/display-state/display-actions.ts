@@ -12,7 +12,8 @@ import {
   ShowSearchPage,
   PAGE_TYPE,
   ShowPrevPage,
-  ShowRecentPage
+  ShowRecentPage,
+  ShowDuplicatesPage
 } from '@proj-types/types';
 import { GLOBAL_SETTINGS } from '@scripts/globals';
 
@@ -35,6 +36,12 @@ function showRecentPage(): ShowRecentPage {
       i: 0,
       count: GLOBAL_SETTINGS.recentCountPerRow * GLOBAL_SETTINGS.noOfCols
     }
+  };
+}
+function showDuplicatesPage(): ShowDuplicatesPage {
+  return {
+    type: ACTIONS.SHOW_DUP_PG,
+    payload: {}
   };
 }
 function showPrevPage(): ShowPrevPage {
@@ -91,6 +98,7 @@ export {
   changeCurrLocation,
   showSearchPage,
   showRecentPage,
+  showDuplicatesPage,
   showPrevPage,
   updateColumnCount,
   selectDeselectNode,

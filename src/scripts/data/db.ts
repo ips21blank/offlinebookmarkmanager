@@ -143,11 +143,14 @@ class DataBase implements BookmarkTree {
     return this._baseChildIds;
   }
 
-  public get recent(): DataNode[] {
-    let arr: DataNode[] = <DataNode[]>Array.from(this.bkms)
+  public get allBkmArrCopy(): DataNode[] {
+    return <DataNode[]>Array.from(this.bkms)
       .map((id) => this.get(id))
       .filter((el) => (el ? true : false));
+  }
 
+  public get recent(): DataNode[] {
+    let arr = this.allBkmArrCopy;
     arr.sort((a, b) => (b.dateAdded || 0) - (a.dateAdded || 0));
 
     return arr;
@@ -242,8 +245,9 @@ class DataBase implements BookmarkTree {
     if (node && Boolean(node.url)) {
       node.url = url;
 
-      let parent = this.get(<string>node.parentId);
+      // let parent = this.get(<string>node.parentId);
       // this._updateRefInTree(node); // To update the reference
+      (<any>node).urlLower = url.toLowerCase();
       this._updateSrhResultId();
     }
 
@@ -340,6 +344,50 @@ class DataBase implements BookmarkTree {
   }
   private _invalidateSrhCache() {
     this._searchCache.resultId = 0;
+  }
+
+  // Duplicates.
+  public getDuplicates(ignoreHash: boolean): Promise<DataNode[][]> {
+    return new Promise((res, rej) => {
+      let arr = <DataNode[][]>[];
+
+      let allBkm = this.allBkmArrCopy;
+      allBkm.sort((a, b) => {
+        // let ua = (<string>a.url).toLowerCase(),
+        //   ub = (<string>b.url).toLowerCase();
+
+        const ua: string =
+          (a as any).urlLower ||
+          ((a as any).urlLower = (a.url || '').toLowerCase());
+
+        const ub: string =
+          (b as any).urlLower ||
+          ((b as any).urlLower = (b.url || '').toLowerCase());
+
+        if (ua === ub) return 0;
+        else return ua > ub ? 1 : -1;
+      });
+
+      for (let i = 0; i < allBkm.length; ) {
+        let j = i + 1,
+          matched = false,
+          nodeGroup = <DataNode[]>[allBkm[i]],
+          ui = (<any>allBkm[i]).urlLower;
+
+        while (j < allBkm.length) {
+          if ((<any>allBkm[j]).urlLower === ui) {
+            matched = true;
+            nodeGroup.push(allBkm[j++]);
+          } else break;
+        }
+        i = j;
+        if (matched) {
+          arr.push(nodeGroup);
+        }
+      }
+
+      return res(arr);
+    });
   }
 }
 

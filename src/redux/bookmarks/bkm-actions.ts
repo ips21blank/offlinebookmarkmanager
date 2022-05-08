@@ -7,7 +7,8 @@ import {
   NodeCreateAction,
   DataNode,
   SearchNodes,
-  RefreshSearch
+  RefreshSearch,
+  DuplicatesSearch
 } from '@proj-types/types';
 
 const rmvNode = (id: string): NodeRemoveAction => {
@@ -67,6 +68,13 @@ const refreshSrh = (): RefreshSearch => {
   return { type: ACTIONS.BKM_SRH_REF, payload: {} };
 };
 
+const duplicatesSearch = (ignoreHash = true): DuplicatesSearch => {
+  return {
+    type: ACTIONS.BKM_DUP,
+    payload: { ignoreHash }
+  };
+};
+
 export {
   rmvNode,
   movNode,
@@ -74,5 +82,6 @@ export {
   reorderNode,
   createNode,
   searchNodes,
-  refreshSrh
+  refreshSrh,
+  duplicatesSearch
 };

@@ -61,6 +61,14 @@ function displayReducer(
       };
     }
 
+    case ACTIONS.SHOW_DUP_PG: {
+      return {
+        ...state,
+        pageType: PAGE_TYPE.DUP,
+        pageData: { prevPage: state.pageType }
+      };
+    }
+
     case ACTIONS.SHOW_PREV_PG: {
       return {
         ...state,

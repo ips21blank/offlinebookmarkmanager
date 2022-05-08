@@ -20,6 +20,10 @@ interface ShowSearchPage extends DisplayAction {
   type: ACTIONS.SHOW_SRH_PG;
   payload: {};
 }
+interface ShowDuplicatesPage extends DisplayAction {
+  type: ACTIONS.SHOW_DUP_PG;
+  payload: {};
+}
 interface ShowRecentPage extends DisplayAction {
   type: ACTIONS.SHOW_REC_PG;
   payload: { i: number; count: number };
@@ -65,7 +69,7 @@ interface ToggleDispGrouping extends DisplayAction {
 }
 
 interface PageData {
-  prevPage: PAGE_TYPE; // Just to return from search.
+  prevPage: PAGE_TYPE; // Just to return after search.
 }
 
 interface FolPageData extends PageData {
@@ -105,6 +109,7 @@ export type {
   UpdateCurrLocation,
   ShowSearchPage,
   ShowRecentPage,
+  ShowDuplicatesPage,
   ShowPrevPage,
   UpdateColumnCount,
   DisplayState,

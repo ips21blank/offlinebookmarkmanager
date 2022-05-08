@@ -45,6 +45,7 @@ interface BookmarkTree {
   readonly baseNodeId: string;
   readonly baseNode: DataNode;
   readonly baseChildIds: string[];
+  readonly allBkmArrCopy: DataNode[];
 
   readonly recent: DataNode[];
 
@@ -62,6 +63,7 @@ interface BookmarkTree {
   search(id: string, queryString: string): Promise<NodeSearchResult>;
   refreshSearch(): Promise<NodeSearchResult>;
   getCachedSrhResult(): Promise<NodeSearchResult>;
+  getDuplicates(ignoreHash: boolean): Promise<DataNode[][]>;
 }
 
 export type {

@@ -9,7 +9,8 @@ import {
   NodeCreateAction,
   BookmarkState,
   SearchNodes,
-  RefreshSearch
+  RefreshSearch,
+  DuplicatesSearch
 } from '@proj-types/types';
 
 export const bkmReducer = (
@@ -60,10 +61,18 @@ export const bkmReducer = (
 
     case ACTIONS.BKM_SRH_REF: {
       let payload = (<RefreshSearch>action).payload;
-      const orderedNodesPromise = state.db.refreshSearch();
+      const searchPromise = state.db.refreshSearch();
 
-      return { ...state, searchPromise: orderedNodesPromise };
+      return { ...state, searchPromise };
     }
+
+    case ACTIONS.BKM_DUP: {
+      let payload = (<DuplicatesSearch>action).payload;
+      const duplicatesPromise = state.db.getDuplicates(payload.ignoreHash);
+
+      return { ...state, duplicatesPromise };
+    }
+
     default:
       return state;
   }

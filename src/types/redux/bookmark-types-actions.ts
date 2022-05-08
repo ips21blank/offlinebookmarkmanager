@@ -83,7 +83,13 @@ export interface RefreshSearch extends BookmarkAction {
   payload: {};
 }
 
+export interface DuplicatesSearch extends BookmarkAction {
+  type: ACTIONS.BKM_DUP;
+  payload: { ignoreHash: boolean };
+}
+
 export interface BookmarkState {
   db: BookmarkTree;
   searchPromise?: Promise<NodeSearchResult>;
+  duplicatesPromise?: Promise<DataNode[][]>;
 }
