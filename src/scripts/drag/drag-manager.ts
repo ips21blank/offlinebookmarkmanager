@@ -70,6 +70,8 @@ class DragMgr {
     colIndex: number,
     colCount: number
   ) {
+    if (store.getState().displayState.pageType === PAGE_TYPE.REC) return;
+
     let currEl = event.target as HTMLElement;
 
     if (currEl && DragMgr._draggedElId === currEl.id) {
@@ -198,7 +200,7 @@ class DragMgr {
       DragMgr._currReg = region;
     }
 
-    // In case the elements are grouped.
+    // In case the elements are grouped or page has special draggin behaviour.
     const displayState = store.getState().displayState;
     if (
       (displayState.groupBkmFol || displayState.pageType === PAGE_TYPE.SRH) &&
@@ -363,6 +365,7 @@ class DragMgr {
 
   public static onDrop(event: Event) {
     DragMgr.cleanExistingClasses();
+    if (store.getState().displayState.pageType === PAGE_TYPE.REC) return;
 
     /**
      * So that some timed out call to _updateElementClasses
