@@ -1,0 +1,20 @@
+div#duplicates-page {
+  padding: 0 1rem;
+  div#duplicates-controls {
+    padding: 0.5rem;
+    margin: 0 0 0.5rem 0;
+  }
+
+  div#node-groups {
+    div.duplicates-group {
+      margin: 0.5rem 0;
+      div.duplicate-node {
+        padding: 0.3rem;
+
+        input {
+          margin: 0 0.6rem 0 0;
+        }
+      }
+    }
+  }
+}

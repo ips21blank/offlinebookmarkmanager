@@ -27,11 +27,13 @@ const Duplicats: React.FC<any> = (props) => {
   });
 
   return (
-    <div>
-      <div>Top Buttons</div>
-      {nodeGroups.map((nodes) => (
-        <DuplicateGroup {...{ nodes, addRmvNode }} />
-      ))}
+    <div id="duplicates-page">
+      <div id="duplicates-controls">Top Buttons</div>
+      <div id="node-groups">
+        {nodeGroups.map((nodes) => (
+          <DuplicateGroup {...{ nodes, addRmvNode }} />
+        ))}
+      </div>
     </div>
   );
 };

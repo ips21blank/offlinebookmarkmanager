@@ -16,21 +16,20 @@ const StartEndIndices: React.FC<{
   total: number;
 }> = ({ formI, formC, setFormC, setFormI, total, update }) => {
   return (
-    <div>
-      Start :
+    <div id="recent-setting">
+      <label>Start :</label>
       <input
         type="text"
         value={formI}
         onChange={(e) => setFormI(e.target.value)}
       />
-      | Count :
+      <label>Count :</label>
       <input
         type="text"
         value={formC}
         onChange={(e) => setFormC(e.target.value)}
       />
-      | Max : {total}
-      <button onClick={update}>Go</button>
+      <button onClick={update}>Go</button>[ Total Bookmarks : {total}]
     </div>
   );
 };
@@ -82,7 +81,7 @@ const Recent: React.FC<any> = (props) => {
   }
 
   return (
-    <div>
+    <div id="recent-page">
       <StartEndIndices
         {...{
           formI,

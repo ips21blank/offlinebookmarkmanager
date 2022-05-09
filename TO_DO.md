@@ -17,3 +17,8 @@ Allow dropping on accordions directly, not just on their child folders.
 ## SHOW IN FOLDER.
 
 ## Scroll up or down when dragging close to ends.
+
+### implement "ignoreHash"
+
+(A button in Duplicates page : whether to ignore # part of a url
+when looking for duplicates.)
