@@ -87,6 +87,10 @@ export interface DuplicatesSearch extends BookmarkAction {
   type: ACTIONS.BKM_DUP;
   payload: { ignoreHash: boolean };
 }
+export interface UpdateDuplicateNodeParentChains extends BookmarkAction {
+  type: ACTIONS.UPD_DUP_PAR_CHAINS;
+  payload: { nodes: DataNode[] };
+}
 
 export interface BookmarkState {
   db: BookmarkTree;

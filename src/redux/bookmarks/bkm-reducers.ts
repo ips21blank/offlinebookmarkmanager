@@ -10,7 +10,8 @@ import {
   BookmarkState,
   SearchNodes,
   RefreshSearch,
-  DuplicatesSearch
+  DuplicatesSearch,
+  UpdateDuplicateNodeParentChains
 } from '@proj-types/types';
 
 export const bkmReducer = (
@@ -71,6 +72,13 @@ export const bkmReducer = (
       const duplicatesPromise = state.db.getDuplicates(payload.ignoreHash);
 
       return { ...state, duplicatesPromise };
+    }
+
+    case ACTIONS.UPD_DUP_PAR_CHAINS: {
+      let payload = (<UpdateDuplicateNodeParentChains>action).payload;
+      state.db.addParentChains(payload.nodes);
+
+      return { ...state };
     }
 
     default:

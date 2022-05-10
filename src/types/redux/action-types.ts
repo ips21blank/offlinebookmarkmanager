@@ -10,6 +10,7 @@ export enum ACTIONS {
   BKM_SRH,
   BKM_SRH_REF,
   BKM_DUP,
+  UPD_DUP_PAR_CHAINS,
 
   // Actions related to the display state.
   SET_CURR_LOCATION,

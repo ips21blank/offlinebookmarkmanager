@@ -58,6 +58,7 @@ interface BookmarkTree {
   rnm(id: string, title: string): BookmarkTree;
   url(id: string, url: string): BookmarkTree;
   getParentChain(id: string): DataNode[];
+  addParentChains(nodes: DataNode[]): DataNode[];
   reorder(id: string, children: string[]): BookmarkTree;
 
   search(id: string, queryString: string): Promise<NodeSearchResult>;

@@ -8,7 +8,8 @@ import {
   DataNode,
   SearchNodes,
   RefreshSearch,
-  DuplicatesSearch
+  DuplicatesSearch,
+  UpdateDuplicateNodeParentChains
 } from '@proj-types/types';
 
 const rmvNode = (id: string): NodeRemoveAction => {
@@ -74,6 +75,14 @@ const duplicatesSearch = (ignoreHash = true): DuplicatesSearch => {
     payload: { ignoreHash }
   };
 };
+const updateDuplicateNodeParentChains = (
+  nodes: DataNode[]
+): UpdateDuplicateNodeParentChains => {
+  return {
+    type: ACTIONS.UPD_DUP_PAR_CHAINS,
+    payload: { nodes }
+  };
+};
 
 export {
   rmvNode,
@@ -83,5 +92,6 @@ export {
   createNode,
   searchNodes,
   refreshSrh,
-  duplicatesSearch
+  duplicatesSearch,
+  updateDuplicateNodeParentChains
 };

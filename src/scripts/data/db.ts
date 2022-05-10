@@ -277,6 +277,14 @@ class DataBase implements BookmarkTree {
     return chain;
   }
 
+  public addParentChains(nodes: DataNode[]): DataNode[] {
+    for (let node of nodes) {
+      (node as any).parentChain = this.getParentChain(node.id);
+    }
+
+    return nodes;
+  }
+
   public reorder(id: string, children: string[]): DataBase {
     let parent = this.get(id);
     if (parent) {

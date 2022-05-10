@@ -7,12 +7,27 @@ div#duplicates-page {
 
   div#node-groups {
     div.duplicates-group {
-      margin: 0.5rem 0;
+      margin: 1rem 0;
       div.duplicate-node {
         padding: 0.3rem;
 
         input {
           margin: 0 0.6rem 0 0;
+        }
+
+        span.parent-chain {
+          padding: 0 0.5rem 0 0;
+        }
+
+        a.duplicate-node-link {
+          margin-left: 0.5rem;
+          padding: 0.1rem 0.2rem;
+
+          img,
+          svg {
+            transform: translateY(0.2rem);
+            margin-right: 0.3rem;
+          }
         }
       }
     }

@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { ACTIONS, NodeProps, ShowCtxMenu } from '@proj-types/types';
+import { useEffect, useState } from 'react';
+import { NodeProps, ShowCtxMenu } from '@proj-types/types';
 import { browserAPI } from '@scripts/browser/browser-api';
 import { BsLink45Deg } from '@components/icons';
 import { DragEventHandlers } from '@scripts/drag/drag-handlers';
@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { showCtxMenu } from '@redux/redux';
 import { TitleInput } from './title-input';
 import { BKM_CLASSES } from '@scripts/globals';
+import { BkmIco } from './bookmark-icon';
 
 const Bookmark: React.FC<NodeProps> = ({
   node,
@@ -17,17 +18,7 @@ const Bookmark: React.FC<NodeProps> = ({
   dispMode
 }) => {
   let [editing, editTitle] = useState(false);
-  let [err, setErr] = useState(false);
   const dispatch: (action: ShowCtxMenu) => any = useDispatch();
-  let img =
-    err && showIcon ? (
-      <BsLink45Deg />
-    ) : (
-      <img
-        src={browserAPI.getBkmIconSrc(node.url)}
-        onError={() => setErr(true)}
-      />
-    );
 
   const contextMenuHandler = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.stopPropagation();
@@ -56,18 +47,14 @@ const Bookmark: React.FC<NodeProps> = ({
   useEffect(() => {
     // Done by Garbage collector.
     // DragEventHandlers.removeEventsFromNode(node.id);
+    // prettier-ignore
     DragEventHandlers.addEventsToNode(
-      node,
-      direction,
-      colIndex,
-      colCount,
-      dispMode
-    );
+      node, direction, colIndex, colCount, dispMode);
   }); // , [node, direction, colIndex, colCount, dispMode]);
 
   return (
     <a {...bkmLinkProps} onClick={(e) => editing && e.preventDefault()}>
-      {img}
+      <BkmIco {...{ url: node.url, showIcon }} />
       {editing ? (
         <TitleInput
           id={node.id}

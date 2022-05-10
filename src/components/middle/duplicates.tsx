@@ -1,16 +1,21 @@
 import { DataNode } from '@proj-types/types';
 import { useAppSelector } from '@redux/hooks';
-import { duplicatesSearch } from '@redux/redux';
+import {
+  duplicatesSearch,
+  updateDuplicateNodeParentChains
+} from '@redux/redux';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { DuplicateGroup } from './elements/duplicate-group';
 
-const Duplicats: React.FC<any> = (props) => {
+const Duplicates: React.FC<any> = (props) => {
   const [nodeGroups, setNodeGroups] = useState([] as DataNode[][]);
   const nodeGroupsPromise = useAppSelector(
     (state) => state.bookmarks.duplicatesPromise || null
   );
+  const showIcon = useAppSelector((s) => s.settings.showFolBkmIcons);
   const dispatch = useDispatch();
+  console.log(showIcon);
 
   const selectedNodes = new Set<string>();
   const addRmvNode = (id: string, val: boolean) => {
@@ -23,7 +28,13 @@ const Duplicats: React.FC<any> = (props) => {
   }, []);
   useEffect(() => {
     nodeGroupsPromise &&
-      nodeGroupsPromise.then((nodes) => setNodeGroups(nodes));
+      nodeGroupsPromise.then((nodes) => {
+        let allNodes = [] as DataNode[];
+        for (let nodeGroup of nodes) allNodes.push(...nodeGroup);
+
+        dispatch(updateDuplicateNodeParentChains(allNodes));
+        setNodeGroups(nodes);
+      });
   });
 
   return (
@@ -31,11 +42,14 @@ const Duplicats: React.FC<any> = (props) => {
       <div id="duplicates-controls">Top Buttons</div>
       <div id="node-groups">
         {nodeGroups.map((nodes) => (
-          <DuplicateGroup {...{ nodes, addRmvNode }} />
+          <DuplicateGroup
+            {...{ nodes, addRmvNode, showIcon }}
+            key={`dup-gr-${nodes[0].id}`}
+          />
         ))}
       </div>
     </div>
   );
 };
 
-export { Duplicats };
+export { Duplicates };

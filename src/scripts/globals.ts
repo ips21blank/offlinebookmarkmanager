@@ -80,6 +80,13 @@ const BKM_CLASSES = {
 };
 const BEING_DRAGGED_CLASS = 'being-dragged';
 
+const NODE_PROP = {
+  // NOT USED ACTUALLY.
+  urlLower: 'urlLower',
+  titleLower: 'titleLower',
+  parentChain: 'parentChain'
+};
+
 const CUSTOM_EVENTS = {
   // Drag events.
   customDrag: new Event('customdrag'),
@@ -116,6 +123,7 @@ export {
   SELECT_CLASS,
   FOLDER_CLASSES,
   BKM_CLASSES,
+  NODE_PROP,
   BEING_DRAGGED_CLASS,
   CUSTOM_EVENTS,
   OVERLAY_CLASSES,
