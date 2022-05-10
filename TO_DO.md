@@ -6,19 +6,27 @@
 _brLocalTest = [/^file:\/\//i, /^chrome:\/\//i];
 ```
 
-### Drop on accordions
+## Scroll up or down when dragging close to ends.
+
+---
+
+## Drop on accordions and sidebar (done)
 
 Allow dropping on accordions directly, not just on their child folders.
 
 ### Highlight sidebar and accordions in dragover.
 
-### Can't select text in search input bar when searching.
+---
 
-## SHOW IN FOLDER.
+### DONE: Can't select text in search input bar when searching.
 
-## Scroll up or down when dragging close to ends.
+---
 
-### implement "ignoreHash"
+## DONE: SHOW IN FOLDER.
+
+---
+
+### MAYBE LATER: implement "ignoreHash"
 
 (A button in Duplicates page : whether to ignore # part of a url
 when looking for duplicates.)

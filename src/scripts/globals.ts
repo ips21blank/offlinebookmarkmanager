@@ -25,7 +25,8 @@ const GLOBAL_SETTINGS = {
   srhDelay: 500, // ms
   srhDispDelay: 300, // ms - added just for observation - how it seems.
 
-  recentCountPerRow: 10
+  recentCountPerRow: 10,
+  scrollIntoViewOffset: 9 * getREM()
 };
 
 enum DRAGTYPE {
@@ -61,7 +62,8 @@ const REG_CLASSES: { [key: string]: string } = {
 const SELECTION: SelectionState = new Selection();
 const SELECT_CLASS = {
   SEL: 'selected',
-  WAS_SEL: 'was-selected' // Simply for visual aid.
+  WAS_SEL: 'was-selected', // Simply for visual aid.
+  SHW_IN_FOL: 'show-in-folder' // Simply for visual aid.
 };
 
 const ACCORDION_CLASSES = {

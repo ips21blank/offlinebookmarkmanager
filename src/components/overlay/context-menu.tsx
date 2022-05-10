@@ -2,8 +2,10 @@ import {
   ACTIONS,
   BkmCtxMenu,
   FolCtxMenu,
+  PAGE_TYPE,
   PinFolder,
-  ShowPopup
+  ShowPopup,
+  UpdateCurrLocation
 } from '@proj-types/types';
 import {
   useAppSelector,
@@ -11,7 +13,8 @@ import {
   showPopup,
   showEditNodePopup,
   showCopyToPopup,
-  showMovePopup
+  showMovePopup,
+  changeCurrLocation
 } from '@redux/redux';
 import { browserAPI } from '@scripts/browser/browser-api';
 import { GLOBAL_SETTINGS } from '@scripts/globals';
@@ -50,11 +53,15 @@ const CtxMenuEl: React.FC<{
 };
 
 const CtxMenu: React.FC<{ toggleOverlay: () => any }> = ({ toggleOverlay }) => {
-  const [menuType, menuData] = useAppSelector((state) => [
+  const [menuType, menuData, pageType, rootId] = useAppSelector((state) => [
     state.overlay.ctxMenuType,
-    state.overlay.ctxMenuData
+    state.overlay.ctxMenuData,
+    state.displayState.pageType,
+    state.bookmarks.db.baseNodeId
   ]);
-  const dispatch: (action: PinFolder | ShowPopup) => any = useDispatch();
+  const dispatch: (action: PinFolder | ShowPopup | UpdateCurrLocation) => any =
+    useDispatch();
+  const isNotFolPage = pageType !== PAGE_TYPE.FOL;
 
   let content: JSX.Element, n: number;
   if (!menuType || !menuData) {
@@ -84,6 +91,16 @@ const CtxMenu: React.FC<{ toggleOverlay: () => any }> = ({ toggleOverlay }) => {
             dispatch(pinFolder(menuData.node, 0));
           }}
         />
+        {isNotFolPage ? (
+          <CtxMenuEl
+            title="Show In Folder"
+            onClickAction={() => {
+              dispatch(changeCurrLocation(rootId, menuData.node.id));
+            }}
+          />
+        ) : (
+          <></>
+        )}
         <CtxMenuEl
           title="Move this Folder"
           onClickAction={(e: React.MouseEvent) => {
@@ -148,6 +165,16 @@ const CtxMenu: React.FC<{ toggleOverlay: () => any }> = ({ toggleOverlay }) => {
             );
           }}
         />
+        {isNotFolPage ? (
+          <CtxMenuEl
+            title="Show In Folder"
+            onClickAction={() => {
+              dispatch(changeCurrLocation(rootId, menuData.node.id));
+            }}
+          />
+        ) : (
+          <></>
+        )}
         <CtxMenuEl
           title="Move to Folder"
           onClickAction={(e: React.MouseEvent) => {

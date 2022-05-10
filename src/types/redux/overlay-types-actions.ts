@@ -1,6 +1,6 @@
 import { OVERLAY_CLASSES, OVERLAY_STATES } from '@scripts/globals';
 import { ACTIONS } from './action-types';
-import { DataNode } from './bookmark-types-actions';
+import { DataNode } from '../script-types';
 
 // Context Menu.
 interface NodeCtxMenu {

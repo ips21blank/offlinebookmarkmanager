@@ -1,13 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { NodeProps, ShowCtxMenu } from '@proj-types/types';
-import { browserAPI } from '@scripts/browser/browser-api';
-import { BsLink45Deg } from '@components/icons';
 import { DragEventHandlers } from '@scripts/drag/drag-handlers';
 import { useDispatch } from 'react-redux';
 import { showCtxMenu } from '@redux/redux';
 import { TitleInput } from './title-input';
-import { BKM_CLASSES } from '@scripts/globals';
+import { BKM_CLASSES, SELECT_CLASS } from '@scripts/globals';
 import { BkmIco } from './bookmark-icon';
+import { Utilities } from '@scripts/utilities';
 
 const Bookmark: React.FC<NodeProps> = ({
   node,
@@ -35,9 +34,9 @@ const Bookmark: React.FC<NodeProps> = ({
     );
   };
 
-  // let ref = useRef<HTMLAnchorElement>(null);
+  let ref = useRef<HTMLAnchorElement>(null);
   let bkmLinkProps = {
-    // ref: ref,
+    ref: ref,
     href: node.url,
     className: `inline-el-no-wrap-center ${BKM_CLASSES.BKM}`,
     id: node.id,
@@ -54,7 +53,7 @@ const Bookmark: React.FC<NodeProps> = ({
 
   return (
     <a {...bkmLinkProps} onClick={(e) => editing && e.preventDefault()}>
-      <BkmIco {...{ url: node.url, showIcon }} />
+      <BkmIco {...{ url: node.url || '', showIcon }} />
       {editing ? (
         <TitleInput
           id={node.id}

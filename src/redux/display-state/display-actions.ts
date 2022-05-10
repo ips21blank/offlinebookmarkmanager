@@ -17,10 +17,13 @@ import {
 } from '@proj-types/types';
 import { GLOBAL_SETTINGS } from '@scripts/globals';
 
-function changeCurrLocation(newLocation: string): UpdateCurrLocation {
+function changeCurrLocation(
+  newLocation: string,
+  showNode?: string
+): UpdateCurrLocation {
   return {
     type: ACTIONS.SET_CURR_LOCATION,
-    payload: { newLocation, page: PAGE_TYPE.FOL }
+    payload: { newLocation, page: PAGE_TYPE.FOL, showNode }
   };
 }
 function showSearchPage(): ShowSearchPage {

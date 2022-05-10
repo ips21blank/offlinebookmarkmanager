@@ -11,12 +11,21 @@ import {
   DRAG_REG,
   FOLDER_CLASSES,
   GLOBAL_SETTINGS,
-  REG_CLASSES
+  REG_CLASSES,
+  SELECT_CLASS
 } from './globals';
 import React from 'react';
 
 export class Utilities {
   public static domNIndexReg: RegExp = /:\/\/\/?/;
+  public static scrollTo = (function () {
+    if (document.documentElement.style.hasOwnProperty('scrollBehavior')) {
+      return (offset: number) =>
+        window.scrollTo({ top: offset, behavior: 'smooth' });
+    } else {
+      return (offset: number) => window.scrollTo(0, offset);
+    }
+  })();
 
   public static getRegClass(reg: DRAG_REG, direction: FLOW_DIRECTION): string {
     let colDir: boolean = direction === FLOW_DIRECTION.COLUMN ? true : false;
@@ -258,5 +267,21 @@ export class Utilities {
     }
 
     return loc;
+  }
+
+  public static isShowNodeId(showNode: Array<string>, nodeId: string): boolean {
+    // Not used anymore.
+    return !!(showNode.length && showNode[0] === nodeId);
+  }
+  public static showNode(nodeEl: HTMLElement | null) {
+    if (!nodeEl) return;
+
+    let offset =
+      window.scrollY +
+      nodeEl.getBoundingClientRect().top -
+      GLOBAL_SETTINGS.scrollIntoViewOffset;
+
+    Utilities.scrollTo(offset);
+    nodeEl.classList.add(SELECT_CLASS.SHW_IN_FOL);
   }
 }

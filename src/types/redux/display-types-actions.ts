@@ -14,7 +14,7 @@ interface SetPageAction extends DisplayAction {
 }
 interface UpdateCurrLocation extends SetPageAction {
   type: ACTIONS.SET_CURR_LOCATION;
-  payload: { newLocation: string; page: PAGE_TYPE.FOL };
+  payload: { newLocation: string; page: PAGE_TYPE.FOL; showNode?: string };
 }
 interface ShowSearchPage extends DisplayAction {
   type: ACTIONS.SHOW_SRH_PG;
@@ -74,6 +74,7 @@ interface PageData {
 
 interface FolPageData extends PageData {
   currLocation: string;
+  showNode: string;
 }
 interface SetPageData extends PageData {}
 interface SrhPageData extends FolPageData {

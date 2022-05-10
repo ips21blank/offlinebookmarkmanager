@@ -39,13 +39,18 @@ window.addEventListener('mousemove', (e) => {
   }
 });
 
-const rmvWasMovedClass = () => {
+const rmvWasMovedShwInFolClass = () => {
   let elList = document.getElementsByClassName(SELECT_CLASS.WAS_SEL);
 
   while (elList.length)
     elList[elList.length - 1].classList.remove(SELECT_CLASS.WAS_SEL);
+
+  elList = document.getElementsByClassName(SELECT_CLASS.SHW_IN_FOL);
+
+  while (elList.length)
+    elList[elList.length - 1].classList.remove(SELECT_CLASS.SHW_IN_FOL);
 };
-window.addEventListener('mousedown', rmvWasMovedClass);
+window.addEventListener('mousedown', rmvWasMovedShwInFolClass);
 
 //
 class DragHandlers {
@@ -56,7 +61,7 @@ class DragHandlers {
   public static highlightNodesMoved(idList: string[]) {
     let el: HTMLElement | null;
 
-    rmvWasMovedClass();
+    rmvWasMovedShwInFolClass();
     for (let id of idList) {
       el = document.getElementById(id);
       el && el.classList.add(SELECT_CLASS.WAS_SEL);

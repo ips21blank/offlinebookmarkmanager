@@ -33,7 +33,8 @@ function displayReducer(
             pageType: PAGE_TYPE.FOL,
             pageData: {
               currLocation: payload.newLocation,
-              prevPage: state.pageType
+              prevPage: state.pageType,
+              showNode: payload.showNode
             }
           };
     }

@@ -16,6 +16,7 @@ import { FOLDER_CLASSES, CUSTOM_EVENTS } from '@scripts/globals';
 import { TitleInput } from './title-input';
 import { useDispatch } from 'react-redux';
 import { showCtxMenu } from '@redux/redux';
+import { Utilities } from '@scripts/utilities';
 
 // Following 2 components are in same file because they both use each other.
 
