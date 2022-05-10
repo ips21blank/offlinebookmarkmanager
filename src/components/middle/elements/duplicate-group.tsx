@@ -1,4 +1,5 @@
 import { DataNode } from '@proj-types/script-types';
+import { useState } from 'react';
 import { BkmIco } from './bookmark-icon';
 
 const DuplicateNodeLink: React.FC<{ node: DataNode; showIcon: boolean }> = ({
@@ -27,36 +28,38 @@ const DuplicateNodeParentChain: React.FC<{ parents: DataNode[] }> = ({
 };
 
 const DuplicateNode: React.FC<{
-  node: DataNode;
+  nodeAndSel: [DataNode, boolean];
   addRmvNode: (id: string, val: boolean) => void;
   showIcon: boolean;
-}> = ({ node, addRmvNode, showIcon }) => {
+}> = ({ nodeAndSel, addRmvNode, showIcon }) => {
   return (
     <div className="duplicate-node">
       <input
         type="checkbox"
-        id={node.id}
+        id={nodeAndSel[0].id}
         onChange={(e) => {
-          addRmvNode(node.id, e.target.checked);
+          addRmvNode(nodeAndSel[0].id, e.target.checked);
         }}
+        checked={nodeAndSel[1]}
       />
-      <DuplicateNodeParentChain parents={(node as any).parentChain} /> ::
-      <DuplicateNodeLink {...{ node, showIcon }} />
+      <DuplicateNodeParentChain parents={(nodeAndSel[0] as any).parentChain} />{' '}
+      ::
+      <DuplicateNodeLink {...{ node: nodeAndSel[0], showIcon }} />
     </div>
   );
 };
 
 const DuplicateGroup: React.FC<{
-  nodes: DataNode[];
+  nodesAndSel: [DataNode, boolean][];
   addRmvNode: (id: string, val: boolean) => void;
   showIcon: boolean;
-}> = ({ nodes, addRmvNode, showIcon }) => {
+}> = ({ nodesAndSel, addRmvNode, showIcon }) => {
   return (
     <div className="duplicates-group">
-      {nodes.map((node) => (
+      {nodesAndSel.map((nodeAndSel) => (
         <DuplicateNode
-          {...{ node, addRmvNode, showIcon }}
-          key={`dup-nod-${node.id}`}
+          {...{ nodeAndSel, addRmvNode, showIcon }}
+          key={`dup-nod-${nodeAndSel[0].id}`}
         />
       ))}
     </div>

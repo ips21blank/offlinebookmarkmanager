@@ -3,6 +3,33 @@ div#duplicates-page {
   div#duplicates-controls {
     padding: 0.5rem;
     margin: 0 0 0.5rem 0;
+
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    span {
+      cursor: pointer;
+      color: $popup-btn-text;
+      background-color: $popup-btn-bg;
+
+      height: 2rem;
+      min-width: 2rem;
+      margin: 0 0.5rem;
+      padding: 0 $popup-btn-pd;
+      border-radius: $popup-btn-border-radius;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: $popup-btn-ft-sz;
+
+      &:hover {
+        background-color: $popup-btn-bg-hov;
+      }
+    }
   }
 
   div#node-groups {
