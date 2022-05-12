@@ -16,6 +16,9 @@ _brLocalTest = [/^file:\/\//i, /^chrome:\/\//i];
 
 #### Highlight sidebar and accordions in dragover.
 
+(DONE for sidebar - dropped for accordions (One will be able to drop below the
+expanded folder onto the accordion.))
+
 ---
 
 ### DONE: Can't select text in search input bar when searching.
