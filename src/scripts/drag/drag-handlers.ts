@@ -1,6 +1,7 @@
 import { DataNode, DISP_MODES, FLOW_DIRECTION } from '@proj-types/types';
 import { DragMgr } from './drag-manager';
 import {
+  BEING_DRAGGED_OVER,
   DRAGTYPE,
   FOLDER_CLASSES,
   GLOBAL_SETTINGS,
@@ -155,11 +156,28 @@ class DragHandlers {
 
   public static dragoverPin(e: MouseEvent) {
     if (!DragHandlers._checkDraggingAndPositionEl(e)) return;
+    DragHandlers.updateContainerDragOverClass(false);
 
     DragMgr.onDragoverPin(e, DragHandlers._pinCache, DragHandlers._dragType);
   }
 
-  public static pinContainerDragover(e: MouseEvent) {}
+  public static updateContainerDragOverClass(add: boolean) {
+    if (add) {
+      const el = document.getElementById('pinned-folders');
+      el && el.classList.add(BEING_DRAGGED_OVER);
+
+      return;
+    }
+    const elList = document.getElementsByClassName(BEING_DRAGGED_OVER);
+    while (elList.length) elList[0].classList.remove(BEING_DRAGGED_OVER);
+  }
+  public static pinContainerDragover(e: MouseEvent) {
+    if (!DragHandlers._checkDraggingAndPositionEl(e)) return;
+    DragHandlers.updateContainerDragOverClass(true);
+  }
+  public static pinContainerLeave(e: MouseEvent) {
+    DragHandlers.updateContainerDragOverClass(false);
+  }
 
   public static onDragLeave(e: MouseEvent) {
     isDragging() && DragMgr.onDragLeave(e);
@@ -228,6 +246,7 @@ class DragHandlers {
 
     // To highlight the region before drop.
     el.addEventListener('mousemove', DragHandlers.pinContainerDragover);
+    el.addEventListener('mouseleave', DragHandlers.pinContainerLeave);
     el.addEventListener('customdrop', DragHandlers.dropOnPinContainer);
   }
 }

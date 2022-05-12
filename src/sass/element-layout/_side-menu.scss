@@ -36,11 +36,16 @@ nav#side-menu {
     align-items: stretch;
     justify-content: flex-start;
 
+    &.being-dragged-over {
+      background-color: $pinned-fol-container-dragover-col;
+    }
+
     p {
       flex: 0 0 auto;
       height: $pin-fol-ht;
       font-size: 1.2rem;
       cursor: pointer;
+      background-color: white;
 
       justify-content: space-between;
       span.pin-title {

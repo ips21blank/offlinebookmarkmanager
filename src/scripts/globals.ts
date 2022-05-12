@@ -87,6 +87,7 @@ const BKM_CLASSES = {
   BKM: 'bookmark'
 };
 const BEING_DRAGGED_CLASS = 'being-dragged';
+const BEING_DRAGGED_OVER = 'being-dragged-over';
 
 const NODE_PROP = {
   // NOT USED ACTUALLY.
@@ -133,6 +134,7 @@ export {
   BKM_CLASSES,
   NODE_PROP,
   BEING_DRAGGED_CLASS,
+  BEING_DRAGGED_OVER,
   CUSTOM_EVENTS,
   OVERLAY_CLASSES,
   OVERLAY_STATES,

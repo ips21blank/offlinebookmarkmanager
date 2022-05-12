@@ -9,7 +9,8 @@ import {
   FOLDER_CLASSES,
   ACCORDION_CLASSES,
   BKM_CLASSES,
-  BEING_DRAGGED_CLASS
+  BEING_DRAGGED_CLASS,
+  BEING_DRAGGED_OVER
 } from '../globals';
 import { Utilities } from '../utilities';
 import { browserAPI } from '../browser/browser-api';
@@ -200,7 +201,7 @@ class DragMgr {
       DragMgr._currReg = region;
     }
 
-    // In case the elements are grouped or page has special draggin behaviour.
+    // In case the elements are grouped or page has special dragging behaviour.
     const displayState = store.getState().displayState;
     if (
       (displayState.groupBkmFol || displayState.pageType === PAGE_TYPE.SRH) &&
@@ -513,6 +514,9 @@ class DragMgr {
   public static onDragEnd() {
     let elList = document.getElementsByClassName(BEING_DRAGGED_CLASS);
     while (elList.length) elList[0].classList.remove(BEING_DRAGGED_CLASS);
+
+    elList = document.getElementsByClassName(BEING_DRAGGED_OVER);
+    while (elList.length) elList[0].classList.remove(BEING_DRAGGED_OVER);
 
     DragMgr.cleanExistingClasses();
 

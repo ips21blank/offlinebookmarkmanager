@@ -12,9 +12,9 @@ _brLocalTest = [/^file:\/\//i, /^chrome:\/\//i];
 
 ## Drop on accordions and sidebar (done)
 
-Allow dropping on accordions directly, not just on their child folders.
+(Allow dropping on accordions directly, not just on their child folders.)
 
-### Highlight sidebar and accordions in dragover.
+#### Highlight sidebar and accordions in dragover.
 
 ---
 
