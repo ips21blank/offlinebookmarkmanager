@@ -26,7 +26,13 @@ const GLOBAL_SETTINGS = {
   srhDispDelay: 300, // ms - added just for observation - how it seems.
 
   recentCountPerRow: 10,
-  scrollIntoViewOffset: 9 * getREM()
+
+  // scrolling
+  scrollIntoViewOffset: 9 * getREM(),
+  scrollSpeed: 50, // rem per sec.
+  scrollStep: 2, // rem
+
+  scrollStartReg: { up: 0.1, dn: 0.93 }
 };
 
 enum DRAGTYPE {

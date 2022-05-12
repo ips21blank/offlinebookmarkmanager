@@ -1,9 +1,15 @@
 import { DataNode, DISP_MODES, FLOW_DIRECTION } from '@proj-types/types';
 import { DragMgr } from './drag-manager';
-import { DRAGTYPE, FOLDER_CLASSES, SELECT_CLASS } from '../globals';
+import {
+  DRAGTYPE,
+  FOLDER_CLASSES,
+  GLOBAL_SETTINGS,
+  SELECT_CLASS
+} from '../globals';
 import { isDragging } from './custom-drag-events';
 import { store, selectDeselectNode } from '@redux/redux';
 import { Utilities } from '@scripts/utilities';
+import { Scroller } from '../scroller';
 
 type T = {
   node: DataNode;
@@ -13,10 +19,13 @@ type T = {
 };
 
 let dragEl: HTMLElement;
+const scroller = new Scroller();
+
 // Dragend is global.
 window.addEventListener('customend', (e) => {
   e.stopPropagation();
   dragEl && dragEl.classList.add('hidden');
+  scroller.stopMoving();
 
   DragMgr.onDragEnd();
 });
@@ -27,8 +36,20 @@ const setDragElPosn = (x: number, y: number) => {
     hidden && dragEl.classList.remove('hidden');
     dragEl.style.left = `${x}px`;
     dragEl.style.top = `${y}px`;
-  } else if (!hidden) {
-    dragEl.classList.add('hidden');
+
+    if (y / window.innerHeight < GLOBAL_SETTINGS.scrollStartReg.up) {
+      scroller.startMovingUpwards();
+    } else if (y / window.innerHeight > GLOBAL_SETTINGS.scrollStartReg.dn) {
+      scroller.startMovingDownwards();
+    } else {
+      scroller.stopMoving();
+    }
+  } else {
+    if (!hidden) {
+      dragEl.classList.add('hidden');
+      console.log('added it again.');
+    }
+    scroller.stopMoving();
   }
 };
 window.addEventListener('mousemove', (e) => {
