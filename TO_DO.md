@@ -1,12 +1,12 @@
 # Things to do
 
-### Do something about local bookmarks/locations
+### DONE: Do something about local bookmarks/locations
 
 ```javascript
 _brLocalTest = [/^file:\/\//i, /^chrome:\/\//i];
 ```
 
-## Scroll up or down when dragging close to ends.
+## DONE: Scroll up or down when dragging close to ends.
 
 ---
 

@@ -61,14 +61,14 @@ export class Utilities {
 
   private static _pinSuffix = '-pin-fol';
   public static getPinId(id: string): string {
-    return id + this._pinSuffix;
+    return id + Utilities._pinSuffix;
   }
   public static parsePinId(id: string): string {
-    let i = id.indexOf(this._pinSuffix);
+    let i = id.indexOf(Utilities._pinSuffix);
     return id.substring(0, i !== -1 ? i : id.length);
   }
   public static isPinFolId(id: string): boolean {
-    return id.indexOf(this._pinSuffix) !== -1;
+    return id.indexOf(Utilities._pinSuffix) !== -1;
   }
 
   public static dummyContent(i0: number) {
@@ -129,11 +129,11 @@ export class Utilities {
   ): DataNode[] {
     switch (dir) {
       case FLOW_DIRECTION.ROW:
-        return this._getNodeListRowDir(nodes, index, colCount);
+        return Utilities._getNodeListRowDir(nodes, index, colCount);
       case FLOW_DIRECTION.COLUMN:
-        return this._getNodeListColDir(nodes, index, colCount);
+        return Utilities._getNodeListColDir(nodes, index, colCount);
       default:
-        return this._getNodeListRowDir(nodes, index, colCount);
+        return Utilities._getNodeListRowDir(nodes, index, colCount);
     }
   }
 
@@ -283,5 +283,14 @@ export class Utilities {
 
     Utilities.scrollTo(offset);
     nodeEl.classList.add(SELECT_CLASS.SHW_IN_FOL);
+  }
+
+  private static _localTest1 = /^file:\/\//i;
+  private static _localTest2 = /^chrome:\/\//i;
+
+  public static isLocalLink(url: string): boolean {
+    return !!(
+      url.match(Utilities._localTest1) || url.match(Utilities._localTest2)
+    );
   }
 }
