@@ -1,5 +1,6 @@
 import { DataNode } from '@proj-types/types';
 import { getParentChain } from '@redux/initial-states';
+import { MOVE_WITHIN_SELF } from '@scripts/globals';
 import { BrowserSimulator as chrome } from './mock-browser';
 
 const browserAPI = {
@@ -42,7 +43,7 @@ const browserAPI = {
     let parentChain: DataNode[] = getParentChain(target.parentId);
 
     if (parentChain.findIndex((node) => node.id === id) !== -1) {
-      throw new Error('Trying to move a folder within itself.'); // REMOVE : IT STOPS THE EXECUTION!!!
+      throw new Error(MOVE_WITHIN_SELF); // REMOVE : IT STOPS THE EXECUTION!!!
       // document.body.appendChild(
       //   _el.info('You cannot place a folder within itself.').blanket
       // );

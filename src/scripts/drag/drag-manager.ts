@@ -10,7 +10,8 @@ import {
   ACCORDION_CLASSES,
   BKM_CLASSES,
   BEING_DRAGGED_CLASS,
-  BEING_DRAGGED_OVER
+  BEING_DRAGGED_OVER,
+  MOVE_WITHIN_SELF
 } from '../globals';
 import { Utilities } from '../utilities';
 import { browserAPI } from '../browser/browser-api';
@@ -137,12 +138,6 @@ class DragMgr {
       return;
     }
 
-    if (dragType !== DRAGTYPE.FOLDER_PIN) {
-      DragMgr.cleanExistingClasses();
-      DragMgr._addClassToEl(currEl, REG_CLASSES.COL_BET);
-      return;
-    }
-
     let region = DragMgr._getDragReg(
       event,
       currEl.getBoundingClientRect(),
@@ -150,6 +145,14 @@ class DragMgr {
       // Treat as anchor el if dragged el is also a pin.
       dragType === DRAGTYPE.FOLDER_PIN // will be true.
     );
+
+    if (dragType == DRAGTYPE.BKM) {
+      DragMgr.cleanExistingClasses();
+      DragMgr._addClassToEl(currEl, REG_CLASSES.COL_BET);
+      DragMgr._currReg = DRAG_REG.BET;
+
+      return;
+    }
 
     const getEl = (id: string) =>
       document.getElementById(Utilities.getPinId(id));
@@ -161,6 +164,7 @@ class DragMgr {
         break;
       case DRAG_REG.BET: // should not happen.
         currClass = REG_CLASSES.COL_BET;
+        DragMgr._currReg = DRAG_REG.BET;
         break;
       case DRAG_REG.AFT:
         currClass = REG_CLASSES.COL_AFT; nextClass = REG_CLASSES.COL_BEF;
@@ -367,7 +371,6 @@ class DragMgr {
   public static onDrop(event: Event) {
     DragMgr.cleanExistingClasses();
     if (store.getState().displayState.pageType === PAGE_TYPE.REC) return;
-
     /**
      * So that some timed out call to _updateElementClasses
      * does not add the classes after this.
@@ -459,7 +462,7 @@ class DragMgr {
     if (targetId === DragMgr._draggedElId || !DragMgr._draggedElId || !targetId)
       return;
 
-    if (dragType !== DRAGTYPE.FOLDER_PIN) {
+    if (DragMgr._currReg === DRAG_REG.BET) {
       let elementsMoved: string[] = [];
       DragMgr._moveElementsToFol(
         { parentId: targetId, index: undefined },
@@ -478,9 +481,23 @@ class DragMgr {
       newIndex = iTarget + 1;
     }
 
-    store.dispatch(
-      movPin(Utilities.parsePinId(DragMgr._draggedElId), newIndex)
-    );
+    if (dragType === DRAGTYPE.FOLDER_PIN) {
+      store.dispatch(
+        movPin(Utilities.parsePinId(DragMgr._draggedElId), newIndex)
+      );
+    } else {
+      let folId = DragMgr.selection.folders[0],
+        node: DataNode | undefined;
+      folId && (node = store.getState().bookmarks.db.get(folId));
+
+      if (!folId || !node) return;
+
+      if (pins.includes(node.id)) {
+        store.dispatch(movPin(node.id, newIndex));
+      } else {
+        store.dispatch(pinFolder(node, newIndex));
+      }
+    }
   }
   public static dropOnPinContainer(event: Event, dragType: DRAGTYPE) {
     if (dragType !== DRAGTYPE.FOL) return;
@@ -499,15 +516,27 @@ class DragMgr {
       parentId: string;
       index: number | undefined;
     },
-    elementsMoved: string[] = []
+    elementsMoved: string[] = [] // list used by caller.
   ) => {
-    for (let id of DragMgr.selection.folders) {
-      browserAPI.moveBk(id, target);
-      elementsMoved.push(id);
-    }
-    for (let id of DragMgr.selection.bookmarks) {
-      browserAPI.moveBk(id, target);
-      elementsMoved.push(id);
+    target.index = target.index || 0;
+    try {
+      for (let id of DragMgr.selection.folders) {
+        browserAPI.moveBk(id, target);
+        elementsMoved.push(id);
+      }
+      for (let id of DragMgr.selection.bookmarks) {
+        browserAPI.moveBk(id, target);
+        elementsMoved.push(id);
+      }
+    } catch (e: any) {
+      if (e.message === MOVE_WITHIN_SELF) {
+        store.dispatch(
+          showInfoPopup({
+            title: 'Error',
+            text: 'You were trying to move a folder within itself.'
+          })
+        );
+      }
     }
   };
 

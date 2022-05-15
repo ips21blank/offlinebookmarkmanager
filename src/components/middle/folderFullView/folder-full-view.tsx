@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FolderFullViewProps } from '@proj-types/types';
 import { FolderFullViewColumns } from './folder-full-view-columns';
 import { useAppSelector } from '@redux/hooks';
@@ -7,8 +7,11 @@ import {
   BsCaretDownFill,
   BsFillPencilFill
 } from '@components/icons';
+import { Utilities } from '@scripts/utilities';
+import { FOLDER_CLASSES } from '@scripts/globals';
+import { DragEventHandlers } from '@scripts/drag/drag-handlers';
 
-const FolderTitle: React.FC<any> = ({ title, nodeId }) => {
+const FolderTitle: React.FC<any> = ({ title }) => {
   // let ref = useRef<HTMLElement>(null);
 
   let titleProps = {
@@ -35,6 +38,10 @@ const FolderFullView: React.FC<FolderFullViewProps> = ({ nodeId }) => {
       true || homeOrBase.includes(nodeId)
     ];
   });
+  useEffect(() => {
+    DragEventHandlers.addEventsToFullViewTitle(nodeId);
+  });
+
   if (!folder) {
     return <div className={currClass}></div>;
   }
@@ -59,12 +66,13 @@ const FolderFullView: React.FC<FolderFullViewProps> = ({ nodeId }) => {
     <div className={currClass}>
       {isHomeOrBase ? (
         <div
-          className="folder-view-title"
+          className={FOLDER_CLASSES.FUL_TITLE}
           onClick={expandCollapseFullViewFolder}
+          id={Utilities.getFolderFullViewId(nodeId)}
         >
           <div>
             {expColIcon}
-            <FolderTitle title={folder.title} nodeId={nodeId} />
+            <FolderTitle title={folder.title} />
           </div>
           {/* {baseChildIds.indexOf(nodeId) === -1 ? (
           <span className="btn-icon" onClick={(e) => e.stopPropagation()}>

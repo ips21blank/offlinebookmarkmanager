@@ -11,7 +11,6 @@ a.bookmark {
   height: $node-height;
   // padding-left: $node-padding-lt;
   // padding-right: $node-padding-rt;
-  border-left: 0.2rem solid $node-border-light;
 
   display: flex;
   //   align-items: center;
@@ -27,7 +26,7 @@ a.bookmark {
     // padding property not used to allow hovering/dragging
     // on top of white area.
     border-right: $node-padding-rt solid $node-border-color;
-    border-left: $node-padding-lt solid white;
+    border-left: $node-padding-lt solid $node-border-light;
 
     height: $node-height;
     background-color: $subfolder-title-color;
@@ -73,6 +72,7 @@ div.folder {
 
 a.bookmark {
   overflow: hidden;
+  border-left: $node-padding-lt solid $node-border-light;
   padding-left: $node-padding-lt;
   border-bottom: $node-border-bottom;
   img {

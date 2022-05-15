@@ -81,7 +81,8 @@ const FOLDER_CLASSES = {
   COL: 'collapsed',
   FOL: 'folder',
   NO_EXP: 'do-not-expand',
-  PIN_TITLE: 'pin-title'
+  PIN_TITLE: 'pin-title',
+  FUL_TITLE: 'folder-view-title'
 };
 const BKM_CLASSES = {
   BKM: 'bookmark'
@@ -122,6 +123,8 @@ enum OVERLAY_STATES {
   blank
 }
 
+const MOVE_WITHIN_SELF = 'Trying to move a folder within itself.';
+
 export {
   GLOBAL_SETTINGS,
   DRAGTYPE,
@@ -138,5 +141,6 @@ export {
   CUSTOM_EVENTS,
   OVERLAY_CLASSES,
   OVERLAY_STATES,
-  ACCORDION_CLASSES
+  ACCORDION_CLASSES,
+  MOVE_WITHIN_SELF
 };

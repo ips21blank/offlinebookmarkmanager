@@ -21,13 +21,15 @@ export const settingsReducer = (
     case ACTIONS.ADD_PIN: {
       let payload = (<PinFolder>action).payload;
       let index =
-        payload.index && payload.index >= 0 && payload.index < state.pins.length
+        payload.index &&
+        payload.index >= 0 &&
+        payload.index <= state.pins.length
           ? payload.index
           : 0;
 
       let currI = state.pins.indexOf(payload.pinId);
       if (currI !== -1) {
-        state.pins.splice(currI, 1);
+        state.pins.splice(currI, 1); // could handle move as well.
         if (index > currI) index--;
       }
 
@@ -51,6 +53,7 @@ export const settingsReducer = (
             ? payload.newIndex
             : state.pins.length - 1,
         currI = state.pins.indexOf(payload.pinId);
+      index = index > state.pins.length ? state.pins.length : index;
 
       if (currI === -1) return state;
       if (index > currI) index--;

@@ -21,7 +21,7 @@ const DragNode: React.FC<{ node: DataNode }> = ({ node }) => {
 const DragEl: React.FC<any> = (props) => {
   let [sel, dragNode, isPinnedFol] = useAppSelector((state) => [
     state.displayState.selection,
-    state.bookmarks.db.get(Utilities.parsePinId(state.displayState.dragId)),
+    state.bookmarks.db.get(Utilities.parseId(state.displayState.dragId)),
     Utilities.isPinFolId(state.displayState.dragId)
   ]);
 

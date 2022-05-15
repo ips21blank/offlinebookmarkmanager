@@ -71,6 +71,19 @@ export class Utilities {
     return id.indexOf(Utilities._pinSuffix) !== -1;
   }
 
+  private static _folFullViewIdSuffix = '-title' + Math.random();
+  public static getFolderFullViewId(id: string) {
+    return id + Utilities._folFullViewIdSuffix;
+  }
+  public static parseFolderFullViewId(fullViewId: string) {
+    let i = fullViewId.indexOf(Utilities._folFullViewIdSuffix);
+    return fullViewId.substring(0, i !== -1 ? i : fullViewId.length);
+  }
+
+  public static parseId(id: string): string {
+    return Utilities.parseFolderFullViewId(Utilities.parsePinId(id));
+  }
+
   public static dummyContent(i0: number) {
     let res: any[] = [];
     for (let i = 0; i < i0; i++) {

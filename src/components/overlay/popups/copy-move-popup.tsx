@@ -1,14 +1,15 @@
 import {
   CopyToPopupProps,
   HighlightElementsMoved,
-  MovePopupProps
+  MovePopupProps,
+  ShowPopup
 } from '@proj-types/types';
 import React, { useState } from 'react';
 import { GenericPopup } from './generic/generic-popup';
 import { browserAPI } from '@scripts/browser/browser-api';
 import { SelectFolderComp } from './folder-selector';
 import { useAppSelector } from '@redux/hooks';
-import { highlightElementsMoved } from '@redux/redux';
+import { highlightElementsMoved, showInfoPopup } from '@redux/redux';
 import { useDispatch } from 'react-redux';
 
 const CopyMovePopup: React.FC<MovePopupProps | CopyToPopupProps> = (props) => {
@@ -17,7 +18,7 @@ const CopyMovePopup: React.FC<MovePopupProps | CopyToPopupProps> = (props) => {
     state.bookmarks.db
   ]);
   const [selectedId, selectId] = useState('');
-  const dispatch: (action: HighlightElementsMoved) => any | void =
+  const dispatch: (action: HighlightElementsMoved | ShowPopup) => any | void =
     useDispatch();
 
   let actions = [
@@ -28,8 +29,17 @@ const CopyMovePopup: React.FC<MovePopupProps | CopyToPopupProps> = (props) => {
           if (!selectedId) return;
 
           if (props.copyOrMove === 'move') {
-            for (let id of props.idList) {
-              browserAPI.moveBk(id, { parentId: selectedId });
+            try {
+              for (let id of props.idList) {
+                browserAPI.moveBk(id, { parentId: selectedId });
+              }
+            } catch (e: any) {
+              return dispatch(
+                showInfoPopup({
+                  title: 'Error',
+                  text: 'You were trying to move a folder within itself.'
+                })
+              );
             }
           } else {
             for (let id of props.idList) {

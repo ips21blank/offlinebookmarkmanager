@@ -9,7 +9,7 @@ type U = null | number;
 type V = 'up' | 'down';
 
 let DRAGGING: boolean = false;
-let dragEl: HTMLElement;
+let DRAG_EL: HTMLElement;
 
 const checkIfElIsDragElement = (el: HTMLElement): boolean => {
   return (
@@ -40,7 +40,7 @@ const addCustomDragEvents = () => {
       DRAGGING = true;
       window.removeEventListener('mousemove', checkDragging);
       window.addEventListener('click', eatClick);
-      dragEl.dispatchEvent(CUSTOM_EVENTS.customDrag);
+      DRAG_EL.dispatchEvent(CUSTOM_EVENTS.customDrag);
     }
   };
 
@@ -58,15 +58,21 @@ const addCustomDragEvents = () => {
 
     if (checkIfElIsDragElement(el)) e.preventDefault();
 
+    let condn0 =
+      el.classList.contains(FOLDER_CLASSES.FUL_TITLE) ||
+      (el.parentElement &&
+        el.parentElement.classList.contains(FOLDER_CLASSES.FUL_TITLE));
     let condn =
-      el &&
-      (el.classList.contains(BKM_CLASSES.BKM) ||
-        (el.parentElement &&
-          el.parentElement.classList.contains(FOLDER_CLASSES.FOL)) ||
-        el.classList.contains('pin-title'));
+      (el &&
+        (el.classList.contains(BKM_CLASSES.BKM) ||
+          (el.parentElement &&
+            el.parentElement.classList.contains(FOLDER_CLASSES.FOL)) ||
+          el.classList.contains(FOLDER_CLASSES.PIN_TITLE))) ||
+      condn0;
 
     if (condn && !e.button) {
-      dragEl = el;
+      // e.button === 0 for left click.
+      DRAG_EL = condn0 ? (el.parentElement as HTMLElement) : el;
       DRAG_LOC.x = e.pageX;
       DRAG_LOC.y = e.pageY;
       DRAG_LOC.mouse = 'down';
@@ -97,7 +103,7 @@ const addCustomDragEvents = () => {
   });
 };
 
-const getDragEl = () => dragEl;
+const getDragEl = () => DRAG_EL;
 const isDragging = () => DRAGGING;
 
 export { addCustomDragEvents, getDragEl, isDragging };

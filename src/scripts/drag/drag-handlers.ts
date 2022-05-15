@@ -108,19 +108,26 @@ class DragHandlers {
     e.stopPropagation();
     // e.preventDefault();
 
-    let currEl = e.target as HTMLElement;
+    let currEl = e.target as HTMLElement,
+      id = currEl.id;
     let dragType: DRAGTYPE;
     if (currEl.tagName.toLowerCase() === 'a') {
       dragType = DRAGTYPE.BKM;
     } else if (currEl.parentElement?.classList.contains(FOLDER_CLASSES.FOL)) {
       dragType = DRAGTYPE.FOL;
+    } else if (
+      currEl.classList.contains(FOLDER_CLASSES.FUL_TITLE) ||
+      currEl.parentElement?.classList.contains(FOLDER_CLASSES.FUL_TITLE)
+    ) {
+      dragType = DRAGTYPE.FOL;
+      id = Utilities.parseFolderFullViewId(id);
     } else {
       dragType = DRAGTYPE.FOLDER_PIN;
     }
     DragHandlers._pinCache = store.getState().settings.pins;
     DragHandlers._dragType = dragType;
 
-    DragMgr.onDragStart(currEl.id, dragType, currEl);
+    DragMgr.onDragStart(id, dragType, currEl);
   }
 
   private static _checkDraggingAndPositionEl(e: MouseEvent): boolean {
@@ -248,6 +255,13 @@ class DragHandlers {
     el.addEventListener('mousemove', DragHandlers.pinContainerDragover);
     el.addEventListener('mouseleave', DragHandlers.pinContainerLeave);
     el.addEventListener('customdrop', DragHandlers.dropOnPinContainer);
+  }
+
+  public static addEventsToFullViewTitle(nodeId: string) {
+    let el = document.getElementById(Utilities.getFolderFullViewId(nodeId));
+    if (!el) return;
+
+    el.addEventListener('customdrag', DragHandlers.dragStart);
   }
 }
 

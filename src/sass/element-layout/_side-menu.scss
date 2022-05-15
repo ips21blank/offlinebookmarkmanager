@@ -50,10 +50,6 @@ nav#side-menu {
       background-color: $main-light1-color;
     }
 
-    &.being-dragged-over {
-      background-color: $pinned-fol-container-dragover-col;
-    }
-
     p {
       flex: 0 0 auto;
       height: $pin-fol-ht;
