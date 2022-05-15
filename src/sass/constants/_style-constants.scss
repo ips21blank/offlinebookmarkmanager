@@ -1,6 +1,7 @@
 @use 'sass:math';
 
 @import './layout-constants';
+@import './colors-constants';
 
 // address bar
 $gap-bw-search-and-buttons: 0.5rem;
@@ -11,6 +12,9 @@ $address-bar-btn-ht: 1.5rem;
 $bookmark-icon-margin-sides: 0.3rem;
 $subfolder-content-bottom-margin: 0.8rem;
 $folder-icon-margins: 0 $bookmark-icon-margin-sides;
+$subfolder-bottom-right-radius: 0.5rem;
+$node-border-bottom: 1px solid $node-border-color;
+// $bookmark-border-bottom: 1px solid $node-border-color;
 
 // scrollbar
 $scroll-bar-width: 0.6rem;
@@ -19,7 +23,8 @@ $scroll-bar-border-radius: 0.3rem;
 
 // Side menu.
 $pin-fol-tip-mg: 1rem 0 0;
-$pin-fol-mg-top: 3rem;
+$pin-fol-tip-pd: 0.5rem 0 1.8rem;
+$pin-fol-mg-top: 0rem;
 $fix-btn-default-ht: $top-menu-height;
 $pin-fol-ht: $fix-btn-default-ht;
 $fix-btn-pd: 0 0.3rem 0 1rem;
@@ -58,7 +63,7 @@ $drag-el-ht: 2rem;
 $drag-el-wd-1: 15rem;
 $drag-el-wd-2: $side-margin1;
 $drag-el-pd: 0 1rem;
-$drag-el-pos: translate(-4rem, -1rem);
+$drag-el-pos: translate(-1rem, -1rem);
 
 // Drag over
 $insert-into-border: 0.3em solid black;

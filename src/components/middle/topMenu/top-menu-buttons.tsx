@@ -15,7 +15,7 @@ import {
   toggleGrouping,
   useAppSelector
 } from '@redux/redux';
-import { BsVectorPen } from '@components/icons';
+import { GiQuill } from '@components/icons';
 import { browserAPI } from '@scripts/browser/browser-api';
 
 const EditButton: React.FC<{
@@ -26,7 +26,7 @@ const EditButton: React.FC<{
   return (
     <button onClick={clickHandler} className="inline-el-no-wrap-center-both">
       <span className="btn-icon">
-        <BsVectorPen />
+        <GiQuill />
       </span>
       {mode === DISP_MODES.EDIT ? 'Done' : 'Edit'}
     </button>
@@ -41,7 +41,7 @@ const ToggleGroupButton: React.FC<{
   return (
     <button onClick={clickHandler} className="inline-el-no-wrap-center-both">
       {/* <span className="btn-icon">
-        <BsVectorPen />
+        <GiQuill />
       </span> */}
       {grouped ? 'Undo Group' : 'Group'}
     </button>

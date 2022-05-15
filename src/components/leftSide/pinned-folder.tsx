@@ -5,7 +5,7 @@ import {
 } from '@proj-types/types';
 import { useDispatch } from 'react-redux';
 import { changeCurrLocation, rmvPin } from '@redux/redux';
-import { BsX } from '@components/icons';
+import { BsXSquare } from '@components/icons';
 import { Utilities } from '@scripts/utilities';
 import { useEffect } from 'react';
 import { DragEventHandlers } from '@scripts/drag/drag-handlers';
@@ -37,7 +37,7 @@ const PinnedFolder: React.FC<PinnedFolderProps> = ({ node, isHomeLoc }) => {
         {node.title}
       </span>{' '}
       <span className="btn-icon" onClick={removePinHandler}>
-        <BsX />
+        <BsXSquare />
       </span>
     </p>
   );

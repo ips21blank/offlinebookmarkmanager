@@ -60,8 +60,8 @@ export const SideMenu: React.FC<SideMenuProps> = (props) => {
           <FiCopy /> &nbsp;| Duplicates
         </span>
       </div>
-      <span id="pin-fol-tip">Drop folders below.</span>
       <div id="pinned-folders">
+        <span id="pin-fol-tip">Drop folders below.</span>
         {pinProps.map((pinProp) => (
           <PinnedFolder {...pinProp.props} key={pinProp.key} />
         ))}

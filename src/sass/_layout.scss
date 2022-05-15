@@ -31,10 +31,15 @@ div#main > div#content {
 }
 div#content {
   margin-top: $top-menu-height;
-  padding-top: $folder-full-view-top-padding;
-  padding-bottom: $content-bottom-padding;
+  padding-bottom: 2rem;
 
   z-index: 10;
+
+  div#content-container {
+    width: 100%;
+    padding-top: $folder-full-view-top-padding;
+    padding-bottom: $content-bottom-padding;
+  }
 }
 
 nav#side-menu,

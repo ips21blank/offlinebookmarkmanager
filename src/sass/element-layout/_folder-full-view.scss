@@ -13,14 +13,21 @@ div.folder-view {
     padding-left: $folder-full-view-title-padding-lt;
     margin: 0;
     transform: translate(-$folder-full-view-lt-rt-padding, -50%);
+    margin-right: -$folder-full-view-lt-rt-padding;
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    background-color: $folder-full-view-title-bg-color;
 
     div {
       display: flex;
       align-items: center;
       justify-content: flex-start;
+
+      span {
+        color: white;
+      }
 
       // actually contains the title
       span + span {
@@ -44,6 +51,12 @@ div.folder-view-content {
   flex-flow: row nowrap;
   align-items: stretch;
   justify-content: stretch;
+  padding: 1rem 0.4rem;
+  border: 0.3rem solid $folder-view-content-border;
+  // border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  border-top: none;
+  border-left: none;
 
   div.folder-view-column {
     flex: 1 1 0;
@@ -51,6 +64,8 @@ div.folder-view-content {
     flex-flow: column nowrap;
     align-items: stretch;
     justify-content: flex-start;
+
+    // border-left: 4px solid rgb(218, 218, 218);
 
     &.col-1-1 {
       max-width: 99.98%;

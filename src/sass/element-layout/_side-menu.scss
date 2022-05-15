@@ -5,36 +5,50 @@ nav#side-menu {
   flex-flow: column nowrap;
   justify-content: stretch;
   align-items: stretch;
+  color: white;
+  background-color: $main-dark1-color;
 
   div#fixed-btn {
     flex: 0 0 auto;
 
     display: flex;
     flex-flow: column nowrap;
+    padding-top: 0.8rem;
 
     span {
       flex: 0 0 auto;
       height: $fix-btn-default-ht;
       padding: $fix-btn-pd;
       cursor: pointer;
+      color: white;
+      // font-weight: bold;
+      font-size: 1.2rem;
     }
-  }
-  span#pin-fol-tip {
-    flex: 0 0 auto;
-    font: italic 0.88rem sans-serif;
-    margin: $pin-fol-tip-mg;
-    text-align: center;
-    text-decoration: underline;
   }
   div#pinned-folders {
     padding-top: $pin-fol-mg-top;
     flex: 1 1 auto;
+
+    color: white;
+    background-color: $main-light2-color;
 
     display: flex;
     flex-flow: column nowrap;
     overflow: auto;
     align-items: stretch;
     justify-content: flex-start;
+
+    span#pin-fol-tip {
+      flex: 0 0 auto;
+      font: italic 0.88rem sans-serif;
+      padding: $pin-fol-tip-pd;
+      text-align: center;
+      // text-decoration: underline;
+      pointer-events: none;
+
+      color: white;
+      background-color: $main-light1-color;
+    }
 
     &.being-dragged-over {
       background-color: $pinned-fol-container-dragover-col;
@@ -45,7 +59,7 @@ nav#side-menu {
       height: $pin-fol-ht;
       font-size: 1.2rem;
       cursor: pointer;
-      background-color: white;
+      // background-color: white;
 
       justify-content: space-between;
       span.pin-title {
@@ -53,6 +67,9 @@ nav#side-menu {
         padding: $pin-fol-pd;
         overflow: hidden;
         flex: 1 1 auto;
+        color: white;
+
+        background-color: $main-dark2-color;
       }
 
       span.pin-title:active + span.btn-icon,
@@ -64,11 +81,14 @@ nav#side-menu {
       span.btn-icon {
         flex: 0 0 auto;
         display: none;
+        color: white;
 
         svg {
           height: 1.5em;
           width: 1.5em;
         }
+
+        margin-right: 0.4rem;
       }
       &:hover span.btn-icon {
         display: flex;

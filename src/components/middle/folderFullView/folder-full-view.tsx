@@ -9,7 +9,7 @@ import {
 } from '@components/icons';
 
 const FolderTitle: React.FC<any> = ({ title, nodeId }) => {
-  let ref = useRef<HTMLElement>(null);
+  // let ref = useRef<HTMLElement>(null);
 
   let titleProps = {
     // ref: ref
@@ -24,10 +24,17 @@ const FolderFullView: React.FC<FolderFullViewProps> = ({ nodeId }) => {
 
   let [currClass, setCurrClass] = useState(classExp);
 
-  let [folder, baseChildIds] = useAppSelector((state) => [
-    state.bookmarks.db.get(nodeId),
-    state.bookmarks.db.baseChildIds
-  ]);
+  let [folder, isHomeOrBase] = useAppSelector((state) => {
+    let homeOrBase = [
+      ...state.bookmarks.db.baseChildIds,
+      state.bookmarks.db.baseNodeId
+    ];
+
+    return [
+      state.bookmarks.db.get(nodeId),
+      true || homeOrBase.includes(nodeId)
+    ];
+  });
   if (!folder) {
     return <div className={currClass}></div>;
   }
@@ -50,19 +57,26 @@ const FolderFullView: React.FC<FolderFullViewProps> = ({ nodeId }) => {
 
   return (
     <div className={currClass}>
-      <div className="folder-view-title" onClick={expandCollapseFullViewFolder}>
-        <div>
-          {expColIcon}
-          <FolderTitle title={folder.title} nodeId={nodeId} />
-        </div>
-        {/* {baseChildIds.indexOf(nodeId) === -1 ? (
+      {isHomeOrBase ? (
+        <div
+          className="folder-view-title"
+          onClick={expandCollapseFullViewFolder}
+        >
+          <div>
+            {expColIcon}
+            <FolderTitle title={folder.title} nodeId={nodeId} />
+          </div>
+          {/* {baseChildIds.indexOf(nodeId) === -1 ? (
           <span className="btn-icon" onClick={(e) => e.stopPropagation()}>
             <BsFillPencilFill className="edit-icon" />
           </span>
         ) : (
           ''
         )} */}
-      </div>
+        </div>
+      ) : (
+        ''
+      )}
       <FolderFullViewColumns nodeId={nodeId} />
     </div>
   );

@@ -1,15 +1,20 @@
 $folder-full-view-top-border-color: black;
-$folder-full-view-title-bg-color: white;
+$folder-full-view-title-bg-color: #174d50;
 $folder-full-view-title-color: black;
+$folder-view-content-border: #e6e9ea;
 
 $scroll-bar-background-color: rgba(0, 0, 0, 0.1);
 $scroll-bar-color: rgba(0, 0, 0, 0.5);
 $scroll-bar-hover-color: rgba(0, 0, 0, 0.7);
 
+$subfolder-title-color: #aae3dc;
 $dragged-fol-bkm-color: rgba(241, 200, 251, 0.781);
 $selected-fol-bkm-bg-color: rgba(6, 113, 185, 0.3);
 $was-moved-fol-bkm-bg-color: rgba(237, 194, 141, 0.589);
 $shw-in-fol-color: rgba(156, 213, 57, 0.589);
+$node-border-color: #3a9689;
+$node-border-light: #e0f2f1;
+$bkm-node-color-light: #e0f2f1;
 
 // To show alternating colors for nested folders.
 $subfolder-content-odd-bg-color: white;
@@ -35,3 +40,10 @@ $popup-btn-min-wd: 4rem;
 
 // Pins
 $pinned-fol-container-dragover-col: rgb(228, 241, 241);
+
+// Top and top left region - main dark
+$main-dark1-color: #1c4d40;
+$main-dark2-color: $main-dark1-color; // rgb(34, 56, 72);
+$main-dark3-color: #286a5c; // rgb(34, 56, 72);
+$main-light1-color: #246059;
+$main-light2-color: $main-dark1-color;

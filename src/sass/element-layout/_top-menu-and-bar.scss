@@ -1,4 +1,11 @@
 @import '../constants/style-constants';
+@import '../constants/colors-constants';
+
+nav#top-menu,
+nav#top-menu * {
+  color: white;
+  background-color: $main-dark3-color;
+}
 
 div#address-bar-location {
   padding-left: $gap-bw-search-and-buttons;
@@ -24,7 +31,7 @@ div#address-bar {
       cursor: pointer;
     }
     flex: 0 1 auto;
-    background-color: white;
+    // background-color: white;
   }
 
   input#search-input {
@@ -42,11 +49,17 @@ div#address-bar {
 div#top-menu-buttons {
   padding-left: $gap-bw-search-and-buttons;
   button {
-    padding: 0;
+    padding: 0.2rem 0.3rem;
+    border: 1px solid white;
     margin-right: 0.4rem;
-    width: 5.5rem;
+    min-width: 5.5rem;
     text-align: center;
     height: $address-bar-btn-ht;
+    font-size: 1rem;
+
+    span.btn-icon {
+      height: auto;
+    }
   }
 
   button:last-child {

@@ -36,7 +36,9 @@ export const Middle: React.FC<MiddleProps> = (props) => {
     <div id="main">
       <TopMenu />
 
-      <div id="content">{content}</div>
+      <div id="content">
+        <div id="content-container">{content}</div>
+      </div>
     </div>
   );
 };
