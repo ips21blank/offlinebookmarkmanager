@@ -1,5 +1,10 @@
 import React, { useEffect } from 'react';
-import { DataNode, PinnedFolderProps, SideMenuProps } from '@proj-types/types';
+import {
+  DataNode,
+  FolPageData,
+  PinnedFolderProps,
+  SideMenuProps
+} from '@proj-types/types';
 import { PinnedFolder } from './pinned-folder';
 import { useAppSelector } from '@redux/hooks';
 import { DragEventHandlers } from '@scripts/drag/drag-handlers';
@@ -18,11 +23,16 @@ export const SideMenu: React.FC<SideMenuProps> = (props) => {
     DragEventHandlers.addEventsToPinnedFolContainer();
   });
   const baseId = useAppSelector((state) => state.bookmarks.db.baseNodeId);
-  const dispatch = useDispatch();
-  let db = useAppSelector((state) => state.bookmarks.db);
-  let homePin: string = useAppSelector((state) => state.settings.homePin || '');
+  let [db, currLoc] = useAppSelector((state) => [
+    state.bookmarks.db,
+    (state.displayState.pageData as FolPageData).currLocation
+  ]);
+  let [homePin, pinTargets]: [string, string[]] = useAppSelector((state) => [
+    state.settings.homePin || '',
+    state.settings.pins
+  ]);
 
-  let pinTargets: string[] = useAppSelector((state) => state.settings.pins);
+  const dispatch = useDispatch();
 
   let pinStrToProp = (pin: string): P => {
     let node = db.get(pin) as DataNode;
@@ -31,7 +41,8 @@ export const SideMenu: React.FC<SideMenuProps> = (props) => {
       key: 'pin-key-' + pin,
       props: {
         node: node,
-        isHomeLoc: homePin === pin
+        isHomeLoc: homePin === pin,
+        isCurrLoc: currLoc === pin
       }
     };
   };

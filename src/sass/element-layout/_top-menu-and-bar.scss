@@ -1,19 +1,25 @@
 @import '../constants/style-constants';
 @import '../constants/colors-constants';
 
-nav#top-menu,
-nav#top-menu * {
-  color: white;
-  background-color: $main-dark3-color;
+nav#top-menu {
+  &,
+  & #address-bar-location *,
+  & div + span *,
+  & div#top-menu-buttons * {
+    color: white;
+    background-color: $main-dark3-color;
+  }
 }
 
 div#address-bar-location {
   padding-left: $gap-bw-search-and-buttons;
 }
 div#address-bar {
-  padding-right: $gap-bw-search-and-buttons;
-  padding-left: 0.4rem;
+  // padding-right: $gap-bw-search-and-buttons;
+  // padding-left: 0.4rem;
+  padding: 0.3rem $gap-bw-search-and-buttons 0.3rem 0.4rem;
   justify-content: space-between;
+  cursor: text;
 
   div#address-bar-location {
     overflow: hidden;
@@ -26,16 +32,19 @@ div#address-bar {
       display: flex;
       flex-flow: row nowrap;
       align-items: center;
+
+      cursor: default;
     }
-    span.address-location {
+    span.address-location,
+    span.btn-icon {
       cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
     flex: 0 1 auto;
     // background-color: white;
-  }
-
-  input#search-input {
-    flex: 1 1 auto;
   }
 
   span.btn-icon {
@@ -44,6 +53,38 @@ div#address-bar {
     vertical-align: top;
     // width: 2.5rem;
   }
+
+  input#search-input {
+    flex: 1 1 auto;
+
+    color: black;
+    background-color: white;
+    border: none;
+    border-top-left-radius: 0.4rem;
+    border-bottom-left-radius: 0.4rem;
+    padding: 0.25rem 0 0.25rem 0.5rem;
+    margin-left: 0.8rem;
+
+    &:focus-visible,
+    &:focus {
+      border: none;
+      outline: none;
+    }
+  }
+
+  input#search-input + span.btn-icon {
+    color: black;
+    background-color: white;
+    svg {
+      color: black;
+      background-color: white;
+    }
+
+    border-top-right-radius: 0.4rem;
+    border-bottom-right-radius: 0.4rem;
+    height: 1.5rem;
+    padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+  }
 }
 
 div#top-menu-buttons {
@@ -51,6 +92,7 @@ div#top-menu-buttons {
   button {
     padding: 0.2rem 0.3rem;
     border: 1px solid white;
+    border-radius: 0.2rem;
     margin-right: 0.4rem;
     min-width: 5.5rem;
     text-align: center;
@@ -59,6 +101,15 @@ div#top-menu-buttons {
 
     span.btn-icon {
       height: auto;
+    }
+
+    &:focus-visible,
+    &:focus {
+      outline: none;
+      // border: none;
+    }
+    &:active {
+      border: 1px solid #b2dfdb;
     }
   }
 

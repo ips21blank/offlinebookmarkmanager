@@ -13,7 +13,6 @@ svg {
   position: fixed;
   top: 0;
   height: 100%;
-  width: $side-margin1;
 }
 @mixin flex-row-nowrap() {
   display: flex;
@@ -25,7 +24,7 @@ svg {
 div#main > nav#top-menu,
 div#main > div#content {
   // display: flex; flex-flow: column;
-  padding-left: $side-margin1;
+  padding-left: $side-margin1-wide;
   padding-right: $side-margin1;
   width: 100%;
 }
@@ -50,10 +49,12 @@ aside {
 nav#side-menu {
   left: 0;
   overflow: auto;
+  width: $side-margin1-wide;
 }
 aside {
   right: 0;
   overflow: hidden;
+  width: $side-margin1;
 }
 
 // layout of content area.

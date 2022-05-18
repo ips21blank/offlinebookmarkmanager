@@ -1,5 +1,16 @@
 @import '../constants/style-constants';
 
+@mixin side-menu-btns() {
+  border-top: 1px solid white;
+  border-bottom: 2px solid black;
+
+  &:active,
+  &.curr-fol {
+    border: none;
+    box-shadow: none;
+  }
+}
+
 nav#side-menu {
   display: flex;
   flex-flow: column nowrap;
@@ -13,17 +24,33 @@ nav#side-menu {
 
     display: flex;
     flex-flow: column nowrap;
-    padding-top: 0.8rem;
+    margin-bottom: 0.2rem;
+    // padding-top: 0.8rem;
 
     span {
       flex: 0 0 auto;
       height: $fix-btn-default-ht;
       padding: $fix-btn-pd;
+      margin-bottom: 0.3rem;
+
       cursor: pointer;
       color: white;
       // font-weight: bold;
       font-size: 1.2rem;
+
+      @include side-menu-btns();
+      border: none;
+      box-shadow: 0 0.3rem 0.3rem 0 black;
+
+      &:active {
+        padding-top: 0.1rem;
+      }
+      // border-top: 1px solid #cacaca;
     }
+
+    // span:first-child {
+    //   height: calc($fix-btn-default-ht + 1rem);
+    // }
   }
   div#pinned-folders {
     padding-top: $pin-fol-mg-top;
@@ -66,6 +93,8 @@ nav#side-menu {
         color: white;
 
         background-color: $main-dark2-color;
+
+        @include side-menu-btns();
       }
 
       span.pin-title:active + span.btn-icon,
@@ -75,16 +104,17 @@ nav#side-menu {
         display: none;
       }
       span.btn-icon {
+        position: absolute;
+        right: 0.4rem;
         flex: 0 0 auto;
         display: none;
         color: white;
+        // margin-right: 0.4rem;
 
         svg {
           height: 1.5em;
           width: 1.5em;
         }
-
-        margin-right: 0.4rem;
       }
       &:hover span.btn-icon {
         display: flex;

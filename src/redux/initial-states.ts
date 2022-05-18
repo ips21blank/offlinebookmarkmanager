@@ -37,7 +37,7 @@ const initialStateDisp: DisplayState = {
 const initialStateSettings: Settings = {
   flowDirection: FLOW_DIRECTION.COLUMN,
   pins: ['1', '2', '3', '330', '446', '447', '161', '1574'],
-  homePin: undefined,
+  homePin: '446',
   showFolBkmIcons: true
 };
 

@@ -16,7 +16,7 @@ import {
   BsHouseDoorFill,
   BsSearch,
   BsChevronRight,
-  BsXLg
+  BsXCircleFill
 } from '@components/icons';
 import { useDispatch } from 'react-redux';
 import React, { useState } from 'react';
@@ -124,7 +124,7 @@ export const AddressBar: React.FC<AddressBarProps> = (props) => {
   };
 
   let [content, srhIcon] = srhMode
-    ? [<SearchInput {...{ q, setQuery, loc }} />, <BsXLg />]
+    ? [<SearchInput {...{ q, setQuery, loc }} />, <BsXCircleFill />]
     : [<AddressLocation {...props} />, <BsSearch />];
 
   return (
