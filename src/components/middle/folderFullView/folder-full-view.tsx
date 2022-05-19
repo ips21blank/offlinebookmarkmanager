@@ -10,6 +10,7 @@ import {
 import { Utilities } from '@scripts/utilities';
 import { FOLDER_CLASSES } from '@scripts/globals';
 import { DragEventHandlers } from '@scripts/drag/drag-handlers';
+import { AddFolBtn } from './add-fol-btn';
 
 const FolderTitle: React.FC<any> = ({ title }) => {
   // let ref = useRef<HTMLElement>(null);
@@ -81,6 +82,7 @@ const FolderFullView: React.FC<FolderFullViewProps> = ({ nodeId }) => {
         ) : (
           ''
         )} */}
+          <AddFolBtn />
         </div>
       ) : (
         ''

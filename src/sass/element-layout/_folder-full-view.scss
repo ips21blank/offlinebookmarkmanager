@@ -20,6 +20,7 @@ div.folder-view {
     justify-content: space-between;
 
     background-color: $folder-full-view-title-bg-color;
+    height: $fol-view-title-ht;
 
     div {
       display: flex;
@@ -44,6 +45,18 @@ div.folder-view {
     }
     &:hover .edit-icon {
       display: block;
+    }
+
+    div.add-fol-btn {
+      margin-right: 1rem;
+      padding: 0.15rem 0.3rem 0.15rem 0.2rem;
+      border: 1px solid white;
+      color: white;
+      border-radius: 0.3rem;
+
+      &:active {
+        border: 2px solid #b2dfdb;
+      }
     }
   }
 }
