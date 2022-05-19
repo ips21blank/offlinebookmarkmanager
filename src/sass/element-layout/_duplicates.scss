@@ -1,13 +1,22 @@
+@import '../constants/layout-constants';
+
 div#duplicates-page {
   padding: 0 1rem;
   div#duplicates-controls {
     padding: 0.5rem;
-    margin: 0 0 0.5rem 0;
+    margin-top: -$content-container-top-padding;
+    // margin: -$content-container-top-padding 0 0.5rem 0;
+    height: $dup-ctrl-ht;
 
     display: flex;
     flex-flow: row;
     align-items: center;
     justify-content: flex-start;
+
+    background-color: #e0f2f1;
+    border: 1px solid #4db6ac;
+    // border-bottom-left-radius: 0.5rem;
+    // border-bottom-right-radius: 0.5rem;
 
     span {
       cursor: pointer;
@@ -33,8 +42,19 @@ div#duplicates-page {
   }
 
   div#node-groups {
+    margin-top: -$content-container-top-padding;
+    padding: $content-container-top-padding 0.5rem 0 0.5rem;
+    // padding-top: $content-container-top-padding;
+    // padding-left: 0.5rem;
+
+    border: 1px solid #4db6ac;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    border-top: none;
+
     div.duplicates-group {
       margin: 1rem 0;
+      border-bottom: 1px solid black;
       div.duplicate-node {
         padding: 0.3rem;
 
@@ -43,12 +63,21 @@ div#duplicates-page {
         }
 
         span.parent-chain {
-          padding: 0 0.5rem 0 0;
+          padding: 0.3rem 0.5rem 0.3rem 0.3rem;
+          display: inline-block;
+          background-color: #aae3dc;
+
+          border-radius: 0.3rem;
         }
 
         a.duplicate-node-link {
+          margin: 0;
           margin-left: 0.5rem;
-          padding: 0.1rem 0.2rem;
+          display: inline-block;
+          padding: 0.1rem 0.5rem 0.3rem 0; // 0.1 + 0.2 translate below.
+          border-radius: 0.3rem;
+
+          border: 1px solid #b2dfdb;
 
           img,
           svg {

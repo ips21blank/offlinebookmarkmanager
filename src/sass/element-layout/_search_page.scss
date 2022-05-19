@@ -1,0 +1,18 @@
+@import '../constants/layout-constants';
+@import '../constants/style-constants';
+
+div#search-page {
+  padding: 0.5rem;
+  padding-top: 0;
+  margin-top: -$content-container-top-padding;
+
+  div#search-stats {
+    padding: 0.5rem 1rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    background-color: #e0f2f1;
+    border: 1px solid #4db6ac;
+    border-right: $fol-full-view-border-wd solid #b2dfdb;
+  }
+}

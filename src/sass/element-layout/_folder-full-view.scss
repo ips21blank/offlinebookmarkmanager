@@ -1,4 +1,5 @@
 @import '../constants/layout-constants';
+@import '../constants/style-constants';
 
 div.folder-view {
   margin-bottom: 3rem;
@@ -53,7 +54,7 @@ div.folder-view-content {
   align-items: stretch;
   justify-content: stretch;
   padding: 1rem 0.4rem;
-  border: 0.3rem solid $folder-view-content-border;
+  border: $fol-full-view-border-wd solid $folder-view-content-border-color;
   // border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
   border-top: none;

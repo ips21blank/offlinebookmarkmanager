@@ -1,6 +1,17 @@
+@import '../constants/layout-constants';
+
 div#recent-page {
+  padding: 0.5rem;
+  padding-top: 0;
+  margin-top: -$content-container-top-padding;
+
   div#recent-setting {
     padding: 0.5rem 1rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    background-color: #e0f2f1;
+    border: 1px solid #4db6ac;
 
     input {
       margin: 0 2rem 0 1rem;
@@ -9,8 +20,22 @@ div#recent-page {
     }
 
     button {
-      padding: 0 1rem;
+      padding: 0.4rem 1rem;
       margin-right: 2rem;
+      background-color: #80cbc4;
+      border-radius: 0.3rem;
+      border: 1px solid #4db6ac;
+
+      cursor: pointer;
+
+      &:active {
+        border: 2px solid white;
+      }
+
+      &:focus,
+      &:focus-visible {
+        outline: none;
+      }
     }
 
     margin-bottom: 0.5rem;

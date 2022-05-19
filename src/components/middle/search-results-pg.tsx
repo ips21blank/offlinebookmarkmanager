@@ -61,7 +61,7 @@ const SearchResultsPg: React.FC<any> = (props: any) => {
   }
 
   return (
-    <div>
+    <div id="search-page">
       <SearchStats />
       <div className="folder-view-content">
         {nodes.length
