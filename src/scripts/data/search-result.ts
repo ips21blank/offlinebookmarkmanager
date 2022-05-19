@@ -174,6 +174,15 @@ class SearchResult {
     }
     return this._scoredNodes;
   }
+
+  public getNodeCount() {
+    let nBkm = 0,
+      nFol = 0;
+    for (let scoredNode of this.scoredNodes) {
+      scoredNode.node.url ? nBkm++ : nFol++;
+    }
+    return { nBkm, nFol };
+  }
 }
 
 export { SearchResult, MATCH_TYPE };

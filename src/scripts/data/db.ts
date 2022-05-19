@@ -1,4 +1,9 @@
-import { DataNode, BookmarkTree, NodeSearchResult } from '@proj-types/types';
+import {
+  DataNode,
+  BookmarkTree,
+  NodeSearchResult,
+  SearchStats
+} from '@proj-types/types';
 import { SearchResult } from './search-result';
 
 // prettier-ignore
@@ -8,6 +13,7 @@ class SearchCache implements SearchCacheId {
     public result: SearchResult,
     public id: string,
     public q: string,
+    public stats: SearchStats = {} as any,
     public resultId = 0
   ) {}
 
@@ -15,6 +21,7 @@ class SearchCache implements SearchCacheId {
     return this.id === sr.id && this.q === sr.q;
   }
 }
+const dummyStats: SearchStats = { nBkm: 0, nFol: 0, duration: 0 };
 
 class DataBase implements BookmarkTree {
   public bkms: Set<string>; // Ids of bookmarks.
@@ -28,6 +35,7 @@ class DataBase implements BookmarkTree {
     new SearchResult(),
     '',
     '',
+    dummyStats,
     0
   );
 
@@ -309,26 +317,43 @@ class DataBase implements BookmarkTree {
   ): Promise<NodeSearchResult> {
     return new Promise((resolve, reject) => {
       const q = queryString,
-        resultId = this._getSrhCacheId();
-      if (!q) resolve({ resultId, nodeScores: [] });
+        resultId = this._getSrhCacheId(),
+        t0 = new Date().getTime();
+      if (!q) {
+        resolve({
+          resultId,
+          nodeScores: [],
+          stats: dummyStats,
+          parentNodeId: ''
+        });
+        return;
+      }
 
       if (
         !this._searchCache.resultId || // If its been invalidated.
         !this._searchCache ||
-        !this._searchCache.isSameAs({ id, q })
+        !this._searchCache.isSameAs({ id: id, q })
       ) {
-        let nodes = this.getAllChildren(id);
-        const newCache = new SearchCache(new SearchResult(q), id, q);
+        let nodes = this.getAllChildren(id),
+          stats: SearchStats;
+        this._searchCache = new SearchCache(new SearchResult(q), id, q);
+        this._searchCache.resultId = resultId;
+        this._searchCache.id = id;
 
         const queries = q.split(',').map((str) => str.trim());
-        newCache.result.matchNodesAndQueries(nodes, queries);
+        this._searchCache.result.matchNodesAndQueries(nodes, queries);
 
-        this._searchCache = newCache;
+        this._searchCache.stats = {
+          ...this._searchCache.result.getNodeCount(),
+          duration: new Date().getTime() - t0
+        };
       }
 
       resolve({
+        parentNodeId: this._searchCache.id,
         resultId,
-        nodeScores: this._searchCache.result.scoredNodes
+        nodeScores: this._searchCache.result.scoredNodes,
+        stats: this._searchCache.stats
       });
     });
   }
@@ -337,8 +362,10 @@ class DataBase implements BookmarkTree {
   }
   public getCachedSrhResult(): Promise<NodeSearchResult> {
     return Promise.resolve({
+      parentNodeId: this._searchCache.id,
       resultId: this._searchCache.resultId,
-      nodeScores: this._searchCache.result.scoredNodes
+      nodeScores: this._searchCache.result.scoredNodes,
+      stats: this._searchCache.stats
     });
   }
 

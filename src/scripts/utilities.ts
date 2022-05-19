@@ -108,6 +108,25 @@ export class Utilities {
     return true;
   }
 
+  public static countNodeChildren(node?: DataNode): {
+    nBkm: number;
+    nFol: number;
+  } {
+    let nBkm = 0,
+      nFol = 0;
+
+    const countChildren = (ch: DataNode[]) => {
+      for (let child of ch) {
+        child.url ? nBkm++ : nFol++;
+
+        if (child.children) countChildren(child.children);
+      }
+    };
+    node && node.children && countChildren(node.children);
+
+    return { nBkm, nFol };
+  }
+
   private static _getDomN(url: string): string {
     let m = url.match(Utilities.domNIndexReg);
     if (!m || !m.index) return url;

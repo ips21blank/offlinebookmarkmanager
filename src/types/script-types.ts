@@ -36,7 +36,14 @@ interface NodeScoreData {
   score: number;
 }
 
-type NodeSearchResult = { nodeScores: NodeScoreData[]; resultId: number };
+type SearchStats = { nBkm: number; nFol: number; duration: number };
+
+type NodeSearchResult = {
+  nodeScores: NodeScoreData[];
+  resultId: number;
+  parentNodeId: string;
+  stats: SearchStats;
+};
 
 interface BookmarkTree {
   bkms: Set<string>;
@@ -72,6 +79,7 @@ export type {
   DataNode,
   NodeDetail,
   NodeScoreData,
+  SearchStats,
   BookmarkTree,
   NodeSearchResult
 };
