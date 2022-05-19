@@ -8,7 +8,7 @@ import {
   SELECT_CLASS
 } from '../globals';
 import { isDragging } from './custom-drag-events';
-import { store, selectDeselectNode } from '@redux/redux';
+import { getStore, selectDeselectNode } from '@redux/redux';
 import { Utilities } from '@scripts/utilities';
 import { Scroller } from '../scroller';
 
@@ -92,7 +92,7 @@ class DragHandlers {
 
   public static nodeClick(e: MouseEvent) {
     // It may be better to use it here than trigger un-necessary re-renders.
-    if (store.getState().displayState.mode !== DISP_MODES.EDIT) return;
+    if (getStore().getState().displayState.mode !== DISP_MODES.EDIT) return;
 
     // Handles node selection via click for drag and drop.
     e.preventDefault();
@@ -101,7 +101,7 @@ class DragHandlers {
       sel = DragMgr.selection;
     if (!node) return;
 
-    store.dispatch(selectDeselectNode(node.id, node.url ? true : false));
+    getStore().dispatch(selectDeselectNode(node.id, node.url ? true : false));
   }
 
   public static dragStart(e: Event) {
@@ -124,7 +124,7 @@ class DragHandlers {
     } else {
       dragType = DRAGTYPE.FOLDER_PIN;
     }
-    DragHandlers._pinCache = store.getState().settings.pins;
+    DragHandlers._pinCache = getStore().getState().settings.pins;
     DragHandlers._dragType = dragType;
 
     DragMgr.onDragStart(id, dragType, currEl);

@@ -4,7 +4,6 @@ import { SideMenu } from '@components/leftSide/side-menu';
 import { Middle } from '@components/middle/middle';
 import { Aside } from '@components/rightSide/aside';
 
-import { store } from '@redux/redux';
 import { addListenersToBrowser } from '@scripts/browser/browser';
 import { browserAPI } from '@scripts/browser/browser-api';
 import { addCustomDragEvents } from '@scripts/drag/custom-drag-events';
@@ -14,8 +13,9 @@ import { DragEl } from '@components/middle/elements/drag-element';
 import { Overlay } from '@components/overlay/overlay';
 
 import { testFn } from '@scripts/test';
+import { StoreType } from '@proj-types/types';
 
-export const App: React.FC<any> = () => {
+export const App: React.FC<{ store: StoreType }> = ({ store }) => {
   return (
     <Provider store={store}>
       <SideMenu />

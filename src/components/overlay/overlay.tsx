@@ -1,6 +1,6 @@
 import { OverlayProps, ToggleOverlay } from '@proj-types/types';
 import { useAppSelector } from '@redux/hooks';
-import { store, toggleOverlay } from '@redux/redux';
+import { getStore, toggleOverlay } from '@redux/redux';
 import { OVERLAY_STATES } from '@scripts/globals';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -15,7 +15,7 @@ import { OverlayContainer } from './overlay-content';
  */
 const toggleOnEsc = (e?: KeyboardEvent) => {
   if (!e || e.key === 'Escape') {
-    store.dispatch(toggleOverlay());
+    getStore().dispatch(toggleOverlay());
   }
 };
 const scrollJammer = (yOffset: number) => () => window.scrollTo(0, yOffset);

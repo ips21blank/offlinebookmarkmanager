@@ -2,8 +2,9 @@ import { BookmarkAction } from './bookmark-types-actions';
 import { BookmarkState, DisplayAction, DisplayState } from '@proj-types/types';
 import { OverlayAction, OverlayState } from './overlay-types-actions';
 import { Settings, SettingsActions } from './settings-types-actions';
+import { Store } from 'redux';
 
-export interface StoreType {
+export interface StoreDataType {
   settings: Settings;
   bookmarks: BookmarkState;
   displayState: DisplayState;
@@ -15,6 +16,8 @@ export type GeneralAction =
   | BookmarkAction
   | DisplayAction
   | OverlayAction;
+
+export type StoreType = Store<StoreDataType, GeneralAction>;
 
 export * from './display-types-actions';
 export * from './settings-types-actions';

@@ -16,7 +16,7 @@ import {
 import { Utilities } from '../utilities';
 import { browserAPI } from '../browser/browser-api';
 import {
-  store,
+  getStore,
   selectDeselectNode,
   startDrag,
   endDrag,
@@ -61,8 +61,8 @@ class DragMgr {
   ) {
     DragMgr._draggedElId = id;
     DragMgr._addBeingDraggedClass(currEl);
-    store.dispatch(selectDeselectNode(id, elType === DRAGTYPE.BKM, true));
-    store.dispatch(startDrag(id));
+    getStore().dispatch(selectDeselectNode(id, elType === DRAGTYPE.BKM, true));
+    getStore().dispatch(startDrag(id));
   }
 
   public static onDragoverNode(
@@ -72,7 +72,7 @@ class DragMgr {
     colIndex: number,
     colCount: number
   ) {
-    if (store.getState().displayState.pageType === PAGE_TYPE.REC) return;
+    if (getStore().getState().displayState.pageType === PAGE_TYPE.REC) return;
 
     let currEl = event.target as HTMLElement;
 
@@ -206,7 +206,7 @@ class DragMgr {
     }
 
     // In case the elements are grouped or page has special dragging behaviour.
-    const displayState = store.getState().displayState;
+    const displayState = getStore().getState().displayState;
     if (
       (displayState.groupBkmFol || displayState.pageType === PAGE_TYPE.SRH) &&
       // checking if its a column (folder-view-col).
@@ -370,7 +370,7 @@ class DragMgr {
 
   public static onDrop(event: Event) {
     DragMgr.cleanExistingClasses();
-    if (store.getState().displayState.pageType === PAGE_TYPE.REC) return;
+    if (getStore().getState().displayState.pageType === PAGE_TYPE.REC) return;
     /**
      * So that some timed out call to _updateElementClasses
      * does not add the classes after this.
@@ -390,7 +390,7 @@ class DragMgr {
           DragMgr._draggedElId &&
           !DragMgr.selection.hasBkm(DragMgr._draggedElId)
         ) {
-          store.dispatch(
+          getStore().dispatch(
             showInfoPopup({
               title: 'Dropping on itself',
               text: 'Cannot drop the selection onto a folder that was selected as well.'
@@ -416,7 +416,7 @@ class DragMgr {
     }
 
     if (
-      store.getState().displayState.groupBkmFol &&
+      getStore().getState().displayState.groupBkmFol &&
       Utilities.isElementInFolderColumn(event.target as HTMLElement | null)
     ) {
       if (this._currReg !== DRAG_REG.BET) {
@@ -482,20 +482,20 @@ class DragMgr {
     }
 
     if (dragType === DRAGTYPE.FOLDER_PIN) {
-      store.dispatch(
+      getStore().dispatch(
         movPin(Utilities.parsePinId(DragMgr._draggedElId), newIndex)
       );
     } else {
       let folId = DragMgr.selection.folders[0],
         node: DataNode | undefined;
-      folId && (node = store.getState().bookmarks.db.get(folId));
+      folId && (node = getStore().getState().bookmarks.db.get(folId));
 
       if (!folId || !node) return;
 
       if (pins.includes(node.id)) {
-        store.dispatch(movPin(node.id, newIndex));
+        getStore().dispatch(movPin(node.id, newIndex));
       } else {
-        store.dispatch(pinFolder(node, newIndex));
+        getStore().dispatch(pinFolder(node, newIndex));
       }
     }
   }
@@ -504,12 +504,12 @@ class DragMgr {
 
     if (DragMgr._draggedElId) {
       let node = getNodeById(DragMgr._draggedElId);
-      node && store.dispatch(pinFolder(node));
+      node && getStore().dispatch(pinFolder(node));
     }
   }
   private static _highlightMovedAndDeselect(elementsMoved: string[]) {
-    store.dispatch(highlightElementsMoved(elementsMoved));
-    store.dispatch(selectDeselectNode('', false));
+    getStore().dispatch(highlightElementsMoved(elementsMoved));
+    getStore().dispatch(selectDeselectNode('', false));
   }
   private static _moveElementsToFol = (
     target: {
@@ -530,7 +530,7 @@ class DragMgr {
       }
     } catch (e: any) {
       if (e.message === MOVE_WITHIN_SELF) {
-        store.dispatch(
+        getStore().dispatch(
           showInfoPopup({
             title: 'Error',
             text: 'You were trying to move a folder within itself.'
@@ -555,9 +555,9 @@ class DragMgr {
      * So its configured to run after it in the custom-drag-events.ts.
      */
     if (DragMgr.selection.total === 1) {
-      store.dispatch(selectDeselectNode('', false));
+      getStore().dispatch(selectDeselectNode('', false));
     }
-    store.dispatch(endDrag());
+    getStore().dispatch(endDrag());
   }
 
   public static onDragLeave(e: MouseEvent) {

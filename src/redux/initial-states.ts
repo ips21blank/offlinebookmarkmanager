@@ -1,4 +1,4 @@
-import { data } from '@scripts/test-data';
+import { getBkmData } from '@scripts/browser/get-bkm-data';
 import { DataBase } from '@scripts/data/db';
 import {
   BookmarkState,
@@ -18,9 +18,19 @@ import {
 
 const ROOT_LOC = '0';
 
-const initialStateBkm: BookmarkState = { db: new DataBase(data) };
+const initialStateBkm: BookmarkState = {
+  db: new DataBase({ title: '', url: '', id: '', children: [] })
+};
 const getNodeById = (id: string) => initialStateBkm.db.get(id);
 const getParentChain = (id: string) => initialStateBkm.db.getParentChain(id);
+
+async function updateBkmDataInitialState() {
+  const data = await getBkmData();
+
+  initialStateBkm.db = new DataBase(data);
+
+  return { initialStateBkm, getNodeById, getParentChain };
+}
 
 const initialStateDisp: DisplayState = {
   rootFolLocation: ROOT_LOC,
@@ -37,7 +47,7 @@ const initialStateDisp: DisplayState = {
 const initialStateSettings: Settings = {
   flowDirection: FLOW_DIRECTION.COLUMN,
   pins: ['1', '2', '3', '330', '446', '447', '161', '1574'],
-  homePin: '446',
+  homePin: '',
   showFolBkmIcons: true
 };
 
@@ -54,5 +64,6 @@ export {
   initialStateSettings,
   initialOverlayState,
   getNodeById,
-  getParentChain
+  getParentChain,
+  updateBkmDataInitialState
 };

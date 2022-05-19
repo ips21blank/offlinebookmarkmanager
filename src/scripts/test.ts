@@ -1,5 +1,5 @@
 import { toggleOverlay } from '@redux/redux';
-import { store } from '@redux/redux';
+import { getStore } from '@redux/redux';
 import { ChangeEvent } from 'react';
 
 const PICKER_ID = 'my-color-picker-someval-asefawvd';
@@ -79,6 +79,7 @@ function showPicker(
 }
 
 const testFn = () => {
+  // return;
   // window.addEventListener('click', (e) => {
   //   let l = console.log;
   //   l(e.target);
@@ -92,54 +93,49 @@ const testFn = () => {
   //
   // window.addEventListener('contextmenu', (e) => {
   //   e.preventDefault();
-  //   store.dispatch(toggleOverlay());
+  //   getStore().dispatch(toggleOverlay());
   // });
-
-  console.log('Theme Setter');
-
-  let hoverEl: HTMLElement,
-    colType = COL_TYPE.BG_COL,
-    FLAG_CLASS = 'FLAG_CLASS',
-    lastColor: string,
-    pickingColor = false;
-  const setCol = (col: string, finished?: boolean) => {
-    lastColor = col;
-    hoverEl.style[colType as any] = col;
-    // console.log(hoverEl, col, colType, hoverEl.style[colType]);
-
-    finished && (pickingColor = false);
-  };
-
-  let clickHandler = (e: MouseEvent) => {
-    if (pickingColor || e.ctrlKey) return;
-
-    colType = e.altKey ? COL_TYPE.COLOUR : COL_TYPE.BG_COL;
-
-    e.preventDefault();
-    e.stopPropagation();
-    showPicker(false, lastColor, setCol);
-    pickingColor = true;
-  };
-
-  window.addEventListener('mouseover', (e) => {
-    if (pickingColor) return;
-
-    let elList = document.getElementsByClassName(FLAG_CLASS);
-    while (elList.length) {
-      (elList[0] as HTMLElement).style.outline = '';
-      elList[0].classList.remove(FLAG_CLASS);
-    }
-
-    hoverEl = e.target as HTMLElement;
-    if (e.shiftKey) {
-      hoverEl = hoverEl.parentElement as HTMLElement;
-    }
-    hoverEl.style.outline = '2px solid rgb(0,255,0)';
-
-    hoverEl.classList.add(FLAG_CLASS);
-    hoverEl.addEventListener('click', clickHandler);
-    // console.log(hoverEl);
-  });
+  //
+  //
+  // ......................................................
+  // console.log('THEME SETTER');
+  // ......................................................
+  //
+  // let hoverEl: HTMLElement,
+  //   colType = COL_TYPE.BG_COL,
+  //   FLAG_CLASS = 'FLAG_CLASS',
+  //   lastColor: string,
+  //   pickingColor = false;
+  // const setCol = (col: string, finished?: boolean) => {
+  //   lastColor = col;
+  //   hoverEl.style[colType as any] = col;
+  //   // console.log(hoverEl, col, colType, hoverEl.style[colType]);
+  //   finished && (pickingColor = false);
+  // };
+  // let clickHandler = (e: MouseEvent) => {
+  //   if (pickingColor || e.ctrlKey) return;
+  //   colType = e.altKey ? COL_TYPE.COLOUR : COL_TYPE.BG_COL;
+  //   e.preventDefault();
+  //   e.stopPropagation();
+  //   showPicker(false, lastColor, setCol);
+  //   pickingColor = true;
+  // };
+  // window.addEventListener('mouseover', (e) => {
+  //   if (pickingColor) return;
+  //   let elList = document.getElementsByClassName(FLAG_CLASS);
+  //   while (elList.length) {
+  //     (elList[0] as HTMLElement).style.outline = '';
+  //     elList[0].classList.remove(FLAG_CLASS);
+  //   }
+  //   hoverEl = e.target as HTMLElement;
+  //   if (e.shiftKey) {
+  //     hoverEl = hoverEl.parentElement as HTMLElement;
+  //   }
+  //   hoverEl.style.outline = '2px solid rgb(0,255,0)';
+  //   hoverEl.classList.add(FLAG_CLASS);
+  //   hoverEl.addEventListener('click', clickHandler);
+  //   // console.log(hoverEl);
+  // });
 };
 
 export { testFn };

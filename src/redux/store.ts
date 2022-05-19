@@ -1,7 +1,11 @@
-import { GeneralAction, StoreType } from '@proj-types/types';
-import { createStore, Store } from 'redux';
-import { rootReducer } from './root-reducer';
+import { StoreType } from '@proj-types/types';
+import { createStore } from 'redux';
+import { getRootReducer } from './root-reducer';
 
-const store: Store<StoreType, GeneralAction> = createStore(rootReducer);
+let STORE: StoreType = {} as any;
 
-export { store };
+const getStore = (): StoreType => STORE;
+const createAndGetStore = async (): Promise<StoreType> =>
+  (STORE = createStore(await getRootReducer()));
+
+export { createAndGetStore, getStore };

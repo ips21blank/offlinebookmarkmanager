@@ -1,7 +1,7 @@
 import { DataNode } from '@proj-types/types';
 import { browserEventsAPI } from './browser-api';
 
-import { store } from '@redux/store';
+import { getStore } from '@redux/store';
 import {
   rmvNode,
   movNode,
@@ -14,7 +14,7 @@ import {
 const addListenersToBrowser = () => {
   // browserEventsAPI.create;
   browserEventsAPI.create((id: string, node: DataNode) => {
-    store.dispatch(createNode(id, node));
+    getStore().dispatch(createNode(id, node));
   });
 
   // browserEventsAPI.remove;
@@ -27,7 +27,7 @@ const addListenersToBrowser = () => {
         node: DataNode;
       }
     ) => {
-      store.dispatch(rmvNode(id));
+      getStore().dispatch(rmvNode(id));
     }
   );
 
@@ -41,8 +41,8 @@ const addListenersToBrowser = () => {
         node: DataNode;
       }
     ) => {
-      store.dispatch(rmvNode(id));
-      store.dispatch(rmvPin(id));
+      getStore().dispatch(rmvNode(id));
+      getStore().dispatch(rmvPin(id));
     }
   );
 
@@ -55,7 +55,7 @@ const addListenersToBrowser = () => {
         title: string;
       }
     ) => {
-      store.dispatch(changeNode(id, changeInfo));
+      getStore().dispatch(changeNode(id, changeInfo));
     }
   );
 
@@ -70,7 +70,7 @@ const addListenersToBrowser = () => {
         oldParentId: string;
       }
     ) => {
-      store.dispatch(movNode(id, moveInfo.parentId, moveInfo.index));
+      getStore().dispatch(movNode(id, moveInfo.parentId, moveInfo.index));
     }
   );
 
