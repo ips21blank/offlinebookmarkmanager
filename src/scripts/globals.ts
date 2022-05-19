@@ -125,6 +125,9 @@ enum OVERLAY_STATES {
 
 const MOVE_WITHIN_SELF = 'Trying to move a folder within itself.';
 
+// ASSUMPTION: Two nodes with this name will never occur.
+const FOL_RENAME_STR = '__RENAME__TEMP__NAME__';
+
 export {
   GLOBAL_SETTINGS,
   DRAGTYPE,
@@ -142,5 +145,6 @@ export {
   OVERLAY_CLASSES,
   OVERLAY_STATES,
   ACCORDION_CLASSES,
-  MOVE_WITHIN_SELF
+  MOVE_WITHIN_SELF,
+  FOL_RENAME_STR
 };

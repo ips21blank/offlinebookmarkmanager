@@ -33,6 +33,10 @@ a.bookmark {
 
     border-bottom-right-radius: $subfolder-bottom-right-radius;
     border-bottom: $node-border-bottom;
+
+    input {
+      padding: 0.15rem 0.3rem;
+    }
   }
 }
 

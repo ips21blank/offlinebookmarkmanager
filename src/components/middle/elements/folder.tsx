@@ -12,7 +12,11 @@ import { Bookmark } from './bookmark';
 import { BsFolder, BsFolder2Open } from '@components/icons';
 import { useAppSelector } from '@redux/hooks';
 import { DragEventHandlers } from '@scripts/drag/drag-handlers';
-import { FOLDER_CLASSES, CUSTOM_EVENTS } from '@scripts/globals';
+import {
+  FOLDER_CLASSES,
+  CUSTOM_EVENTS,
+  FOL_RENAME_STR
+} from '@scripts/globals';
 import { TitleInput } from './title-input';
 import { useDispatch } from 'react-redux';
 import { showCtxMenu } from '@redux/redux';
@@ -67,7 +71,7 @@ const Folder: React.FC<NodeProps> = ({
     Dispatch<SetStateAction<string>>
   ] = useState(FOLDER_CLASSES.COL);
   const dispatch: (action: ShowCtxMenu) => any = useDispatch();
-  const [editing, editTitle] = useState(false);
+  const [editing, editTitle] = useState(node.title === FOL_RENAME_STR);
 
   const [initialized, setInitialized] = useState(false);
   let ref = useRef<HTMLElement>(null);
@@ -127,7 +131,7 @@ const Folder: React.FC<NodeProps> = ({
   let titleInput = (
     <TitleInput
       id={node.id}
-      title={node.title}
+      title={node.title === FOL_RENAME_STR ? 'New Folder' : node.title}
       doneEditing={() => editTitle(false)}
     />
   );

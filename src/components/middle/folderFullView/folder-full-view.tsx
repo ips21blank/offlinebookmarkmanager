@@ -82,7 +82,7 @@ const FolderFullView: React.FC<FolderFullViewProps> = ({ nodeId }) => {
         ) : (
           ''
         )} */}
-          <AddFolBtn />
+          <AddFolBtn folId={nodeId} />
         </div>
       ) : (
         ''
