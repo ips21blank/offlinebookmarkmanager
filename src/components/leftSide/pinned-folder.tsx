@@ -1,13 +1,15 @@
 import {
   PinnedFolderProps,
   UpdateCurrLocation,
-  RmvPin
+  RmvPin,
+  ShowCtxMenu,
+  CtxMenuTypes
 } from '@proj-types/types';
 import { useDispatch } from 'react-redux';
-import { changeCurrLocation, rmvPin } from '@redux/redux';
+import { changeCurrLocation, rmvPin, showCtxMenu } from '@redux/redux';
 import { BsXSquare, BsCaretRightFill } from '@components/icons';
 import { Utilities } from '@scripts/utilities';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { DragEventHandlers } from '@scripts/drag/drag-handlers';
 import { FOLDER_CLASSES } from '@scripts/globals';
 
@@ -18,8 +20,13 @@ const PinnedFolder: React.FC<PinnedFolderProps> = ({
 }) => {
   let pinClass = `inline-el-no-wrap-center`;
 
-  const dispatch: (action: UpdateCurrLocation | RmvPin) => any = useDispatch();
+  const dispatch: (action: UpdateCurrLocation | RmvPin | ShowCtxMenu) => any =
+    useDispatch();
   const changeLocHandler = () => dispatch(changeCurrLocation(node.id));
+
+  useEffect(() => {
+    DragEventHandlers.addEventsToPin(node.id);
+  });
 
   const removePinHandler = (
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>
@@ -27,13 +34,27 @@ const PinnedFolder: React.FC<PinnedFolderProps> = ({
     e.stopPropagation();
     dispatch(rmvPin(node.id));
   };
+  const ctxMenuHandler = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
 
-  useEffect(() => {
-    DragEventHandlers.addEventsToPin(node.id);
-  });
+    dispatch(
+      showCtxMenu({
+        node,
+        x: e.clientX,
+        y: e.clientY,
+        rename: () => {},
+        type: CtxMenuTypes.PIN_CTX_MENU
+      })
+    );
+  };
 
   return (
-    <p className={pinClass} onClick={changeLocHandler}>
+    <p
+      className={pinClass}
+      onClick={changeLocHandler}
+      onContextMenu={ctxMenuHandler}
+    >
       <span
         className={`inline-el-no-wrap-center ${FOLDER_CLASSES.PIN_TITLE}${
           isCurrLoc ? ' curr-fol' : ''

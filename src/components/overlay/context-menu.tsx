@@ -3,7 +3,9 @@ import {
   BkmCtxMenu,
   FolCtxMenu,
   PAGE_TYPE,
+  PinCtxMenu,
   PinFolder,
+  SetPinAsHome,
   ShowPopup,
   UpdateCurrLocation
 } from '@proj-types/types';
@@ -14,7 +16,8 @@ import {
   showEditNodePopup,
   showCopyToPopup,
   showMovePopup,
-  changeCurrLocation
+  changeCurrLocation,
+  setPinAsHome
 } from '@redux/redux';
 import { browserAPI } from '@scripts/browser/browser-api';
 import { GLOBAL_SETTINGS } from '@scripts/globals';
@@ -59,8 +62,9 @@ const CtxMenu: React.FC<{ toggleOverlay: () => any }> = ({ toggleOverlay }) => {
     state.displayState.pageType,
     state.bookmarks.db.baseNodeId
   ]);
-  const dispatch: (action: PinFolder | ShowPopup | UpdateCurrLocation) => any =
-    useDispatch();
+  const dispatch: (
+    action: PinFolder | ShowPopup | UpdateCurrLocation | SetPinAsHome
+  ) => any = useDispatch();
   const isNotFolPage = pageType !== PAGE_TYPE.FOL;
 
   let content: JSX.Element, n: number;
@@ -121,6 +125,17 @@ const CtxMenu: React.FC<{ toggleOverlay: () => any }> = ({ toggleOverlay }) => {
           highlight
         />
       </>
+    );
+  } else if (menuType === ACTIONS.PIN_CONTEXT_MENU) {
+    n = 1;
+    let data = menuData as PinCtxMenu;
+    content = (
+      <CtxMenuEl
+        title="Set as Home"
+        onClickAction={() => {
+          dispatch(setPinAsHome(data.node.id));
+        }}
+      />
     );
   } else {
     n = 5;

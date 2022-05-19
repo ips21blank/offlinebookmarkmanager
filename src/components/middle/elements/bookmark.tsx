@@ -1,5 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { NodeProps, ShowCtxMenu, ShowPopup } from '@proj-types/types';
+import {
+  CtxMenuTypes,
+  NodeProps,
+  ShowCtxMenu,
+  ShowPopup
+} from '@proj-types/types';
 import { DragEventHandlers } from '@scripts/drag/drag-handlers';
 import { useDispatch } from 'react-redux';
 import { showCtxMenu, showInfoPopup } from '@redux/redux';
@@ -33,7 +38,8 @@ const Bookmark: React.FC<NodeProps> = ({
         node: node,
         rename: () => editTitle(true),
         x: e.clientX,
-        y: e.clientY
+        y: e.clientY,
+        type: CtxMenuTypes.BKM_CTX_MENU
       })
     );
   };

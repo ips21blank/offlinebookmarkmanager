@@ -15,3 +15,9 @@ export enum PAGE_TYPE {
   REC, // Recents page
   DUP // Duplicates page
 }
+
+export enum CtxMenuTypes {
+  BKM_CTX_MENU,
+  FOL_CTX_MENU,
+  PIN_CTX_MENU
+}

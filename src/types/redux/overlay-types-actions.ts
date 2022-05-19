@@ -1,6 +1,7 @@
 import { OVERLAY_CLASSES, OVERLAY_STATES } from '@scripts/globals';
 import { ACTIONS } from './action-types';
 import { DataNode } from '../script-types';
+import { CtxMenuTypes } from '../state-types';
 
 // Context Menu.
 interface NodeCtxMenu {
@@ -8,6 +9,7 @@ interface NodeCtxMenu {
   rename: () => void;
   x: number;
   y: number;
+  type: CtxMenuTypes;
 }
 
 interface FolCtxMenu extends NodeCtxMenu {
@@ -17,8 +19,13 @@ interface FolCtxMenu extends NodeCtxMenu {
 
 interface BkmCtxMenu extends NodeCtxMenu {}
 
-type CtxMenuType = ACTIONS.BKM_CONTEXT_MENU | ACTIONS.FOL_CONTEXT_MENU;
-type CtxMenuData = FolCtxMenu | BkmCtxMenu;
+interface PinCtxMenu extends NodeCtxMenu {}
+
+type CtxMenuActionTypes =
+  | ACTIONS.BKM_CONTEXT_MENU
+  | ACTIONS.FOL_CONTEXT_MENU
+  | ACTIONS.PIN_CONTEXT_MENU;
+type CtxMenuData = FolCtxMenu | BkmCtxMenu | PinCtxMenu;
 
 // POPUPS.
 
@@ -72,7 +79,7 @@ interface ToggleOverlay extends OverlayAction {
 }
 
 interface ShowCtxMenu extends OverlayAction {
-  type: CtxMenuType;
+  type: CtxMenuActionTypes;
   payload: CtxMenuData;
 }
 // Action for all popups is similar - it only differs in payload.
@@ -88,7 +95,7 @@ interface OverlayState {
 
   overlayState: OVERLAY_STATES;
 
-  ctxMenuType?: CtxMenuType;
+  ctxMenuType?: CtxMenuActionTypes;
   ctxMenuData?: CtxMenuData;
 
   popupType?: PopupType;
@@ -105,7 +112,8 @@ export type {
   //
   FolCtxMenu,
   BkmCtxMenu,
-  CtxMenuType,
+  PinCtxMenu,
+  CtxMenuActionTypes,
   CtxMenuData,
   //
   PopupType,

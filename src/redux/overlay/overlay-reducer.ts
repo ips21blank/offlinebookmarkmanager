@@ -29,7 +29,8 @@ const overlayReducer = (
       return { ...state, type, visible, overlayState, fullHeight: false };
     }
     case ACTIONS.FOL_CONTEXT_MENU:
-    case ACTIONS.BKM_CONTEXT_MENU: {
+    case ACTIONS.BKM_CONTEXT_MENU:
+    case ACTIONS.PIN_CONTEXT_MENU: {
       let ctxMenuData = (<ShowCtxMenu>action).payload;
       return {
         ...state,

@@ -31,6 +31,7 @@ export enum ACTIONS {
   // ctx-menu
   FOL_CONTEXT_MENU,
   BKM_CONTEXT_MENU,
+  PIN_CONTEXT_MENU,
   // Popups
   CONFIRM,
   WARNING,
@@ -42,6 +43,7 @@ export enum ACTIONS {
   // Settings actions.
   CHANGE_FLOW_DIRECTION,
   ADD_PIN,
+  HOM_PIN,
   RMV_PIN,
   MOV_PIN
 }

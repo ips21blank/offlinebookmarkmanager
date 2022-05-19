@@ -5,7 +5,8 @@ import {
   ACTIONS,
   PinFolder,
   RmvPin,
-  MovPin
+  MovPin,
+  SetPinAsHome
 } from '@proj-types/types';
 import { initialStateSettings } from '@redux/initial-states';
 
@@ -35,6 +36,10 @@ export const settingsReducer = (
 
       payload.pinId && state.pins.splice(index, 0, payload.pinId);
       return (payload.pinId && { ...state, pins: [...state.pins] }) || state;
+    }
+    case ACTIONS.HOM_PIN: {
+      let payload = (<SetPinAsHome>action).payload;
+      return payload.nodeId ? { ...state, homePin: payload.nodeId } : state;
     }
     case ACTIONS.RMV_PIN: {
       let payload = (<RmvPin>action).payload;

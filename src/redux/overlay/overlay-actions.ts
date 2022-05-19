@@ -1,7 +1,7 @@
 import {
   ACTIONS,
   CtxMenuData,
-  CtxMenuType,
+  CtxMenuActionTypes,
   InfoPopupData,
   WarnPopupData,
   PopupData,
@@ -12,7 +12,8 @@ import {
   EditNodePopupData,
   ConfirmPopupData,
   MovePopupData,
-  CopyToPopupData
+  CopyToPopupData,
+  CtxMenuTypes
 } from '@proj-types/types';
 
 const toggleOverlay = (): ToggleOverlay => ({
@@ -21,12 +22,15 @@ const toggleOverlay = (): ToggleOverlay => ({
 });
 
 const showCtxMenu = (payload: CtxMenuData): ShowCtxMenu => {
-  let type: CtxMenuType;
-  if (payload.node.url) {
-    type = ACTIONS.BKM_CONTEXT_MENU;
-  } else {
-    type = ACTIONS.FOL_CONTEXT_MENU;
+  let type: CtxMenuActionTypes;
+  // prettier-ignore
+  switch (payload.type) {
+    case CtxMenuTypes.BKM_CTX_MENU: type = ACTIONS.BKM_CONTEXT_MENU; break;
+    case CtxMenuTypes.FOL_CTX_MENU: type = ACTIONS.FOL_CONTEXT_MENU; break;
+    case CtxMenuTypes.PIN_CTX_MENU: type = ACTIONS.PIN_CONTEXT_MENU; break;
+    default: type = ACTIONS.PIN_CONTEXT_MENU;
   }
+
   return { type, payload };
 };
 

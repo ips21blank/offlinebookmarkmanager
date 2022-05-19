@@ -5,7 +5,8 @@ import {
   PinFolder,
   DataNode,
   RmvPin,
-  MovPin
+  MovPin,
+  SetPinAsHome
 } from '@proj-types/types';
 
 const changeFlowDirection = (
@@ -22,6 +23,10 @@ const pinFolder = (node: DataNode, index?: number): PinFolder => {
   return { type: ACTIONS.ADD_PIN, payload: { pinId, index } };
 };
 
+const setPinAsHome = (nodeId: string): SetPinAsHome => {
+  return { type: ACTIONS.HOM_PIN, payload: { nodeId } };
+};
+
 const rmvPin = (pinId: string): RmvPin => ({
   type: ACTIONS.RMV_PIN,
   payload: { pinId }
@@ -32,4 +37,4 @@ const movPin = (pinId: string, newIndex?: number): MovPin => ({
   payload: { pinId, newIndex }
 });
 
-export { changeFlowDirection, pinFolder, rmvPin, movPin };
+export { changeFlowDirection, pinFolder, rmvPin, movPin, setPinAsHome };

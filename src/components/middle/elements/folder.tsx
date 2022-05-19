@@ -1,5 +1,6 @@
 import {
   ACTIONS,
+  CtxMenuTypes,
   DataNode,
   DISP_MODES,
   FLOW_DIRECTION,
@@ -108,7 +109,8 @@ const Folder: React.FC<NodeProps> = ({
         rename: () => editTitle(true),
         expandCollapse: expandCollapse,
         x: e.clientX,
-        y: e.clientY
+        y: e.clientY,
+        type: CtxMenuTypes.FOL_CTX_MENU
       })
     );
   };

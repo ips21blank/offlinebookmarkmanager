@@ -25,6 +25,11 @@ interface PinFolder extends SettingsActions {
   payload: { pinId: string; index?: number };
 }
 
+interface SetPinAsHome extends SettingsActions {
+  type: ACTIONS.HOM_PIN;
+  payload: { nodeId: string };
+}
+
 interface RmvPin extends SettingsActions {
   type: ACTIONS.RMV_PIN;
   payload: { pinId: string };
@@ -40,6 +45,7 @@ export type {
   SettingsActions,
   ChangeFlowDirectionAction,
   PinFolder,
+  SetPinAsHome,
   RmvPin,
   MovPin
 };
