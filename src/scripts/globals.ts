@@ -14,7 +14,10 @@ const GLOBAL_SETTINGS = {
   minRowsPerCol: 5, // for row direction display.
   dragLeaveThreshold: 50,
   dragOverThreshold: 20,
+
   noOfCols: 4,
+  rowWidth: 20, // rem
+  sideContentWidth: 24, // rem
 
   dragStartThreshold: 0.3 * getREM(), // px
   rem: getREM(),
@@ -32,8 +35,20 @@ const GLOBAL_SETTINGS = {
   scrollSpeed: 50, // rem per sec.
   scrollStep: 2, // rem
 
-  scrollStartReg: { up: 0.1, dn: 0.93 }
+  scrollStartReg: { up: 0.1, dn: 0.93 },
+
+  updateColumnCountAndREM() {
+    this.rem = getREM();
+    this.scrollIntoViewOffset = 9 * this.rem;
+    // if(isNaN(this.rem)) return; // NaN check in getREM();
+
+    let rowWidthPx = this.rem * this.rowWidth;
+    this.noOfCols = Math.floor(
+      (window.innerWidth - this.rem * this.sideContentWidth) / rowWidthPx
+    );
+  }
 };
+GLOBAL_SETTINGS.updateColumnCountAndREM();
 
 enum DRAGTYPE {
   BKM = 'BKM',
