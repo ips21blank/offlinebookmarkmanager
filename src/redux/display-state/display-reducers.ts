@@ -24,6 +24,9 @@ export const getDisplayReducer = () => {
     switch (action.type) {
       case ACTIONS.SET_CURR_LOCATION: {
         let payload = (<UpdateCurrLocation>action).payload;
+        if (payload.showNode) {
+          state.mode = DISP_MODES.VIEW;
+        }
 
         return payload.newLocation ===
           (state.pageData as FolPageData).currLocation &&
@@ -137,6 +140,13 @@ export const getDisplayReducer = () => {
       case ACTIONS.TOGGLE_GROUPING: {
         browserAPI.store({ groupBkmFol: !state.groupBkmFol });
         return { ...state, groupBkmFol: !state.groupBkmFol };
+      }
+
+      case ACTIONS.RMV_MINOR_CLASSES: {
+        state.elementsMoved.splice(0, state.elementsMoved.length);
+        (state.pageData as FolPageData).showNode = '';
+
+        return state;
       }
 
       default:

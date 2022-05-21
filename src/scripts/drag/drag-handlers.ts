@@ -8,7 +8,11 @@ import {
   SELECT_CLASS
 } from '../globals';
 import { isDragging } from './custom-drag-events';
-import { getStore, selectDeselectNode } from '@redux/redux';
+import {
+  getStore,
+  selectDeselectNode,
+  silentlyRmvMinorClasses
+} from '@redux/redux';
 import { Utilities } from '@scripts/scripts';
 import { Scroller } from '../scroller';
 
@@ -63,14 +67,18 @@ window.addEventListener('mousemove', (e) => {
 
 const rmvWasMovedShwInFolClass = () => {
   let elList = document.getElementsByClassName(SELECT_CLASS.WAS_SEL);
+  let classesRemoved = !!elList.length;
 
   while (elList.length)
     elList[elList.length - 1].classList.remove(SELECT_CLASS.WAS_SEL);
 
   elList = document.getElementsByClassName(SELECT_CLASS.SHW_IN_FOL);
+  classesRemoved = !!elList.length;
 
   while (elList.length)
     elList[elList.length - 1].classList.remove(SELECT_CLASS.SHW_IN_FOL);
+
+  classesRemoved && getStore().dispatch(silentlyRmvMinorClasses());
 };
 window.addEventListener('mousedown', rmvWasMovedShwInFolClass);
 

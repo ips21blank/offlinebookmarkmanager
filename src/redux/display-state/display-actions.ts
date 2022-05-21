@@ -13,7 +13,8 @@ import {
   PAGE_TYPE,
   ShowPrevPage,
   ShowRecentPage,
-  ShowDuplicatesPage
+  ShowDuplicatesPage,
+  SilentlyRmvMinorClasses
 } from '@proj-types/types';
 import { GLOBAL_SETTINGS } from '@scripts/globals';
 
@@ -97,6 +98,10 @@ function toggleGrouping(): ToggleDispGrouping {
   return { type: ACTIONS.TOGGLE_GROUPING, payload: {} };
 }
 
+function silentlyRmvMinorClasses(): SilentlyRmvMinorClasses {
+  return { type: ACTIONS.RMV_MINOR_CLASSES, payload: {} };
+}
+
 export {
   changeCurrLocation,
   showSearchPage,
@@ -109,5 +114,6 @@ export {
   highlightElementsMoved,
   endDrag,
   toggleDispMode,
-  toggleGrouping
+  toggleGrouping,
+  silentlyRmvMinorClasses
 };

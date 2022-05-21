@@ -68,6 +68,11 @@ interface ToggleDispGrouping extends DisplayAction {
   payload: {};
 }
 
+interface SilentlyRmvMinorClasses extends DisplayAction {
+  type: ACTIONS.RMV_MINOR_CLASSES;
+  payload: {};
+}
+
 interface PageData {
   prevPage: PAGE_TYPE; // Just to return after search.
 }
@@ -120,6 +125,7 @@ export type {
   EndDrag,
   ChangeEditMode,
   ToggleDispGrouping,
+  SilentlyRmvMinorClasses,
   FolPageData,
   SetPageData,
   SrhPageData,

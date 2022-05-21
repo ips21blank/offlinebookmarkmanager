@@ -42,7 +42,8 @@ span.btn-icon {
   cursor: pointer;
 }
 
-.selected {
+.selected,
+div div span.selected {
   background-color: $selected-fol-bkm-bg-color;
 }
 
