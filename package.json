@@ -5,7 +5,8 @@
   "main": "",
   "scripts": {
     "start": "webpack serve --config webpack/webpack.config.js --env env=dev --open",
-    "build": "webpack       --config webpack/webpack.config.js --env env=prod",
+    "b-dev": "webpack       --config webpack/webpack.config.js --env env=dev  --watch --progress",
+    "build": "webpack       --config webpack/webpack.config.js --env env=prod --progress",
     "create-tsc-config": "tsc --init",
     "license-summary": "license-checker --summary",
     "cloc": "cloc src"

@@ -41,5 +41,10 @@ module.exports = {
       template: path.resolve(__dirname, '..', './src/index.html'),
       inject: 'body'
     })
-  ]
+  ],
+  performance: {
+    // bundle size limits for warnings.
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
+  }
 };
