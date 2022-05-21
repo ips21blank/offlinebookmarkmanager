@@ -159,6 +159,31 @@ const CtxMenu: React.FC<{ toggleOverlay: () => any }> = ({ toggleOverlay }) => {
   } else {
     n = 5;
     let data = menuData as BkmCtxMenu;
+    const getIconOnlyEl = (isIcon: boolean, title: string | undefined) => {
+      if (!title) return <></>;
+
+      return isIcon ? (
+        <CtxMenuEl
+          title="Show full name in Top Bar"
+          onClickAction={(e: React.MouseEvent) => {
+            browserAPI.update(data.node.id, { title: data.node.title });
+          }}
+          highlight
+        />
+      ) : (
+        <CtxMenuEl
+          title="Show Icon Only in Top Bar"
+          onClickAction={(e: React.MouseEvent) => {
+            // browserAPI.update(menuData.node.id, { title: '' });
+            // throw 'Storage API is required for storing bookmark names.';
+
+            dispatch(addIcon(data.node.id));
+            browserAPI.update(data.node.id, { title: '' });
+          }}
+          highlight
+        />
+      );
+    };
     content = (
       <>
         <CtxMenuEl
@@ -168,27 +193,7 @@ const CtxMenu: React.FC<{ toggleOverlay: () => any }> = ({ toggleOverlay }) => {
           }}
         />
         <CtxMenuEl title="Rename" onClickAction={menuData.rename} />
-        {isIcon ? (
-          <CtxMenuEl
-            title="Show full name in Top Bar"
-            onClickAction={(e: React.MouseEvent) => {
-              browserAPI.update(data.node.id, { title: data.node.title });
-            }}
-            highlight
-          />
-        ) : (
-          <CtxMenuEl
-            title="Show Icon Only in Top Bar"
-            onClickAction={(e: React.MouseEvent) => {
-              // browserAPI.update(menuData.node.id, { title: '' });
-              // throw 'Storage API is required for storing bookmark names.';
-
-              dispatch(addIcon(data.node.id));
-              browserAPI.update(data.node.id, { title: '' });
-            }}
-            highlight
-          />
-        )}
+        {getIconOnlyEl(isIcon, data.node.title)}
         <CtxMenuEl
           title="Edit"
           onClickAction={(e: React.MouseEvent) => {
