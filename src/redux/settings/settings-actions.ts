@@ -10,7 +10,7 @@ import {
 } from '@proj-types/types';
 
 const changeFlowDirection = (
-  newDirection: FLOW_DIRECTION
+  newDirection: FLOW_DIRECTION = FLOW_DIRECTION.COLUMN
 ): ChangeFlowDirectionAction => {
   return {
     type: ACTIONS.CHANGE_FLOW_DIRECTION,

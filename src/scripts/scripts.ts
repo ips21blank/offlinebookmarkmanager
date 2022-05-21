@@ -11,7 +11,8 @@ export * from './drag/drag-handlers';
 export * from './browser/browser';
 export * from './browser/browser-api';
 export * from './browser/mock-browser';
-export * from './browser/get-bkm-data';
+export * from './browser/get-browser-data';
+export * from './browser/browser-storage';
 
 // misc.
 export * from './debounce';

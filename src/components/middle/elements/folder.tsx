@@ -118,13 +118,14 @@ const Folder: React.FC<NodeProps> = ({
     onContextMenu: contextMenuHandler
   };
 
-  let icon = showIcon ? (
-    <span className="folder-icon">
-      {isCollapsed ? <BsFolder /> : <BsFolder2Open />}
-    </span>
-  ) : (
-    <></>
-  );
+  let icon =
+    true || showIcon ? ( // always show icons for folders.
+      <span className="folder-icon">
+        {isCollapsed ? <BsFolder /> : <BsFolder2Open />}
+      </span>
+    ) : (
+      <></>
+    );
   let titleInput = (
     <TitleInput
       id={node.id}

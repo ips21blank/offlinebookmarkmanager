@@ -17,13 +17,8 @@ import {
   UpdateDuplicateNodeParentChains
 } from '@proj-types/types';
 
-export const getBkmReducer = async () => {
-  await updateBkmDataInitialState();
-
-  const bkmReducer = (
-    state = initialStateBkm,
-    action: BookmarkAction
-  ): BookmarkState => {
+export const getBkmReducer = () => {
+  return (state = initialStateBkm, action: BookmarkAction): BookmarkState => {
     switch (action.type) {
       case ACTIONS.REMOVE: {
         let payload = (<NodeRemoveAction>action).payload;
@@ -91,6 +86,4 @@ export const getBkmReducer = async () => {
         return state;
     }
   };
-
-  return bkmReducer;
 };

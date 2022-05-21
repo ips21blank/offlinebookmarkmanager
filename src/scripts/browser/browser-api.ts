@@ -1,4 +1,4 @@
-import { DataNode } from '@proj-types/types';
+import { DataNode, STORE_KEY_TYPE } from '@proj-types/types';
 import { getParentChain } from '@redux/initial-states';
 import { showInfoPopup, getStore } from '@redux/redux';
 // import { MOVE_WITHIN_SELF } from '@scripts/globals';
@@ -9,7 +9,7 @@ const browserAPI = {
     return url ? 'someImgUrl' : '';
   },
 
-  store(keyValPairs: any, callBack = () => {}) {
+  store(keyValPairs: { [k in STORE_KEY_TYPE]?: any }, callBack = () => {}) {
     chrome.storage.local.set(keyValPairs, callBack);
   },
 
