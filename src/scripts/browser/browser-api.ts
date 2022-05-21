@@ -1,23 +1,24 @@
 import { DataNode } from '@proj-types/types';
 import { getParentChain } from '@redux/initial-states';
-import { MOVE_WITHIN_SELF } from '@scripts/globals';
-import { BrowserSimulator as chrome } from './mock-browser';
+import { showInfoPopup, getStore } from '@redux/redux';
+// import { MOVE_WITHIN_SELF } from '@scripts/globals';
+// import { BrowserSimulator as chrome } from './mock-browser';
 
 const browserAPI = {
   getBkmIconSrc(url?: string): string {
     return url ? 'someImgUrl' : '';
   },
 
-  // store(keyValPairs: any, callBack = () => {}) {
-  //   chrome.storage.local.set(keyValPairs, callBack);
-  // },
+  store(keyValPairs: any, callBack = () => {}) {
+    chrome.storage.local.set(keyValPairs, callBack);
+  },
 
-  // rmvId(id: string, callBack = () => {}) {
-  //   chrome.storage.local.remove(id, callBack);
-  // },
-  // rmvIds(ids: string[], callBack = () => {}) {
-  //   chrome.storage.local.remove(ids, callBack);
-  // },
+  rmvId(id: string, callBack = () => {}) {
+    chrome.storage.local.remove(id, callBack);
+  },
+  rmvIds(ids: string[], callBack = () => {}) {
+    chrome.storage.local.remove(ids, callBack);
+  },
   update(
     id: string,
     changes: chrome.bookmarks.BookmarkChangesArg,
@@ -26,15 +27,15 @@ const browserAPI = {
     // changes - title? and url?
     chrome.bookmarks.update(id, changes, callBack);
   },
-  // getNode(id: string, callBack = (results: DataNode[]) => {}) {
-  //   chrome.bookmarks.get(id, callBack);
-  // },
-  // getCh(id: string, callBack = (results: DataNode[]) => {}) {
-  //   chrome.bookmarks.getChildren(id, callBack);
-  // },
-  // getSubT(id: string, callBack = (results: DataNode[]) => {}) {
-  //   chrome.bookmarks.getSubTree(id, callBack);
-  // },
+  getNode(id: string, callBack = (results: DataNode[]) => {}) {
+    chrome.bookmarks.get(id, callBack);
+  },
+  getCh(id: string, callBack = (results: DataNode[]) => {}) {
+    chrome.bookmarks.getChildren(id, callBack);
+  },
+  getSubT(id: string, callBack = (results: DataNode[]) => {}) {
+    chrome.bookmarks.getSubTree(id, callBack);
+  },
   moveBk(
     id: string,
     target: { parentId: string; index?: number },
@@ -43,14 +44,19 @@ const browserAPI = {
     let parentChain: DataNode[] = getParentChain(target.parentId);
 
     if (parentChain.findIndex((node) => node.id === id) !== -1) {
-      throw new Error(MOVE_WITHIN_SELF); // REMOVE : IT STOPS THE EXECUTION!!!
-      // document.body.appendChild(
-      //   _el.info('You cannot place a folder within itself.').blanket
-      // );
+      // throw new Error(MOVE_WITHIN_SELF); // REMOVE : IT STOPS THE EXECUTION!!!
+      getStore().dispatch(
+        showInfoPopup({
+          title: 'Move operation cancelled',
+          text: 'You were trying to move a folder within itself.'
+        })
+      );
     } else {
       chrome.bookmarks.move(id, target, callBack);
     }
   },
+
+  // The following was never used : recents were fetched from db.ts
   // recentBk(n: number, callBack = (results: DataNode[]) => {}) {
   //   chrome.bookmarks.getRecent(n, callBack);
   // },
@@ -60,15 +66,16 @@ const browserAPI = {
   removeTr(id: string, callBack = () => {}) {
     chrome.bookmarks.removeTree(id, callBack);
   },
-  // getLocal(
-  //   keys: string | string[],
-  //   callBack = (items: { [key: string]: any }) => {}
-  // ) {
-  //   chrome.storage.local.get(keys, callBack);
-  // },
-  // getTree(callBack: (results: DataNode[]) => void) {
-  //   chrome.bookmarks.getTree(callBack);
-  // },
+  getLocal(
+    keys: string | string[],
+    callBack = (items: { [key: string]: any }) => {}
+  ) {
+    chrome.storage.local.get(keys, callBack);
+  },
+  getTree(callBack: (results: DataNode[]) => void) {
+    chrome.bookmarks.getTree(callBack);
+  },
+  // Not used for open folder links. window.open used instead.
   // mkTab	: function(o, cb){     chrome.tabs.create(o, function(tab){ if(cb) cb(tab); }); },
   createBk(
     createData: {
@@ -106,7 +113,7 @@ const browserEventsAPI = {
     ) => void
   ) {
     // when a bookmark or a folder is deleted.
-    chrome.bookmarks.onRemovedTr.addListener(callback);
+    chrome.bookmarks.onRemoved.addListener(callback);
   },
   edit(
     callback: (
@@ -122,30 +129,30 @@ const browserEventsAPI = {
   ) {
     // when a bookmark or a folder is moved.
     chrome.bookmarks.onMoved.addListener(callback);
+  },
+  chReord(
+    callback: (
+      id: string,
+      reorderInfo: chrome.bookmarks.BookmarkReorderInfo
+    ) => void
+  ) {
+    // when the children of bookmarks of folders are reordered.
+    chrome.bookmarks.onChildrenReordered.addListener(callback);
+  },
+  impEnd(callback: () => void) {
+    // when import ends.
+    chrome.bookmarks.onImportEnded.addListener(callback);
+  },
+  store(
+    callback: (
+      changes: {
+        [key: string]: chrome.storage.StorageChange;
+      },
+      areaName: 'sync' | 'local' | 'managed'
+    ) => void
+  ) {
+    chrome.storage.onChanged.addListener(callback);
   }
-  // chReord(
-  //   callback: (
-  //     id: string,
-  //     reorderInfo: chrome.bookmarks.BookmarkReorderInfo
-  //   ) => void
-  // ) {
-  //   // when the children of bookmarks of folders are reordered.
-  //   chrome.bookmarks.onChildrenReordered.addListener(callback);
-  // },
-  // impEnd(callback: () => void) {
-  //   // when import ends.
-  //   chrome.bookmarks.onImportEnded.addListener(callback);
-  // }
-  // store(
-  //   callback: (
-  //     changes: {
-  //       [key: string]: chrome.storage.StorageChange;
-  //     },
-  //     areaName: 'sync' | 'local' | 'managed'
-  //   ) => void
-  // ) {
-  //   chrome.storage.onChanged.addListener(callback);
-  // }
 };
 
 export { browserAPI, browserEventsAPI };
