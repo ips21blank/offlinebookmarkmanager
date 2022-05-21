@@ -141,7 +141,7 @@ enum OVERLAY_STATES {
 const MOVE_WITHIN_SELF = 'Trying to move a folder within itself.';
 
 // ASSUMPTION: Two nodes with this name will never occur.
-const FOL_RENAME_STR = '__RENAME__TEMP__NAME__';
+const FOL_RENAME_STR = '__rnm__temp__';
 const DEFAULT_ROOT_ID = '__MY__ROOT__BKM__TREE__ID__';
 const MODE = {
   production: true,
@@ -150,11 +150,11 @@ const MODE = {
 const TIMESTAMP = {
   // Used for closing duplicate instances of bkm manager.
   key: '__timestamp__started__',
-  _val: '' as String,
+  _val: '',
 
   get val() {
     if (!this._val) {
-      this._val = new String(new Date().getTime() + Math.random());
+      this._val = (new Date().getTime() + Math.random()).toString();
     }
     return this._val;
   }

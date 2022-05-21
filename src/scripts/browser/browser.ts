@@ -10,6 +10,7 @@ import {
   createNode,
   rmvPin
 } from '@redux/redux';
+import { TIMESTAMP } from '@scripts/globals';
 
 const addListenersToBrowser = () => {
   // browserEventsAPI.create;
@@ -92,7 +93,10 @@ const addListenersToBrowser = () => {
       },
       areaName: 'sync' | 'local' | 'managed'
     ) => {
-      throw new Error('Listner for browser store event not implemented yet.');
+      // throw new Error('Listner for browser store event not implemented yet.');
+      chrome.storage.local.get([TIMESTAMP.key], (data) => {
+        if (data[TIMESTAMP.key] !== TIMESTAMP.val) window.close();
+      });
     }
   );
 };
