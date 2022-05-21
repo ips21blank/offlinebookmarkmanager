@@ -1,7 +1,4 @@
-import {
-  initialStateBkm,
-  updateBkmDataInitialState
-} from '@redux/initial-states';
+import { initialStateBkm } from '@redux/initial-states';
 import {
   ACTIONS,
   BookmarkAction,
@@ -14,15 +11,24 @@ import {
   SearchNodes,
   RefreshSearch,
   DuplicatesSearch,
-  UpdateDuplicateNodeParentChains
+  UpdateDuplicateNodeParentChains,
+  AddIcon,
+  RmvIcon
 } from '@proj-types/types';
+import { browserAPI } from '@scripts/scripts';
 
 export const getBkmReducer = () => {
   return (state = initialStateBkm, action: BookmarkAction): BookmarkState => {
+    const saveIconsIfUpdated = () => {
+      state.db.iconsWereEdited() && // db remains the same after all events.
+        browserAPI.store({ icons: state.db.getIconsSaveData() });
+    };
+
     switch (action.type) {
       case ACTIONS.REMOVE: {
         let payload = (<NodeRemoveAction>action).payload;
         state.db.rmv(payload.id);
+        saveIconsIfUpdated();
 
         return { ...state, searchPromise: state.db.getCachedSrhResult() };
       }
@@ -36,8 +42,10 @@ export const getBkmReducer = () => {
         let payload = (<NodeChangeAction>action).payload;
 
         payload.url && state.db.url(payload.id, payload.url);
-        (payload.title || payload.title == '') &&
+        if (payload.title || payload.title == '') {
           state.db.rnm(payload.id, payload.title);
+          saveIconsIfUpdated();
+        }
 
         return { ...state };
       }
@@ -80,6 +88,18 @@ export const getBkmReducer = () => {
         state.db.addParentChains(payload.nodes);
 
         return { ...state };
+      }
+
+      case ACTIONS.ADD_ICO: {
+        let payload = (<AddIcon>action).payload;
+        state.db.addToIcons(payload.id);
+      }
+
+      case ACTIONS.RMV_ICO: {
+        // Not required - handled via rename.
+        let payload = (<RmvIcon>action).payload;
+
+        return state;
       }
 
       default:

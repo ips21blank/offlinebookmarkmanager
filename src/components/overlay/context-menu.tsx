@@ -1,5 +1,6 @@
 import {
   ACTIONS,
+  AddIcon,
   BkmCtxMenu,
   FolCtxMenu,
   PAGE_TYPE,
@@ -17,7 +18,8 @@ import {
   showCopyToPopup,
   showMovePopup,
   changeCurrLocation,
-  setPinAsHome
+  setPinAsHome,
+  addIcon
 } from '@redux/redux';
 import { browserAPI } from '@scripts/scripts';
 import { GLOBAL_SETTINGS } from '@scripts/globals';
@@ -56,14 +58,18 @@ const CtxMenuEl: React.FC<{
 };
 
 const CtxMenu: React.FC<{ toggleOverlay: () => any }> = ({ toggleOverlay }) => {
-  const [menuType, menuData, pageType, rootId] = useAppSelector((state) => [
-    state.overlay.ctxMenuType,
-    state.overlay.ctxMenuData,
-    state.displayState.pageType,
-    state.bookmarks.db.baseNodeId
-  ]);
+  const [menuType, menuData, pageType, rootId, isIcon] = useAppSelector(
+    (state) => [
+      state.overlay.ctxMenuType,
+      state.overlay.ctxMenuData,
+      state.displayState.pageType,
+      state.bookmarks.db.baseNodeId,
+      !!state.overlay.ctxMenuData &&
+        state.bookmarks.db.isIcon(state.overlay.ctxMenuData.node.id)
+    ]
+  );
   const dispatch: (
-    action: PinFolder | ShowPopup | UpdateCurrLocation | SetPinAsHome
+    action: PinFolder | ShowPopup | UpdateCurrLocation | SetPinAsHome | AddIcon
   ) => any = useDispatch();
   const isNotFolPage = pageType !== PAGE_TYPE.FOL;
 
@@ -149,13 +155,25 @@ const CtxMenu: React.FC<{ toggleOverlay: () => any }> = ({ toggleOverlay }) => {
           }}
         />
         <CtxMenuEl title="Rename" onClickAction={menuData.rename} />
-        <CtxMenuEl
-          title="Show Icon Only"
-          onClickAction={(e: React.MouseEvent) => {
-            browserAPI.update(menuData.node.id, { title: '' });
-            throw 'Storage API is required for storing bookmark names.';
-          }}
-        />
+        {isIcon ? (
+          <CtxMenuEl
+            title="Show full name in top bar"
+            onClickAction={(e: React.MouseEvent) => {
+              browserAPI.update(data.node.id, { title: data.node.title });
+            }}
+          />
+        ) : (
+          <CtxMenuEl
+            title="Show Icon Only in top bar"
+            onClickAction={(e: React.MouseEvent) => {
+              // browserAPI.update(menuData.node.id, { title: '' });
+              // throw 'Storage API is required for storing bookmark names.';
+
+              dispatch(addIcon(data.node.id));
+              browserAPI.update(data.node.id, { title: '' });
+            }}
+          />
+        )}
         <CtxMenuEl
           title="Edit"
           onClickAction={(e: React.MouseEvent) => {

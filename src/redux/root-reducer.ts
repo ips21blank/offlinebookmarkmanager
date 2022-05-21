@@ -21,7 +21,7 @@ export const getRootReducer = async () => {
   const bkmData = await getBkmData();
   const storeageData = getStorageData();
 
-  updateBkmDataInitialState(bkmData);
+  updateBkmDataInitialState(bkmData, storeageData.getStorageData('icons'));
   updateDispInitialState(storeageData);
   updateSettingsInitialState(storeageData);
 

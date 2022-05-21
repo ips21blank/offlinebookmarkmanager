@@ -79,6 +79,8 @@ interface BookmarkTree {
   getDuplicates(ignoreHash: boolean): Promise<DataNode[][]>;
 
   // icons
+  isIcon(id: string): boolean;
+  iconsWereEdited(): boolean;
   setIconsData(icons: IconSaveData): any;
   getIconsSaveData(): IconSaveData;
   addToIcons(id: string): any;

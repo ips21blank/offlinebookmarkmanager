@@ -195,6 +195,7 @@ class DataBase implements BookmarkTree {
     this._rmvId(node.id, Boolean(node.url));
     if (node.parentId) this._rmvChildFromChildrenArr(node.id, node.parentId);
     this._rmv(node.id);
+    this._icons.rmvIco(node.id);
     this._invalidateSrhCache();
 
     return this;
@@ -441,6 +442,9 @@ class DataBase implements BookmarkTree {
   }
 
   // ICONS
+  public isIcon(id: string): boolean {
+    return !!id && !!this._icons.get(id);
+  }
   public setIconsData(icons: IconSaveData): any {
     // Should be done after populating the bookmark data.
     this._icons = new Icons(icons);
@@ -459,7 +463,11 @@ class DataBase implements BookmarkTree {
     this._icons.addIco(id, this.get(id)?.title || '');
   }
   public rmvFromIcons(id: string): any {
+    // Not required.
     this._icons.rmvIco(id);
+  }
+  public iconsWereEdited(): boolean {
+    return this._icons.edited;
   }
 }
 

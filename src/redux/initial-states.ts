@@ -6,6 +6,7 @@ import {
   DISP_MODES,
   FLOW_DIRECTION,
   FolPageData,
+  IconSaveData,
   OverlayState,
   PAGE_TYPE,
   Settings
@@ -28,8 +29,9 @@ const initialStateBkm: BookmarkState = {
 const getNodeById = (id: string) => initialStateBkm.db.get(id);
 const getParentChain = (id: string) => initialStateBkm.db.getParentChain(id);
 
-function updateBkmDataInitialState(data: DataNode) {
+function updateBkmDataInitialState(data: DataNode, icons: IconSaveData) {
   initialStateBkm.db = new DataBase(data);
+  initialStateBkm.db.setIconsData(icons);
 }
 
 // DISPLAY

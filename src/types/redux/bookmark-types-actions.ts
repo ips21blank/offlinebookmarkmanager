@@ -92,6 +92,15 @@ export interface UpdateDuplicateNodeParentChains extends BookmarkAction {
   payload: { nodes: DataNode[] };
 }
 
+export interface AddIcon extends BookmarkAction {
+  type: ACTIONS.ADD_ICO;
+  payload: { id: string };
+}
+export interface RmvIcon extends BookmarkAction {
+  type: ACTIONS.RMV_ICO;
+  payload: { id: string };
+}
+
 export interface BookmarkState {
   db: BookmarkTree;
   searchPromise?: Promise<NodeSearchResult>;

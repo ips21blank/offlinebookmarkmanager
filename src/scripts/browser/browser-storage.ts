@@ -1,9 +1,9 @@
 import {
   SettingsStorage,
   StorageObject,
-  IconObj,
   FLOW_DIRECTION,
-  STORE_KEY_TYPE
+  STORE_KEY_TYPE,
+  IconSaveData
 } from '@proj-types/types';
 import { browserAPI } from './browser-api';
 
@@ -20,7 +20,7 @@ class BrowserStorage implements SettingsStorage {
   keyObjMap: { [k in STORE_KEY_TYPE]: StorageUnit<any> };
 
   constructor(data: { [k in STORE_KEY_TYPE]: any }) {
-    let icons: IconObj = this.parseJson(data['icons'], {});
+    let icons: IconSaveData = data['icons'] || {};
 
     let pins: string[] =
       (Array.isArray(data['pins']) && data['pins']) ||
@@ -40,6 +40,7 @@ class BrowserStorage implements SettingsStorage {
       showFolBkmIcons: new StorageUnit('showFolBkmIcons', showFolBkmIcons),
       flowDirection: new StorageUnit('flowDirection', flowDirection)
     };
+    console.log(data);
   }
 
   parseJson(json: string, defaultVal: any) {

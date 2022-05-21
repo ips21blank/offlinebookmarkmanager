@@ -1,6 +1,7 @@
 // data
 export * from './data/db';
 export * from './data/search-result';
+export * from './data/icons';
 
 // drag
 export * from './drag/custom-drag-events';

@@ -9,7 +9,9 @@ import {
   SearchNodes,
   RefreshSearch,
   DuplicatesSearch,
-  UpdateDuplicateNodeParentChains
+  UpdateDuplicateNodeParentChains,
+  AddIcon,
+  RmvIcon
 } from '@proj-types/types';
 
 const rmvNode = (id: string): NodeRemoveAction => {
@@ -84,6 +86,20 @@ const updateDuplicateNodeParentChains = (
   };
 };
 
+const addIcon = (id: string): AddIcon => {
+  return {
+    type: ACTIONS.ADD_ICO,
+    payload: { id }
+  };
+};
+const rmvIcon = (id: string): RmvIcon => {
+  // Not required.
+  return {
+    type: ACTIONS.RMV_ICO,
+    payload: { id }
+  };
+};
+
 export {
   rmvNode,
   movNode,
@@ -93,5 +109,7 @@ export {
   searchNodes,
   refreshSrh,
   duplicatesSearch,
-  updateDuplicateNodeParentChains
+  updateDuplicateNodeParentChains,
+  addIcon,
+  rmvIcon
 };
