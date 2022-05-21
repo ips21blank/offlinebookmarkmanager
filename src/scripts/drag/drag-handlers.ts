@@ -9,7 +9,7 @@ import {
 } from '../globals';
 import { isDragging } from './custom-drag-events';
 import { getStore, selectDeselectNode } from '@redux/redux';
-import { Utilities } from '@scripts/utilities';
+import { Utilities } from '@scripts/scripts';
 import { Scroller } from '../scroller';
 
 type T = {

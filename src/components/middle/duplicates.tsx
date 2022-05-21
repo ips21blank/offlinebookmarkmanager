@@ -5,7 +5,7 @@ import {
   duplicatesSearch,
   updateDuplicateNodeParentChains
 } from '@redux/redux';
-import { browserAPI } from '@scripts/browser/browser-api';
+import { browserAPI } from '@scripts/scripts';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { DuplicateGroup } from './elements/duplicate-group';

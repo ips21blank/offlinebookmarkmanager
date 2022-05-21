@@ -5,13 +5,12 @@ import {
   ShowCtxMenu,
   ShowPopup
 } from '@proj-types/types';
-import { DragEventHandlers } from '@scripts/drag/drag-handlers';
+import { DragEventHandlers, Utilities } from '@scripts/scripts';
+import { BKM_CLASSES } from '@scripts/globals';
 import { useDispatch } from 'react-redux';
 import { showCtxMenu, showInfoPopup } from '@redux/redux';
 import { TitleInput } from './title-input';
-import { BKM_CLASSES, SELECT_CLASS } from '@scripts/globals';
 import { BkmIco } from './bookmark-icon';
-import { Utilities } from '@scripts/utilities';
 
 const Bookmark: React.FC<NodeProps> = ({
   node,

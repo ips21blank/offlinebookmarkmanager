@@ -1,5 +1,5 @@
 import { BsPlus, BsFolder } from '@components/icons';
-import { browserAPI } from '@scripts/browser/browser-api';
+import { browserAPI } from '@scripts/scripts';
 import { FOL_RENAME_STR } from '@scripts/globals';
 
 const AddFolBtn: React.FC<{ folId: string }> = ({ folId }) => {

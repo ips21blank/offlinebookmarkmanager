@@ -12,16 +12,11 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { Bookmark } from './bookmark';
 import { BsFolder, BsFolder2Open } from '@components/icons';
 import { useAppSelector } from '@redux/hooks';
-import { DragEventHandlers } from '@scripts/drag/drag-handlers';
-import {
-  FOLDER_CLASSES,
-  CUSTOM_EVENTS,
-  FOL_RENAME_STR
-} from '@scripts/globals';
+import { DragEventHandlers } from '@scripts/scripts';
+import { FOLDER_CLASSES, FOL_RENAME_STR } from '@scripts/globals';
 import { TitleInput } from './title-input';
 import { useDispatch } from 'react-redux';
 import { showCtxMenu } from '@redux/redux';
-import { Utilities } from '@scripts/utilities';
 
 // Following 2 components are in same file because they both use each other.
 

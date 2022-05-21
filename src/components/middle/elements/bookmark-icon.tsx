@@ -1,5 +1,5 @@
 import { BsLink45Deg } from '@components/icons';
-import { browserAPI } from '@scripts/browser/browser-api';
+import { browserAPI } from '@scripts/scripts';
 import { useState } from 'react';
 
 const BkmIco: React.FC<{ url: string; showIcon?: boolean }> = ({

@@ -1,5 +1,4 @@
-import { getBkmData } from '@scripts/browser/get-bkm-data';
-import { DataBase } from '@scripts/data/db';
+import { DataBase, getBkmData } from '@scripts/scripts';
 import {
   BookmarkState,
   DisplayState,

@@ -8,9 +8,8 @@ import {
 import { useDispatch } from 'react-redux';
 import { changeCurrLocation, rmvPin, showCtxMenu } from '@redux/redux';
 import { BsXSquare, BsCaretRightFill } from '@components/icons';
-import { Utilities } from '@scripts/utilities';
+import { Utilities, DragEventHandlers } from '@scripts/scripts';
 import React, { useEffect } from 'react';
-import { DragEventHandlers } from '@scripts/drag/drag-handlers';
 import { FOLDER_CLASSES } from '@scripts/globals';
 
 const PinnedFolder: React.FC<PinnedFolderProps> = ({

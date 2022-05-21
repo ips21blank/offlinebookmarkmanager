@@ -1,4 +1,4 @@
-import { browserAPI } from '@scripts/browser/browser-api';
+import { browserAPI } from '@scripts/scripts';
 import { useRef, useState } from 'react';
 
 const TitleInput: React.FC<{
