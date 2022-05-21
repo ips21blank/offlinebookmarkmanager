@@ -13,13 +13,14 @@ import {
 import {
   useAppSelector,
   pinFolder,
-  showPopup,
+  // showPopup,
   showEditNodePopup,
   showCopyToPopup,
   showMovePopup,
   changeCurrLocation,
   setPinAsHome,
-  addIcon
+  addIcon,
+  showConfirmPopup
 } from '@redux/redux';
 import { browserAPI } from '@scripts/scripts';
 import { GLOBAL_SETTINGS } from '@scripts/globals';
@@ -107,6 +108,7 @@ const CtxMenu: React.FC<{ toggleOverlay: () => any }> = ({ toggleOverlay }) => {
             onClickAction={() => {
               dispatch(changeCurrLocation(rootId, menuData.node.id));
             }}
+            highlight
           />
         ) : (
           <></>
@@ -125,8 +127,19 @@ const CtxMenu: React.FC<{ toggleOverlay: () => any }> = ({ toggleOverlay }) => {
         />
         <CtxMenuEl
           title="Delete folder"
-          onClickAction={() => {
-            browserAPI.removeBk(menuData.node.id);
+          onClickAction={(e) => {
+            e.stopPropagation();
+            dispatch(
+              showConfirmPopup({
+                title: 'Warning',
+                text:
+                  'Are you sure you want to delete entire folder?' +
+                  ' This app CANNOT UNDO.',
+                action: function () {
+                  browserAPI.removeTr(menuData.node.id);
+                }
+              })
+            );
           }}
           highlight
         />
@@ -157,14 +170,15 @@ const CtxMenu: React.FC<{ toggleOverlay: () => any }> = ({ toggleOverlay }) => {
         <CtxMenuEl title="Rename" onClickAction={menuData.rename} />
         {isIcon ? (
           <CtxMenuEl
-            title="Show full name in top bar"
+            title="Show full name in Top Bar"
             onClickAction={(e: React.MouseEvent) => {
               browserAPI.update(data.node.id, { title: data.node.title });
             }}
+            highlight
           />
         ) : (
           <CtxMenuEl
-            title="Show Icon Only in top bar"
+            title="Show Icon Only in Top Bar"
             onClickAction={(e: React.MouseEvent) => {
               // browserAPI.update(menuData.node.id, { title: '' });
               // throw 'Storage API is required for storing bookmark names.';
@@ -172,6 +186,7 @@ const CtxMenu: React.FC<{ toggleOverlay: () => any }> = ({ toggleOverlay }) => {
               dispatch(addIcon(data.node.id));
               browserAPI.update(data.node.id, { title: '' });
             }}
+            highlight
           />
         )}
         <CtxMenuEl
@@ -204,6 +219,7 @@ const CtxMenu: React.FC<{ toggleOverlay: () => any }> = ({ toggleOverlay }) => {
             onClickAction={() => {
               dispatch(changeCurrLocation(rootId, menuData.node.id));
             }}
+            highlight
           />
         ) : (
           <></>

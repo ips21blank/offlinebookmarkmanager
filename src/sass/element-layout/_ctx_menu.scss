@@ -9,6 +9,7 @@ div#context-menu {
   width: $ctx-menu-width;
 
   border-radius: $ctx-menu-border-radius;
+  border: 1px solid black;
   overflow: hidden;
 
   &.shift-left {
@@ -29,6 +30,8 @@ div#context-menu {
     display: flex;
     align-items: center;
     justify-content: flex-start;
+
+    border-bottom: 1px solid black;
 
     &:hover {
       background-color: $ctx-menu-item-bg-color-hov;

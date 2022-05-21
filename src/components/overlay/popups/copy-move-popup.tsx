@@ -46,6 +46,7 @@ const CopyMovePopup: React.FC<MovePopupProps | CopyToPopupProps> = (props) => {
               let node = db.get(id);
               if (node)
                 browserAPI.createBk({
+                  index: 0,
                   parentId: selectedId,
                   url: node.url,
                   title: node.title

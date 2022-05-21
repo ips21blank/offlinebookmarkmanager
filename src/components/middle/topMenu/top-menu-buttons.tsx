@@ -108,7 +108,7 @@ const DeleteButton: React.FC<{ dispatch: (act: any) => any | void }> = ({
           text,
           action: () => {
             for (let id of bkms) browserAPI.removeBk(id);
-            for (let id of fols) browserAPI.removeBk(id);
+            for (let id of fols) browserAPI.removeTr(id);
           }
         })
       );

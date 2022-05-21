@@ -177,6 +177,7 @@ class DataBase implements BookmarkTree {
     // updated at this._addChildToChildrenArr
 
     if (i || i === 0) node.index = i;
+    if (!node.url) node.children = [];
 
     this._addId(node.id, Boolean(node.url));
     if (node.parentId) this._addChildToChildrenArr(node, node.parentId);

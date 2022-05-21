@@ -29,13 +29,6 @@ export const getRootReducer = async () => {
   const displayReducer = getDisplayReducer();
   const settingsReducer = getSettingsReducer();
 
-  console.log(
-    initialStateBkm,
-    initialOverlayState,
-    initialStateDisp,
-    initialStateSettings
-  );
-
   const rootReducer: Reducer<StoreDataType, GeneralAction> = combineReducers({
     bookmarks: bkmReducer,
     settings: settingsReducer,

@@ -40,7 +40,6 @@ class BrowserStorage implements SettingsStorage {
       showFolBkmIcons: new StorageUnit('showFolBkmIcons', showFolBkmIcons),
       flowDirection: new StorageUnit('flowDirection', flowDirection)
     };
-    console.log(data);
   }
 
   parseJson(json: string, defaultVal: any) {
