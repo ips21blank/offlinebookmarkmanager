@@ -532,7 +532,7 @@ class DragMgr {
       if (e.message === MOVE_WITHIN_SELF) {
         getStore().dispatch(
           showInfoPopup({
-            title: 'Error',
+            title: 'Move operation cancelled',
             text: 'You were trying to move a folder within itself.'
           })
         );

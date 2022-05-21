@@ -142,6 +142,11 @@ const MOVE_WITHIN_SELF = 'Trying to move a folder within itself.';
 
 // ASSUMPTION: Two nodes with this name will never occur.
 const FOL_RENAME_STR = '__RENAME__TEMP__NAME__';
+const DEFAULT_ROOT_ID = '__MY__ROOT__BKM__TREE__ID__';
+const MODE = {
+  production: false,
+  development: true
+};
 
 export {
   GLOBAL_SETTINGS,
@@ -161,5 +166,7 @@ export {
   OVERLAY_STATES,
   ACCORDION_CLASSES,
   MOVE_WITHIN_SELF,
-  FOL_RENAME_STR
+  FOL_RENAME_STR,
+  DEFAULT_ROOT_ID,
+  MODE
 };

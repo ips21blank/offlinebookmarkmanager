@@ -5,6 +5,7 @@ import {
   SearchStats
 } from '@proj-types/types';
 import { SearchResult } from './search-result';
+import { MODE } from '@scripts/globals';
 
 // prettier-ignore
 interface SearchCacheId { id: string; q: string; }
@@ -219,7 +220,9 @@ class DataBase implements BookmarkTree {
     let node = this.get(id);
     if (!node) return this;
 
-    if (index && newParentId === node.parentId) {
+    if (MODE.development && index && newParentId === node.parentId) {
+      // This is already done by browser in production mode.
+      // TO DO: This should be handled by mock browser as well.
       let currPar = this.get(node.parentId) as DataNode;
       let i = (currPar.children as DataNode[]).findIndex((ch) => ch.id === id);
 

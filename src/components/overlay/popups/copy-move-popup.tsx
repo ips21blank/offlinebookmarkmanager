@@ -36,7 +36,7 @@ const CopyMovePopup: React.FC<MovePopupProps | CopyToPopupProps> = (props) => {
             } catch (e: any) {
               return dispatch(
                 showInfoPopup({
-                  title: 'Error',
+                  title: 'Move operation cancelled',
                   text: 'You were trying to move a folder within itself.'
                 })
               );

@@ -42,7 +42,9 @@ const SearchResultsPg: React.FC<any> = (props: any) => {
   const [colCount, dispMode, currLoc, resultPromise, nBkmTot, nFolTot] =
     useAppSelector((state) => {
       let data = state.displayState.pageData as SrhPageData;
-      let locNode = state.bookmarks.db.get(data.currLocation);
+      let locNode = state.bookmarks.db.get(
+        data.currLocation || state.displayState.rootFolLocation
+      );
 
       let { nBkm, nFol } = Utilities.countNodeChildren(locNode);
 
@@ -69,7 +71,10 @@ const SearchResultsPg: React.FC<any> = (props: any) => {
       if (!result.resultId) {
         // resultId 0 means invalidated.
         dispatch(refreshSrh());
-      } else if (resId !== result.resultId && currLoc === result.parentNodeId) {
+      } else if (
+        resId !== result.resultId &&
+        (!currLoc || !result.parentNodeId || currLoc === result.parentNodeId)
+      ) {
         timeout = setTimeout(() => {
           let orderedNodes = result.nodeScores.map((ns) => ns.node);
 
