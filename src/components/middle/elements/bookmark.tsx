@@ -87,7 +87,7 @@ const Bookmark: React.FC<NodeProps> = ({
           doneEditing={() => editTitle(false)}
         />
       ) : (
-        node.title || node.url
+        node.title || 'url => ' + node.url
       )}
     </a>
   );
