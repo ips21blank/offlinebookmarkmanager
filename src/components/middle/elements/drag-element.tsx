@@ -6,7 +6,7 @@ import {
 } from '@components/icons';
 import { DataNode } from '@proj-types/types';
 import { useAppSelector } from '@redux/hooks';
-import { Utilities } from '@scripts/utilities';
+import { Utilities } from '@scripts/scripts';
 
 const DragNode: React.FC<{ node: DataNode }> = ({ node }) => {
   let img = node.url ? <BkmIcon2 /> : <FolIcon />;

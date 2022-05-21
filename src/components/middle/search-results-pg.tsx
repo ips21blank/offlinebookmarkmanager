@@ -2,13 +2,12 @@ import {
   SrhPageData,
   FolderColumnProps,
   DataNode,
-  NodeScoreData,
   NodeSearchResult
 } from '@proj-types/types';
 import { useAppSelector } from '@redux/hooks';
 import { refreshSrh } from '@redux/redux';
 import { GLOBAL_SETTINGS } from '@scripts/globals';
-import { Utilities } from '@scripts/utilities';
+import { Utilities } from '@scripts/scripts';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { FolderFullViewColumn } from './folderFullView/folder-full-view-column';

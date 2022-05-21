@@ -19,7 +19,7 @@ import {
   changeCurrLocation,
   setPinAsHome
 } from '@redux/redux';
-import { browserAPI } from '@scripts/browser/browser-api';
+import { browserAPI } from '@scripts/scripts';
 import { GLOBAL_SETTINGS } from '@scripts/globals';
 import { useDispatch } from 'react-redux';
 

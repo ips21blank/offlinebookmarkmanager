@@ -147,6 +147,18 @@ const MODE = {
   production: true,
   development: false
 };
+const TIMESTAMP = {
+  // Used for closing duplicate instances of bkm manager.
+  key: '__timestamp__started__',
+  _val: '' as String,
+
+  get val() {
+    if (!this._val) {
+      this._val = new String(new Date().getTime() + Math.random());
+    }
+    return this._val;
+  }
+};
 
 export {
   GLOBAL_SETTINGS,
@@ -168,5 +180,6 @@ export {
   MOVE_WITHIN_SELF,
   FOL_RENAME_STR,
   DEFAULT_ROOT_ID,
-  MODE
+  MODE,
+  TIMESTAMP
 };

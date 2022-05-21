@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ContentProps, FolPageData } from '@proj-types/types';
 import { FolderFullView } from './folderFullView/folder-full-view';
 import { useAppSelector } from '@redux/redux';
-import { DragEventHandlers } from '@scripts/drag/drag-handlers';
-import { SELECT_CLASS } from '@scripts/globals';
-import { Utilities } from '@scripts/utilities';
+import { Utilities, DragEventHandlers } from '@scripts/scripts';
 
 export const FolderContent: React.FC<ContentProps> = (props) => {
   const [folders, nodesMoved, showNodeChain] = useAppSelector((state) => {

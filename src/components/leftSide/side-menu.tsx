@@ -7,7 +7,7 @@ import {
 } from '@proj-types/types';
 import { PinnedFolder } from './pinned-folder';
 import { useAppSelector } from '@redux/hooks';
-import { DragEventHandlers } from '@scripts/drag/drag-handlers';
+import { DragEventHandlers } from '@scripts/scripts';
 import { BsHouse, BsCalendarDate, FiCopy } from '@components/icons';
 import { useDispatch } from 'react-redux';
 import {

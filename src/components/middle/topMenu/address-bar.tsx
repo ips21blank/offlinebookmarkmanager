@@ -20,9 +20,8 @@ import {
 } from '@components/icons';
 import { useDispatch } from 'react-redux';
 import React, { useState } from 'react';
-import { DebounceCheck } from '@scripts/debounce';
+import { DebounceCheck, Utilities } from '@scripts/scripts';
 import { GLOBAL_SETTINGS } from '@scripts/globals';
-import { Utilities } from '@scripts/utilities';
 
 const AddressElement: React.FC<{ node: DataNode }> = ({ node }) => {
   const dispatchAction: (action: UpdateCurrLocation) => any = useDispatch();

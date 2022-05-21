@@ -1,5 +1,5 @@
 import { EditNodeProps, PopupFormProps } from '@proj-types/types';
-import { browserAPI } from '@scripts/browser/browser-api';
+import { browserAPI } from '@scripts/scripts';
 import { useState } from 'react';
 import { GenericPopup } from './generic/generic-popup';
 

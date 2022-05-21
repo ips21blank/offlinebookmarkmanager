@@ -6,7 +6,7 @@ import {
 } from '@proj-types/types';
 import React, { useState } from 'react';
 import { GenericPopup } from './generic/generic-popup';
-import { browserAPI } from '@scripts/browser/browser-api';
+import { browserAPI } from '@scripts/scripts';
 import { SelectFolderComp } from './folder-selector';
 import { useAppSelector } from '@redux/hooks';
 import { highlightElementsMoved, showInfoPopup } from '@redux/redux';

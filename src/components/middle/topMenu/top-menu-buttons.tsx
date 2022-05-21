@@ -16,7 +16,7 @@ import {
   useAppSelector
 } from '@redux/redux';
 import { GiQuill } from '@components/icons';
-import { browserAPI } from '@scripts/browser/browser-api';
+import { browserAPI } from '@scripts/scripts';
 
 const EditButton: React.FC<{
   mode: DISP_MODES;

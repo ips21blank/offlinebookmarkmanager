@@ -7,7 +7,7 @@ import {
 import { Bookmark } from '@components/middle/elements/bookmark';
 import { Folder } from '@components/middle/elements/folder';
 import { useAppSelector } from '@redux/hooks';
-import { Utilities } from '@scripts/utilities';
+import { Utilities } from '@scripts/scripts';
 import { ACCORDION_CLASSES } from '@scripts/globals';
 
 const FolderFullViewColumn: React.FC<FolderColumnProps> = ({

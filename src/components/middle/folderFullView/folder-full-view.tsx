@@ -1,15 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FolderFullViewProps } from '@proj-types/types';
 import { FolderFullViewColumns } from './folder-full-view-columns';
 import { useAppSelector } from '@redux/hooks';
-import {
-  BsCaretRightFill,
-  BsCaretDownFill,
-  BsFillPencilFill
-} from '@components/icons';
-import { Utilities } from '@scripts/utilities';
+import { BsCaretRightFill, BsCaretDownFill } from '@components/icons';
+import { Utilities, DragEventHandlers } from '@scripts/scripts';
 import { FOLDER_CLASSES } from '@scripts/globals';
-import { DragEventHandlers } from '@scripts/drag/drag-handlers';
 import { AddFolBtn } from './add-fol-btn';
 
 const FolderTitle: React.FC<any> = ({ title }) => {

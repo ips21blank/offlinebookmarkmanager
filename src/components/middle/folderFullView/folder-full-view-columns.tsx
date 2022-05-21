@@ -1,6 +1,6 @@
 import { FolderColumnProps, FolderColumnsProps } from '@proj-types/types';
 import { useAppSelector } from '@redux/hooks';
-import { Utilities } from '@scripts/utilities';
+import { Utilities } from '@scripts/scripts';
 import { FolderFullViewColumn } from './folder-full-view-column';
 
 const FolderFullViewColumns: React.FC<FolderColumnsProps> = ({ nodeId }) => {
