@@ -1,4 +1,5 @@
 import { DataNode, NodeScoreData } from '@proj-types/types';
+import { Icons } from './icons';
 
 // Following weights are also used as identifiers also.
 enum MATCH_TYPE {
@@ -89,15 +90,19 @@ class SearchResult {
   private _scoredNodes: NodeScore[] | null = null;
   constructor(public query: string = '', public match = new Matches()) {}
 
-  public matchNodesAndQueries(nodes: DataNode[], queries: string[]): void {
+  public matchNodesAndQueries(
+    nodes: DataNode[],
+    queries: string[],
+    icons: Icons
+  ): void {
     for (let query of queries) {
       for (let node of nodes) {
-        this.matchNodeAndQuery(node, query.toLowerCase());
+        this.matchNodeAndQuery(node, query.toLowerCase(), icons);
       }
     }
   }
 
-  public matchNodeAndQuery(node: DataNode, query: string): void {
+  public matchNodeAndQuery(node: DataNode, query: string, icons: Icons): void {
     if (!query) return;
 
     const url: string =
@@ -105,7 +110,9 @@ class SearchResult {
       ((node as any).urlLower = (node.url || '').toLowerCase());
     const title: string =
       (node as any).titleLower ||
-      ((node as any).titleLower = node.title.toLowerCase());
+      ((node as any).titleLower = node.title.toLowerCase()) ||
+      icons.get(node.id)?.lower ||
+      '';
 
     const urlComp = url === query,
       titleComp = title === query;

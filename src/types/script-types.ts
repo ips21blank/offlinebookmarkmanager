@@ -45,6 +45,9 @@ type NodeSearchResult = {
   stats: SearchStats;
 };
 
+type IconData = { lower: string; upper: string };
+type IconObj = { [k: string]: IconData };
+type IconSaveData = { [k: string]: string };
 interface BookmarkTree {
   bkms: Set<string>;
   fols: Set<string>;
@@ -56,22 +59,30 @@ interface BookmarkTree {
 
   readonly recent: DataNode[];
 
+  // access
   get(id: string): DataNode | undefined;
   add(node: DataNode, i?: number): BookmarkTree;
-
   rmv(nodeId: string): BookmarkTree;
-  getAllChildren(id: string | undefined): DataNode[];
   mov(id: string, newParentId: string, index?: number): BookmarkTree;
+
   rnm(id: string, title: string): BookmarkTree;
   url(id: string, url: string): BookmarkTree;
+  reorder(id: string, children: string[]): BookmarkTree;
+  getAllChildren(id: string | undefined): DataNode[];
   getParentChain(id: string): DataNode[];
   addParentChains(nodes: DataNode[]): DataNode[];
-  reorder(id: string, children: string[]): BookmarkTree;
 
+  // search
   search(id: string, queryString: string): Promise<NodeSearchResult>;
   refreshSearch(): Promise<NodeSearchResult>;
   getCachedSrhResult(): Promise<NodeSearchResult>;
   getDuplicates(ignoreHash: boolean): Promise<DataNode[][]>;
+
+  // icons
+  setIconsData(icons: IconSaveData): any;
+  getIconsSaveData(): IconSaveData;
+  addToIcons(id: string): any;
+  rmvFromIcons(id: string): any;
 }
 
 export type {
@@ -81,5 +92,8 @@ export type {
   NodeScoreData,
   SearchStats,
   BookmarkTree,
-  NodeSearchResult
+  NodeSearchResult,
+  IconData,
+  IconObj,
+  IconSaveData
 };
