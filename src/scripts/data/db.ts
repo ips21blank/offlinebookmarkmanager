@@ -2,10 +2,12 @@ import {
   DataNode,
   BookmarkTree,
   NodeSearchResult,
-  SearchStats
+  SearchStats,
+  IconSaveData
 } from '@proj-types/types';
 import { SearchResult } from './search-result';
 import { MODE } from '@scripts/globals';
+import { Icons } from './icons';
 
 // prettier-ignore
 interface SearchCacheId { id: string; q: string; }
@@ -39,6 +41,7 @@ class DataBase implements BookmarkTree {
     dummyStats,
     0
   );
+  private _icons: Icons;
 
   constructor(treeNode: DataNode) {
     let bkms: string[] = [],
@@ -72,6 +75,7 @@ class DataBase implements BookmarkTree {
     this.bkms = new Set<string>(bkms); // Ids of bookmarks.
     this.fols = new Set<string>(fols); // Ids of folders.
     this._nodes = new Map<string, DataNode>(_nodes); // data objects for nodes.
+    this._icons = new Icons({});
   }
 
   // Implementation details : methods for edits after initialization.
@@ -242,7 +246,12 @@ class DataBase implements BookmarkTree {
   public rnm(id: string, title: string): DataBase {
     let node = this.get(id);
     if (node) {
-      node.title = title;
+      if (title) {
+        node.title = title;
+        this._icons.rmvIco(id);
+      } else {
+        node.title = this._icons.get(id)?.lower || '';
+      }
       // this._updateRefInTree(node); // To update the reference
       this._updateSrhResultId();
     }
@@ -337,14 +346,17 @@ class DataBase implements BookmarkTree {
         !this._searchCache ||
         !this._searchCache.isSameAs({ id: id, q })
       ) {
-        let nodes = this.getAllChildren(id),
-          stats: SearchStats;
+        let nodes = this.getAllChildren(id);
         this._searchCache = new SearchCache(new SearchResult(q), id, q);
         this._searchCache.resultId = resultId;
         this._searchCache.id = id;
 
         const queries = q.split(',').map((str) => str.trim());
-        this._searchCache.result.matchNodesAndQueries(nodes, queries);
+        this._searchCache.result.matchNodesAndQueries(
+          nodes,
+          queries,
+          this._icons
+        );
 
         this._searchCache.stats = {
           ...this._searchCache.result.getNodeCount(),
@@ -426,6 +438,28 @@ class DataBase implements BookmarkTree {
 
       return res(arr);
     });
+  }
+
+  // ICONS
+  public setIconsData(icons: IconSaveData): any {
+    // Should be done after populating the bookmark data.
+    this._icons = new Icons(icons);
+
+    for (let ico in icons) {
+      let node = this.get(ico);
+      if (!node) continue;
+
+      node.title = icons[ico];
+    }
+  }
+  public getIconsSaveData(): IconSaveData {
+    return this._icons.getSaveData();
+  }
+  public addToIcons(id: string): any {
+    this._icons.addIco(id, this.get(id)?.title || '');
+  }
+  public rmvFromIcons(id: string): any {
+    this._icons.rmvIco(id);
   }
 }
 
