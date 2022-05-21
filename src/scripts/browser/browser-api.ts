@@ -6,7 +6,7 @@ import { showInfoPopup, getStore } from '@redux/redux';
 
 const browserAPI = {
   getBkmIconSrc(url?: string): string {
-    return url ? 'someImgUrl' : '';
+    return url ? 'chrome://favicon/' + url : '';
   },
 
   store(keyValPairs: { [k in STORE_KEY_TYPE]?: any }, callBack = () => {}) {
