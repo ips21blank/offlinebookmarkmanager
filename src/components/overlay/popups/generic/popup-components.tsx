@@ -1,3 +1,6 @@
+import { END_OF_LINE } from '@scripts/globals';
+import React from 'react';
+
 /**
  * This is the only file that does not use type checking. Checks
  * are preformed before the following functions are called.
@@ -14,8 +17,14 @@ function PopupTitle({ title, alignTitle }: any) {
 }
 
 function PopupText({ text }: any) {
-  text = text;
-  return text ? <div id="popup-text">{text}</div> : <></>;
+  text = (text || '').split(END_OF_LINE);
+  const textEl = text.map((str: any, i: number) => (
+    <React.Fragment key={i}>
+      {i ? <br /> : ''}
+      {str}
+    </React.Fragment>
+  ));
+  return text ? <div id="popup-text">{textEl}</div> : <></>;
 }
 
 function PopupFormField({ id, type, label, disabled, value, setValue }: any) {

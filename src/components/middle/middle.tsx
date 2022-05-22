@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { MiddleProps, PAGE_TYPE } from '@proj-types/types';
 import { FolderContent } from './folder-content';
 import { TopMenu } from './topMenu/top-menu';
@@ -6,11 +6,18 @@ import { useAppSelector } from '@redux/hooks';
 import { SearchResultsPg } from './search-results-pg';
 import { Recent } from './recent';
 import { Duplicates } from './duplicates';
+import { useDispatch } from 'react-redux';
+import { showInfoPopup } from '@redux/redux';
+import { NULL_NOTICE } from '@scripts/globals';
 
 export const Middle: React.FC<MiddleProps> = (props) => {
-  let content: JSX.Element;
-  const pageType = useAppSelector((state) => state.displayState.pageType);
+  const [pageType, notice] = useAppSelector((state) => [
+    state.displayState.pageType,
+    state.displayState.notice
+  ]);
+  const dispatch = useDispatch();
 
+  let content: JSX.Element;
   switch (pageType) {
     case PAGE_TYPE.FOL: {
       content = <FolderContent />;
@@ -31,6 +38,12 @@ export const Middle: React.FC<MiddleProps> = (props) => {
     default:
       content = <FolderContent />;
   }
+
+  useEffect(() => {
+    if (notice && notice !== NULL_NOTICE) {
+      dispatch(showInfoPopup({ title: 'Note', text: notice }));
+    }
+  }, [notice]);
 
   return (
     <div id="main">

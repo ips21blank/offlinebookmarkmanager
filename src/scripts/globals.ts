@@ -159,6 +159,8 @@ const TIMESTAMP = {
     return this._val;
   }
 };
+const NULL_NOTICE = '__null__notice___1';
+const END_OF_LINE = '<br>';
 
 export {
   GLOBAL_SETTINGS,
@@ -181,5 +183,7 @@ export {
   FOL_RENAME_STR,
   DEFAULT_ROOT_ID,
   MODE,
-  TIMESTAMP
+  TIMESTAMP,
+  NULL_NOTICE,
+  END_OF_LINE
 };

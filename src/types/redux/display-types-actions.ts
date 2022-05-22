@@ -108,6 +108,7 @@ interface DisplayState {
   groupBkmFol: boolean;
   pageType: PAGE_TYPE;
   pageData: PageDataTypes;
+  notice: string; // Pushed with a patch.
 }
 
 export type {

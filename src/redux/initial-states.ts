@@ -1,4 +1,4 @@
-import { BrowserStorage, DataBase, getBkmData } from '@scripts/scripts';
+import { BrowserStorage, DataBase } from '@scripts/scripts';
 import {
   BookmarkState,
   DataNode,
@@ -45,9 +45,11 @@ const initialStateDisp: DisplayState = {
   elementsMoved: [],
   groupBkmFol: false,
   pageType: PAGE_TYPE.FOL,
-  pageData: { currLocation: '', prevPage: PAGE_TYPE.FOL }
+  pageData: { currLocation: '', prevPage: PAGE_TYPE.FOL },
+  notice: ''
 };
 function updateDispInitialState(data: BrowserStorage) {
+  initialStateDisp.notice = data.getStorageData('notice');
   initialStateDisp.groupBkmFol = data.getStorageData('groupBkmFol');
   (initialStateDisp.pageData as FolPageData).currLocation =
     data.getStorageData('homePin');

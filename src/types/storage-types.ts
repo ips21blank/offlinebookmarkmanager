@@ -4,15 +4,17 @@ type STORE_KEY_TYPE =
   | 'homePin'
   | 'groupBkmFol'
   | 'showFolBkmIcons'
-  | 'flowDirection';
+  | 'flowDirection'
+  | 'notice';
 
-const STORE_KEYS = [
+const STORE_KEYS: STORE_KEY_TYPE[] = [
   'icons',
   'pins',
   'homePin',
   'groupBkmFol',
   'showFolBkmIcons',
-  'flowDirection'
+  'flowDirection',
+  'notice'
 ];
 
 interface StorageObject<T> {
