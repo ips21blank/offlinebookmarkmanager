@@ -9,6 +9,8 @@
     "build": "webpack       --config webpack/webpack.config.js --env env=prod --progress",
     "create-tsc-config": "tsc --init",
     "license-summary": "license-checker --summary",
+    "license-detail": "license-checker --out ./build/license-detail.txt",
+    "license-ltd-types": "license-checker --out ./build/license-detail.txt --exclude [MIT,Apache-2.0,ISC,BSD-2-Clause,BSD-3-Clause]",
     "cloc": "cloc src"
   },
   "keywords": [
