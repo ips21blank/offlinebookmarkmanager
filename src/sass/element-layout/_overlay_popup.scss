@@ -97,7 +97,7 @@ div#popup-content {
       flex-flow: row nowrap;
 
       label {
-        flex: 0 0 $popup-form-input-label-wd;
+        flex: 0.07 0 auto; // $popup-form-input-label-base-wd;
         margin: $popup-form-label-mg;
 
         // lable has class .inline-el-no-wrap-center
@@ -105,6 +105,8 @@ div#popup-content {
       }
       input {
         flex: 1 1 0;
+        border-bottom: 1px solid black;
+        margin-right: 2rem;
       }
     }
   }

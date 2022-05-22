@@ -21,8 +21,10 @@ $subfolder-content-lt-padding: 0.7rem;
 
 // Overlay
 $overlay-extra-margin-top: 4rem; // serves as the minimum margin as well.
-$overlay-content-max-width: 80%;
-$overlay-content-min-width: 50%;
+$overlay-content-max-width: 50rem;
+$overlay-content-min-width: 40%;
+$overlay-content-max-width-sm: 90%;
+$overlay-content-min-width-sm: 60%;
 $overlay-content-height: 70%;
 
 $overlay-title-ht: 2.8rem;

@@ -2,14 +2,14 @@ import {
   BsFolder as FolIcon,
   BsFillBookmarksFill as BkmIcon,
   BsGripVertical as Sep,
-  BsLink45Deg as BkmIcon2
+  BkmIco
 } from '@components/icons';
 import { DataNode } from '@proj-types/types';
 import { useAppSelector } from '@redux/hooks';
 import { Utilities } from '@scripts/scripts';
 
 const DragNode: React.FC<{ node: DataNode }> = ({ node }) => {
-  let img = node.url ? <BkmIcon2 /> : <FolIcon />;
+  let img = node.url ? <BkmIco url={node.url} showIcon /> : <FolIcon />;
 
   return (
     <>

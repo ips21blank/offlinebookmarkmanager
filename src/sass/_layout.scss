@@ -84,4 +84,8 @@ nav#top-menu {
   div#content {
     margin-top: $top-menu-height-2;
   }
+  div div#overlay div#overlay-content {
+    max-width: $overlay-content-max-width-sm;
+    min-width: $overlay-content-min-width-sm;
+  }
 }
