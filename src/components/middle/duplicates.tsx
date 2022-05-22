@@ -5,13 +5,14 @@ import {
   duplicatesSearch,
   updateDuplicateNodeParentChains
 } from '@redux/redux';
-import { browserAPI } from '@scripts/scripts';
+import { browserAPI, Utilities } from '@scripts/scripts';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { DuplicateGroup } from './elements/duplicate-group';
 
 const Duplicates: React.FC<any> = (props) => {
   const [nodeGroups, setNodeGroups] = useState([] as DataNode[][]);
+  const [currNodes, setCurrNodes] = useState([] as DataNode[]);
   const nodeGroupsPromise = useAppSelector(
     (state) => state.bookmarks.duplicatesPromise || null
   );
@@ -57,9 +58,13 @@ const Duplicates: React.FC<any> = (props) => {
       nodeGroupsPromise.then((nodes) => {
         let allNodes = [] as DataNode[];
         for (let nodeGroup of nodes) allNodes.push(...nodeGroup);
+        Utilities.sortBkmNodes(allNodes);
+
+        if (Utilities.areArraysSame(allNodes, currNodes)) return;
 
         dispatch(updateDuplicateNodeParentChains(allNodes));
         setNodeGroups(nodes);
+        setCurrNodes(allNodes);
       });
   });
 

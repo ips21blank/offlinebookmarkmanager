@@ -153,6 +153,15 @@ export class Utilities {
     return sortedNodes;
   }
 
+  public static sortBkmNodes(nodes: DataNode[]): DataNode[] {
+    nodes.sort((a, b) => {
+      if (a.title < b.title) return 1;
+      else return a.title === b.title ? 0 : -1;
+    });
+
+    return nodes;
+  }
+
   public static getNodeListForFol(
     dir: FLOW_DIRECTION,
     nodes: DataNode[],
