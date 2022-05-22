@@ -36,7 +36,7 @@ export const FolderContent: React.FC<ContentProps> = (props) => {
 
   useEffect(() => {
     DragEventHandlers.highlightNodesMoved(nodesMoved);
-  }, [nodesMoved]);
+  });
 
   let [rerender, setRerender] = useState(false);
 

@@ -1,5 +1,5 @@
 import { ACTIONS } from '../redux/action-types';
-import { DataNode } from '../redux/bookmark-types-actions';
+import { DataNode } from '../script-types';
 import { PopupType } from '../redux/overlay-types-actions';
 
 interface OverlayProps {}

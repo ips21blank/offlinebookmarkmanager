@@ -65,7 +65,7 @@ window.addEventListener('mousemove', (e) => {
   }
 });
 
-const rmvWasMovedShwInFolClass = () => {
+const rmvWasMovedShwInFolClass = (e: any, updateStore = true) => {
   let elList = document.getElementsByClassName(SELECT_CLASS.WAS_SEL);
   let classesRemoved = !!elList.length;
 
@@ -73,12 +73,14 @@ const rmvWasMovedShwInFolClass = () => {
     elList[elList.length - 1].classList.remove(SELECT_CLASS.WAS_SEL);
 
   elList = document.getElementsByClassName(SELECT_CLASS.SHW_IN_FOL);
-  classesRemoved = !!elList.length;
+  classesRemoved = classesRemoved || !!elList.length;
 
   while (elList.length)
     elList[elList.length - 1].classList.remove(SELECT_CLASS.SHW_IN_FOL);
 
-  classesRemoved && getStore().dispatch(silentlyRmvMinorClasses());
+  updateStore &&
+    classesRemoved &&
+    getStore().dispatch(silentlyRmvMinorClasses());
 };
 window.addEventListener('mousedown', rmvWasMovedShwInFolClass);
 
@@ -91,7 +93,7 @@ class DragHandlers {
   public static highlightNodesMoved(idList: string[]) {
     let el: HTMLElement | null;
 
-    rmvWasMovedShwInFolClass();
+    rmvWasMovedShwInFolClass(null, false);
     for (let id of idList) {
       el = document.getElementById(id);
       el && el.classList.add(SELECT_CLASS.WAS_SEL);
