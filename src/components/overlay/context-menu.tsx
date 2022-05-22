@@ -134,7 +134,7 @@ const CtxMenu: React.FC<{ toggleOverlay: () => any }> = ({ toggleOverlay }) => {
                 title: 'Warning',
                 text:
                   'Are you sure you want to delete entire folder?' +
-                  ' This app CANNOT UNDO.',
+                  ' This app CANNOT UNDO (yet).',
                 action: function () {
                   browserAPI.removeTr(menuData.node.id);
                 }
