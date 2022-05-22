@@ -12,14 +12,21 @@ nav#top-menu {
 }
 
 div#address-bar-location {
-  padding-left: $gap-bw-search-and-buttons;
+  padding-left: 0.1rem; // $gap-bw-search-and-buttons;
 }
 div#address-bar {
   // padding-right: $gap-bw-search-and-buttons;
   // padding-left: 0.4rem;
-  padding: 0.3rem $gap-bw-search-and-buttons 0.3rem 0.4rem;
+  padding: $address-bar-pd;
+  margin: $address-bar-mg;
   justify-content: space-between;
   cursor: text;
+  background-color: $main-dark1-color;
+  border-radius: $address-bar-border-radius;
+
+  &.white {
+    background-color: white;
+  }
 
   div#address-bar-location {
     overflow: hidden;
@@ -27,6 +34,8 @@ div#address-bar {
     flex-flow: row nowrap;
     align-items: center;
     flex-direction: row-reverse;
+    // border-top-left-radius: 0.2rem;
+    // border-bottom-left-radius: 0.2rem;
 
     span {
       display: flex;
@@ -34,24 +43,41 @@ div#address-bar {
       align-items: center;
 
       cursor: default;
+      height: 1.2rem;
     }
-    span.address-location,
-    span.btn-icon {
+    span.address-location {
       cursor: pointer;
 
       &:hover {
         text-decoration: underline;
       }
     }
+    span.btn-icon {
+      cursor: pointer;
+      // justify-content: flex-end;
+      // background-color: $main-dark1-color;
+      // height: 1.1rem;
+      border-radius: none;
+      border-top-left-radius: 0.2rem;
+      // border-bottom-left-radius: 0.2rem;
+    }
     flex: 0 1 auto;
     // background-color: white;
   }
 
-  span.btn-icon {
+  & > span.btn-icon {
     height: $address-bar-height;
     // border-radius: 1rem; border: 0;
     vertical-align: top;
     // width: 2.5rem;
+    // background-color: $main-dark3-color;
+    // height: $address-bar-height;
+    // width: $address-bar-height;
+    // border-radius: 0.7rem;
+    // padding: 0 0.2rem 0 0.4rem;
+    svg {
+      background-color: $main-dark1-color;
+    }
   }
 
   input#search-input {
@@ -63,7 +89,7 @@ div#address-bar {
     border-top-left-radius: 0.4rem;
     border-bottom-left-radius: 0.4rem;
     padding: 0.25rem 0 0.25rem 0.5rem;
-    margin-left: 0.8rem;
+    // margin-left: 0.8rem;
 
     &:focus-visible,
     &:focus {

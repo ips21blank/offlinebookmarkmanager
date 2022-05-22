@@ -5,8 +5,11 @@
 
 // address bar
 $gap-bw-search-and-buttons: 0.5rem;
-$address-bar-height: 1.3rem;
+$address-bar-height: 1.5rem;
 $address-bar-btn-ht: 1.5rem;
+$address-bar-pd: 0.15rem 0.4rem;
+$address-bar-mg: 0 $gap-bw-search-and-buttons;
+$address-bar-border-radius: 0.4rem;
 
 // middle content - bookmark and folders
 $bookmark-icon-margin-sides: 0.3rem;

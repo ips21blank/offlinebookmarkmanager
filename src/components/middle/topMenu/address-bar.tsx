@@ -129,6 +129,7 @@ export const AddressBar: React.FC<AddressBarProps> = (props) => {
   return (
     <div
       id="address-bar"
+      className={`${srhMode ? ' white' : ''}`}
       onClick={(e) => !srhMode && dispatch(showSearchPage())}
     >
       {content}

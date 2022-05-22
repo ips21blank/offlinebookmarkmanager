@@ -1,5 +1,5 @@
 module.exports = {
-  mode: 'production',
+  mode: 'production'
   // devtool: 'cheap-module-source-map'
-  devtool: 'hidden-source-map'
+  // devtool: 'hidden-source-map'
 };
