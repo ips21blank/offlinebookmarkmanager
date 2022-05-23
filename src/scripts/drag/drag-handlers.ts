@@ -52,7 +52,6 @@ const setDragElPosn = (x: number, y: number) => {
   } else {
     if (!hidden) {
       dragEl.classList.add('hidden');
-      console.log('added it again.');
     }
     scroller.stopMoving();
   }

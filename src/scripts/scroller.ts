@@ -27,7 +27,7 @@ class Scroller {
     this.deltaH = GLOBAL_SETTINGS.rem * this.step;
 
     this.scrollStartY = Infinity;
-    this.scrollStartTime = Infinity;
+    this.scrollStartTime = 0;
     this.scrollDirection = SCROLL_DIR.up;
     this.intervalId = 0;
 
