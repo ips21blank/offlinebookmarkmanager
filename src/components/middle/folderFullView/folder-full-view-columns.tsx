@@ -20,13 +20,9 @@ const FolderFullViewColumns: React.FC<FolderColumnsProps> = ({ nodeId }) => {
   if (groupBkmFol) nodes = Utilities.sortNodesForGrouping(nodes);
 
   let colProps: FolderColumnProps[] = [];
+  // prettier-ignore
   for (let colIndex = 1; colIndex <= colCount; colIndex++) {
-    colProps.push({
-      nodes,
-      colCount,
-      colIndex,
-      dispMode
-    });
+    colProps.push({ nodes, colCount, colIndex, dispMode });
   }
 
   return (

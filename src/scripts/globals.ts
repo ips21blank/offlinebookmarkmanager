@@ -46,6 +46,11 @@ const GLOBAL_SETTINGS = {
     this.noOfCols = Math.floor(
       (window.innerWidth - this.rem * this.sideContentWidth) / rowWidthPx
     );
+
+    if (this.noOfCols <= 0) {
+      // If window.innerWidth is not available for some reason,
+      this.noOfCols = 4; // prioritising 1080p laptop screens.
+    }
   }
 };
 GLOBAL_SETTINGS.updateColumnCountAndREM();
