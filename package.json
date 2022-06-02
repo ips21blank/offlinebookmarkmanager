@@ -1,6 +1,6 @@
 {
   "name": "bkm-mgr",
-  "version": "5.0.0",
+  "version": "5.0.2",
   "description": "The extension Offline Bookmark Manager servers as an editor for your browser bookmarks.",
   "main": "",
   "scripts": {

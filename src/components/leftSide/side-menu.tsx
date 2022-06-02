@@ -34,8 +34,9 @@ export const SideMenu: React.FC<SideMenuProps> = (props) => {
 
   const dispatch = useDispatch();
 
-  let pinStrToProp = (pin: string): P => {
-    let node = db.get(pin) as DataNode;
+  let pinStrToProp = (pin: string): P | undefined => {
+    let node = db.get(pin);
+    if (!node) return;
 
     return {
       key: 'pin-key-' + pin,
@@ -47,7 +48,11 @@ export const SideMenu: React.FC<SideMenuProps> = (props) => {
     };
   };
 
-  let pinProps: P[] = pinTargets.map((pin) => pinStrToProp(pin));
+  let _pinProps: (P | undefined)[] = pinTargets.map((pin) => pinStrToProp(pin));
+  let pinProps: P[] = [];
+  for (let pinProp of _pinProps) {
+    if (pinProp) pinProps.push(pinProp);
+  }
 
   return (
     <nav id="side-menu">

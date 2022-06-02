@@ -160,7 +160,7 @@ const TIMESTAMP = {
   }
 };
 const NULL_NOTICE = '__null__notice___1';
-const END_OF_LINE = '<br>';
+const END_OF_LINE = '<br>'; // Used in notice - background.js
 
 export {
   GLOBAL_SETTINGS,

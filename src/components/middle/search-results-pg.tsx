@@ -5,6 +5,7 @@ import {
   NodeSearchResult
 } from '@proj-types/types';
 import { useAppSelector } from '@redux/hooks';
+import { ROOT_LOC } from '@redux/initial-states';
 import { refreshSrh } from '@redux/redux';
 import { GLOBAL_SETTINGS } from '@scripts/globals';
 import { Utilities } from '@scripts/scripts';
@@ -21,11 +22,21 @@ const SearchStats: React.FC<{
   nBkmTot: N;
   nFolTot: N;
   duration: N;
-}> = ({ nBkm, nFol, nBkmTot, nFolTot, duration }) => {
+  currLoc: DataNode | undefined;
+}> = ({ nBkm, nFol, nBkmTot, nFolTot, duration, currLoc }) => {
+  let folName = '';
+  if (currLoc) {
+    if (currLoc.id === ROOT_LOC) {
+      folName = 'Home';
+    } else {
+      folName = currLoc.title;
+    }
+  }
+
   return (
     <div id="search-stats">
       {`Searched ${nFolTot} folders and ${nBkmTot} bookmarks in `}
-      {`${duration} milliseconds.`}
+      {`${duration} milliseconds within FOLDER = ${folName}.`}
       <br />
       {`Found ${nFol} folders and ${nBkm} bookmarks.`}
     </div>
@@ -50,7 +61,7 @@ const SearchResultsPg: React.FC<any> = (props: any) => {
       return [
         state.displayState.noOfColumns,
         state.displayState.mode,
-        locNode && locNode.id,
+        locNode,
         state.bookmarks.searchPromise ||
           Promise.resolve({
             nodeScores: [],
@@ -72,7 +83,7 @@ const SearchResultsPg: React.FC<any> = (props: any) => {
         dispatch(refreshSrh());
       } else if (
         resId !== result.resultId &&
-        (!currLoc || !result.parentNodeId || currLoc === result.parentNodeId)
+        (!currLoc || !result.parentNodeId || currLoc.id === result.parentNodeId)
       ) {
         timeout = setTimeout(() => {
           let orderedNodes = result.nodeScores.map((ns) => ns.node);
@@ -95,7 +106,7 @@ const SearchResultsPg: React.FC<any> = (props: any) => {
 
   return (
     <div id="search-page">
-      <SearchStats {...{ ...stats, nBkmTot, nFolTot }} />
+      <SearchStats {...{ ...stats, nBkmTot, nFolTot, currLoc }} />
       <div className="folder-view-content">
         {nodes.length
           ? colProps.map((prop) => (

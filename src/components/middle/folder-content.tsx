@@ -31,6 +31,13 @@ export const FolderContent: React.FC<ContentProps> = (props) => {
       folderIds = (loc && [loc]) || [];
     }
 
+    for (let id of folderIds) {
+      if (!state.bookmarks.db.get(id)) {
+        folderIds = state.bookmarks.db.baseChildIds;
+        break;
+      }
+    }
+
     return [folderIds, state.displayState.elementsMoved, showNodeChain];
   });
 
