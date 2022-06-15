@@ -1,13 +1,15 @@
 # Offline Bookmark Manager
 
 This is a project for chrome extension and is available on chrome webstore.
+<br>
+**Build folder should not be deleted as it contains manifest files which is required when browser loads the extension (you can do it in developer mode)**.
+<br>
+Just run the appropriate npm script to save the project in build folder. Then load it as unpacked in dev mode in chrome extensions. After that you should be able to view/edit your bookmarks in a new tab using this extension.
 
 ## Technologies used
 
 The project is written in TypeScript and uses React with React-Redux and sass for styles.
 This is transpiled using webpack and the output is saved in build folder.
-<br>
-**Build folder should not be deleted as it contains manifest files which is required when browser loads the extension (you can do it in developer mode)**.
 
 ## Structure
 
